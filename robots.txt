@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://otroja.pages.dev/sitemap.xml
