@@ -950,6 +950,10 @@ em.tt{font-style:normal;color:var(--leaf)}
 .shr-g i{font-style:normal;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:18px}
 .shr-x{margin-top:10px;width:100%;border:0;background:none;color:var(--muted);font:600 14px var(--f-ui);padding:8px;cursor:pointer}
 .item-share{display:inline-flex!important}
+.shr-t{unicode-bidi:plaintext;width:100%;box-sizing:border-box;border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;font:15px/1.7 var(--f-ui);background:var(--paper);color:var(--ink);resize:vertical;margin-bottom:8px}
+.shr-tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.shr-tools .btn{font-size:13.5px;padding:6px 12px}
+.shr-n{display:block;margin-top:8px;font-size:12.5px}
+.shr-box{max-height:92vh;overflow-y:auto}
 </style>
 </head>
 <body>
@@ -2514,21 +2518,65 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelect
  try{if(sessionStorage.getItem("otroja.rateHide")==="1")f.hidden=true}catch(e){}
  x.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();f.hidden=true;try{sessionStorage.setItem("otroja.rateHide","1")}catch(e){}})})();
 
-/* share any page */
+/* share any page — with auto captions the owner can edit */
 (function(){const d=document.createElement("div");d.className="shr";d.hidden=true;d.setAttribute("role","dialog");d.setAttribute("aria-label","مشاركة");document.body.appendChild(d);
+ const CEM={health:"🩺",mind:"🧠",kids:"🧒",nutrition:"🥗",science:"🔬",home:"🏡",women:"🌸",beauty:"✨",ramadan:"🌙"};
+ const CAUD={health:"لكل من يهتمّ بصحته وصحة عائلته",mind:"لكل من يحبّ أن يفهم نفسه والناس",kids:"للأهل والمربّين",nutrition:"لكل بيت يهتمّ بطعام صحي",science:"لعشّاق العلم والفضول",home:"لكل أسرة",women:"لكل امرأة وأم",beauty:"لكل من تهتمّ بجمالها بوعي",ramadan:"لأجواء الشهر الكريم"};
+ const PMAP={"mag-humanbody":"mag_hb","mag-ngk":"mag_ngk","mag-ngk10":"mag_ngk10","book-crime":"book_crc"};
+ const tag=s=>"#"+String(s).replace(/[^\p{L}\p{M}\p{N}]+/gu,"_").replace(/^_|_$/g,"");
+ const ageTxt=sid=>{const a=(typeof AGE!=="undefined"&&AGE[sid])||"";return a.replace(/^[^\p{L}\p{N}]+/u,"")};
+ function caps(key,ttl,url){const S="\nأترجّة · ننير العقول بضياء العلوم 🍋";let m;
+  if((m=key.match(/^a-(.+)$/))){const a=ARTS.find(x=>x.id===m[1]);if(a){const em=CEM[a.cat]||"📰",h1=teaserOf(a,"c1"),h2=teaserOf(a,"c2"),mi=Math.max(1,Math.round((a.w||300)/200)),ct=(typeof CATS!=="undefined"&&CATS[a.cat])||"";
+    return [`${em} ${a.title}\n\n${a.deck||h1}\n\n📖 اقرأ المقالة كاملة (${mi<=2?"قراءة سريعة":mi+" دقائق قراءة"}) — ${CAUD[a.cat]||"لكل العائلة"}:\n👉 ${url}\n\n#أترجّة ${ct?tag(ct):""}`,
+     `هل تعلم؟ 🤔\n${h2}\n\n${em} التفاصيل في مقالة «${a.title}»\n👉 ${url}${S}`,
+     `${a.deck||a.title} 👀\n\nالجواب في مقالة «${a.title}» على أترجّة 👇\n${url}\n\nشاركها مع من يهمّك ❤️`]}}
+  if((m=key.match(/^e-(\w+)-(\d+)$/))){const s=STORIES.find(x=>x.id===m[1]),e=s&&s.eps.find(x=>x.n===+m[2]);if(e){const ag=ageTxt(s.id),free=!e.lock,dk=e.deck||"";
+    return [`📖 ${s.name}\n«${e.title}»\n\n${dk}\n\n${free?"🎁 هذه الحلقة مجانية كاملة على الموقع!":"✨ اقرأ بدايتها مجانًا… والبقية في النسخة الكاملة"}${ag?"\n👧 مناسبة لعمر "+ag:""}\n👉 ${url}\n\n#أترجّة ${tag(s.name)}`,
+     `قصة الليلة 🌙✨\n«${e.title}» من سلسلة ${s.name}\n${dk}\n\nاقرأها مع أطفالك الليلة 👇\n${url}${S}`,
+     `${dk} ماذا سيحدث بعد ذلك؟ 👀\n\n📖 ${s.name} · ${e.title}\n👉 ${url}${S}`]}}
+  if((m=key.match(/^s-(\w+)$/))){const s=STORIES.find(x=>x.id===m[1]);if(s){const ag=ageTxt(s.id),fr=s.free?`🎁 اقرأ مجانًا الحلقات ${s.free.join(" و")}`:"";
+    return [`📚 سلسلة «${s.name}»\n${s.tag||""}\n\n${s.eps.length} حلقة من العلم والخيال${ag?" · لعمر "+ag:""}\n${fr}\n👉 ${url}\n\n#أترجّة ${tag(s.name)}`,
+     `تبحث عن قصة تجمع المتعة والمعلومة لأطفالك؟ 🌟\n«${s.name}» من تأليف إيهاب صلاح توتونجي\n${fr}\n👉 ${url}${S}`]}}
+  const pid=(m=key.match(/^p-(\w+)$/))?m[1]:PMAP[key];
+  if(pid&&typeof PRODUCTS!=="undefined"){const P=PRODUCTS.find(x=>x.id===pid);if(P){const it=(P.items||[]).map(x=>"✅ "+String(x).replace(/<[^>]+>/g,"")).join("\n"),pr=P.price?`💰 ${P.price}$${P.was?" بدل "+P.was+"$ عند الطلب من الموقع":""}`:"💰 السعر عند التأكيد";
+    return [`🛒 ${P.name}\n${P.sub&&!/[A-Za-z]/.test(P.sub)?P.sub+"\n":""}\n${it}\n\n${pr}\n📦 احجز نسختك من متجر أترجّة:\n👉 ${url}`,
+     `هدية تبني عقلًا 🎁\n${P.name}${P.sub&&!/[A-Za-z]/.test(P.sub)?" · "+P.sub:""}\n${pr}\n\nالكمية محدودة، احجز الآن 👇\n${url}${S}`]}}
+  const F={
+   "food-game":[`🇵🇸 لعبة «مائدة فلسطين»\nهل تعرف من أين المسخّن والكنافة والقِدرة والسمّاقية؟ 🤔\nطابِق 8 أطباق فلسطينية بمدنها وتعلّم وأنت تلعب 🎉\n🎮 مجانًا · للأعمار 7+\n👉 ${url}${S}`,`تحدٍّ للعائلة الليلة 🍽️\nمن يعرف أطباق فلسطين ومدنها أسرع؟ 🇵🇸\n👉 ${url}`],
+   "kids-memory":[`🧺 لعبة «ذاكرة أبطال البستان» للصغار (4–6 سنوات)\nيقلب طفلك البطاقات ويجد الأبطال المتشابهين… والبطل يقول اسمه بصوته! 🔊\n🎮 مجانًا وبلا إعلانات\n👉 ${url}${S}`,`لعبة تقوّي الذاكرة والتركيز لطفلك الصغير 🧠✨\nرسوم ملوّنة من رواية الخضار والفواكه\n👉 ${url}`],
+   "courses":[`🎓 دورات Ego plan · خطّة حياتي موجودة\n🌱 Eco School · 🥗 Go Healthy · 🎯 خطّط لحياتك\nساعتان تفاعليتان في كل دورة\n💰 20$ للشخص مع حسومات للمجموعات\n🎁 اشترِ 3 نسخ من رواية «الخضار والفواكه إن تكلّمت» واحصل على دورة مجانًا\n👉 ${url}`,`مدرستك أو جمعيتك تبحث عن نشاط مفيد وممتع؟ 🏫\nدورات Ego plan للطلاب والمعلمين والأهل\n👉 ${url}${S}`],
+   "quiz":[`🧠 تحدّي الفضول\n150 سؤالًا علميًا بأجوبة تُضحك وتقنع 😄\nلماذا يخفت سمعك حين تتثاءب؟ كم عظمة في جسمك؟\nكم سؤالًا تعرف؟ 👇\n${url}${S}`],
+   "lab":[`🧪 مختبر كِندة\nالعلم الذي يجعل الأدلة الصامتة تتكلّم 🔎\nحلقات من علم الحشرات الجنائي ومسرح الجريمة لأصحاب الحسّ البوليسي\n👉 ${url}${S}`],
+   "games":[`🎮 بستان أترجّة: ألعاب تعليمية مجانية حسب العمر\n🌱 براعم 4–6 · 🍋 ثمار 7–9 · 🌳 أشجار 10+\nالعب… واقطف معلومة!\n👉 ${url}`],
+   "home":[`🍋 أترجّة: علمٌ يُقرأ بمتعة، وحكاياتٌ تزرع المعرفة\n📖 قصص علمية للأطفال · 📰 مقالات صحية وتربوية · 🧪 مختبر كِندة · 🧠 تحدّي الفضول · 🎮 ألعاب\n👉 ${url}\nننير العقول بضياء العلوم ✨`,`موقع عربي جديد لكل العائلة 👨‍👩‍👧\nقصص وألعاب ومعلومات علمية بأسلوب ممتع\nجرّبه وأخبرني رأيك 👇\n${url}`]};
+  return F[key]||[`🍋 ${ttl}\n\nاكتشفها على أترجّة 👇\n${url}${S}`]}
+ let K0="",T0="",U0="",V=[],vi=0;
+ const net={wa:t=>"https://wa.me/?text="+encodeURIComponent(t),fb:()=>"https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(U0),
+  x:t=>"https://x.com/intent/post?text="+encodeURIComponent(t.length>270?t.slice(0,250-U0.length).replace(/\s+\S*$/,"")+"…\n"+U0:t),
+  tg:t=>"https://t.me/share/url?url="+encodeURIComponent(U0)+"&text="+encodeURIComponent(t.replace(U0,"").trim()),li:()=>"https://www.linkedin.com/sharing/share-offsite/?url="+encodeURIComponent(U0)};
  function open(K,TT){const hsh=K||decodeURIComponent(location.hash.slice(1))||"home";const url=pageUrl(hsh);
-  const cr=[...document.querySelectorAll("#pathList li")].map(x=>x.textContent.replace(/^[^\p{L}]+/u,"").trim());const last=cr[cr.length-1];let ttl=hsh==="home"||!last?"منصّة أترجّة: علمٌ يُقرأ بمتعة، وحكاياتٌ تزرع المعرفة":last;if(/^e-/.test(hsh)&&cr.length>=2)ttl=cr[cr.length-2]+" · "+last;if(TT)ttl=TT;
-  const txt="🍋 "+ttl+"\nمن منصّة أترجّة · ننير العقول بضياء العلوم\n"+url;const T=encodeURIComponent(txt),U=encodeURIComponent(url);
-  d.innerHTML=`<div class="shr-box"><h3>📣 شارك هذه الصفحة</h3><p>${esc(ttl)}</p><div class="shr-g">
-   <a target="_blank" rel="noopener" href="https://wa.me/?text=${T}"><i style="background:#25D366">💬</i>واتساب</a>
-   <a target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${U}"><i style="background:#1877F2">f</i>فيسبوك</a>
-   <a target="_blank" rel="noopener" href="https://x.com/intent/post?text=${T}"><i style="background:#111">𝕏</i>إكس</a>
-   <a target="_blank" rel="noopener" href="https://t.me/share/url?url=${U}&text=${encodeURIComponent("🍋 "+ttl+" · منصّة أترجّة")}"><i style="background:#229ED9">✈</i>تيليغرام</a>
-   <a target="_blank" rel="noopener" href="https://www.linkedin.com/sharing/share-offsite/?url=${U}"><i style="background:#0A66C2">in</i>لينكدإن</a>
-   <button type="button" data-copy="${esc(txt)}"><i style="background:#2F6B3A">🔗</i>نسخ الرابط</button></div>
+  const cr=[...document.querySelectorAll("#pathList li")].map(x=>x.textContent.replace(/^[^\p{L}]+/u,"").trim());const last=cr[cr.length-1];let ttl=hsh==="home"||!last?"منصّة أترجّة":last;if(TT)ttl=TT;
+  K0=hsh;T0=ttl;U0=url;try{V=caps(hsh,ttl,url)}catch(e){V=[`🍋 ${ttl}\n👉 ${url}`]}vi=Math.floor(Math.random()*V.length);
+  d.innerHTML=`<div class="shr-box"><h3>📣 شارك: ${esc(ttl)}</h3><p>نصّ جاهز من وحي الصفحة… عدّله كما تحب ✍️</p>
+   <textarea class="shr-t" id="shrT" rows="8" dir="rtl">${esc(V[vi])}</textarea>
+   <div class="shr-tools"><button type="button" class="btn ms" id="shrAlt">🔄 نصّ آخر</button><button type="button" class="btn ms" id="shrCopy">📋 نسخ النص والرابط</button></div>
+   <div class="shr-g">
+   <button type="button" data-net="wa"><i style="background:#25D366">💬</i>واتساب</button>
+   <button type="button" data-net="fb"><i style="background:#1877F2">f</i>فيسبوك</button>
+   <button type="button" data-net="x"><i style="background:#111">𝕏</i>إكس</button>
+   <button type="button" data-net="tg"><i style="background:#229ED9">✈</i>تيليغرام</button>
+   <button type="button" data-net="li"><i style="background:#0A66C2">in</i>لينكدإن</button>
+   <button type="button" data-copy="${esc(url)}"><i style="background:#2F6B3A">🔗</i>الرابط فقط</button></div>
+   <small class="muted shr-n">في فيسبوك ولينكدإن يُنسخ النص تلقائيًا: الصقه في خانة المنشور.</small>
    <button type="button" class="shr-x">إغلاق</button></div>`;d.hidden=false}
- document.addEventListener("click",e=>{{const sb=e.target.closest("[data-share-page]");if(sb){e.preventDefault();open(sb.dataset.shareKey,sb.dataset.shareTitle);return}}
-  if(!d.hidden&&(e.target===d||e.target.closest(".shr-x")))d.hidden=true;else if(!d.hidden&&e.target.closest(".shr-g a"))setTimeout(()=>d.hidden=true,300)});
+ d.addEventListener("click",e=>{const t=$("#shrT");
+  if(e.target.closest("#shrAlt")){vi=(vi+1)%V.length;t.value=V[vi];return}
+  if(e.target.closest("#shrCopy")){copy(t.value,"نُسخ النص مع الرابط");return}
+  const n=e.target.closest("[data-net]");if(n){const k=n.dataset.net,txt=t.value.includes(U0)?t.value:t.value+"\n"+U0;
+   if(k==="fb"||k==="li"){copy(txt,"نُسخ النص، الصقه في المنشور")}
+   window.open(net[k](txt),"_blank","noopener");return}
+  if(e.target===d||e.target.closest(".shr-x"))d.hidden=true});
+ document.addEventListener("click",e=>{const sb=e.target.closest("[data-share-page]");if(sb){e.preventDefault();open(sb.dataset.shareKey,sb.dataset.shareTitle)}});
  document.addEventListener("keydown",e=>{if(e.key==="Escape")d.hidden=true})})();
 </script>
 
