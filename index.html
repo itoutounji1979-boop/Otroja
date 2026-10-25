@@ -949,6 +949,7 @@ em.tt{font-style:normal;color:var(--leaf)}
 .shr-g a,.shr-g button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border-radius:14px;border:1px solid var(--line);background:var(--paper);color:var(--ink);text-decoration:none;font:700 13px var(--f-ui);cursor:pointer}
 .shr-g i{font-style:normal;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:18px}
 .shr-x{margin-top:10px;width:100%;border:0;background:none;color:var(--muted);font:600 14px var(--f-ui);padding:8px;cursor:pointer}
+.item-share{display:inline-flex!important}
 </style>
 </head>
 <body>
@@ -1172,7 +1173,7 @@ em.tt{font-style:normal;color:var(--leaf)}
       </div>
       <section class="ego" id="courses" aria-labelledby="egoH">
         <div class="ego-head"><div><div class="eyebrow">للمدارس والجمعيات والأفراد · مع قسم المدارس</div><h2 id="egoH">دورات <em class="tt">Ego plan</em> للتنمية</h2><p class="muted" style="margin:4px 0 0">ثلاث دورات تفاعلية، مدة كل منها ساعتان من المرح والمعرفة، يقدّمها الكاتب إيهاب صلاح توتونجي.</p></div>
-        <div class="ego-actions"><a class="btn citron" id="egoWa" target="_blank" rel="noopener">💬 سجّل عبر واتساب</a><button class="btn" type="button" id="egoDl">📥 حمّل البوستر</button></div></div>
+        <div class="ego-actions"><a class="btn citron" id="egoWa" target="_blank" rel="noopener">💬 سجّل عبر واتساب</a><button class="btn" type="button" id="egoDl">📥 حمّل البوستر</button><button type="button" class="btn ms item-share" data-share-page data-share-key="courses" data-share-title="دورات Ego plan للمدارس والجمعيات والأفراد">📣 شارك</button></div></div>
         <div class="poster" id="egoPoster">
           <div class="pz-top"><div class="pz-brand"><img src="img/logo.png" alt="Otroja" crossorigin="anonymous"><span>ننير العقول بضياء العلوم</span></div><div class="pz-tag">Ego plan</div></div>
           <h3 class="pz-title">خطّة حياتي <span>موجودة</span></h3>
@@ -1219,7 +1220,7 @@ em.tt{font-style:normal;color:var(--leaf)}
               <li><div><b>جهاز الغدد الصمّاء</b><span>حيث تتكلّم الهرمونات بلغة الكيمياء</span></div></li>
               <li><div><b>الجهاز الغلافي (الجلد)</b><span>كيف يكون أكبر أعضائنا درعًا حيًّا</span></div></li>
             </ol></div>
-            <div class="mag-cta"><span class="ptag ptag-lt"><b>5</b><i>$</i></span><a class="btn wa" id="magHbWa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="magHbCart">🛒 أضفها إلى طلبك</button><a class="btn ms" href="#contact" id="magHbMsg">✉️ أرسل طلبًا من الموقع</a><small>المجلة باللغة الإنجليزية. السعر 5$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
+            <div class="mag-cta"><span class="ptag ptag-lt"><b>5</b><i>$</i></span><a class="btn wa" id="magHbWa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="magHbCart">🛒 أضفها إلى طلبك</button><a class="btn ms" href="#contact" id="magHbMsg">✉️ أرسل طلبًا من الموقع</a><button type="button" class="btn ms item-share" data-share-page data-share-key="mag-humanbody" data-share-title="مجلة الدليل الكامل لجسم الإنسان">📣 شارك</button><small>المجلة باللغة الإنجليزية. السعر 5$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
           </div>
         </article>
         <article class="mag-feat" id="mag-ngk" aria-labelledby="magNgT">
@@ -1241,7 +1242,7 @@ em.tt{font-style:normal;color:var(--leaf)}
               <li><div><b>الصورة الكبيرة</b><span>كيف يساعد العلماء صغار الباندا على العودة إلى البرية</span></div></li>
               <li><div><b>ركن المستكشف: خذ قضمة!</b><span>لعبة أطباق العالم، وماذا تأكل القروش، والصباغة بالكركم، ومسابقة الطعام</span></div></li>
             </ol></div>
-            <div class="mag-cta"><span class="ptag ptag-lt"><b>5</b><i>$</i></span><a class="btn wa" id="magNgWa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="magNgCart">🛒 أضفها إلى طلبك</button><a class="btn ms" href="#contact" id="magNgMsg">✉️ أرسل طلبًا من الموقع</a><a class="btn ms" href="#games">🍋 العب في بستان أترجّة</a><small>المجلة باللغة الإنجليزية. السعر 5$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
+            <div class="mag-cta"><span class="ptag ptag-lt"><b>5</b><i>$</i></span><a class="btn wa" id="magNgWa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="magNgCart">🛒 أضفها إلى طلبك</button><a class="btn ms" href="#contact" id="magNgMsg">✉️ أرسل طلبًا من الموقع</a><a class="btn ms" href="#games">🍋 العب في بستان أترجّة</a><button type="button" class="btn ms item-share" data-share-page data-share-key="mag-ngk" data-share-title="مجلة ناشيونال جيوغرافيك كيدز: صراع السناجب">📣 شارك</button><small>المجلة باللغة الإنجليزية. السعر 5$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
           </div>
         </article>
         <article class="mag-feat" id="mag-ngk10" aria-labelledby="magN10T">
@@ -1262,7 +1263,7 @@ em.tt{font-style:normal;color:var(--leaf)}
               <li><div><b>وجهة: الفضاء</b><span>كواكب مظلمة وعاصفة ووردية تمطر حصى</span></div></li>
               <li><div><b>ركن المستكشف</b><span>متاهة الحلوى، ورسوم القرّاء، وتجربة السلايم، ونصائح لاحتفال صديق للبيئة</span></div></li>
             </ol></div>
-            <div class="mag-cta"><span class="ptag ptag-lt"><b>5</b><i>$</i></span><a class="btn wa" id="magN10Wa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="magN10Cart">🛒 أضفها إلى طلبك</button><a class="btn ms" href="#contact" id="magN10Msg">✉️ أرسل طلبًا من الموقع</a><small>المجلة باللغة الإنجليزية. السعر 5$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
+            <div class="mag-cta"><span class="ptag ptag-lt"><b>5</b><i>$</i></span><a class="btn wa" id="magN10Wa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="magN10Cart">🛒 أضفها إلى طلبك</button><a class="btn ms" href="#contact" id="magN10Msg">✉️ أرسل طلبًا من الموقع</a><button type="button" class="btn ms item-share" data-share-page data-share-key="mag-ngk10" data-share-title="مجلة ناشيونال جيوغرافيك كيدز: حيوانات عجيبة">📣 شارك</button><small>المجلة باللغة الإنجليزية. السعر 5$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
           </div>
         </article>
         <article class="mag-feat book-feat" id="book-crime" aria-labelledby="bookCrT">
@@ -1287,7 +1288,7 @@ em.tt{font-style:normal;color:var(--leaf)}
               <li><div><b>مسارح ذات طبيعة خاصة</b><span>مسارح الحرائق، والبحث عن الرفات المدفونة أو المتناثرة</span></div></li>
               <li><div><b>تحليل المسرح وإعادة بنائه</b><span>كيف تُروى القصة الحقيقية من الأدلة</span></div></li>
             </ol></div>
-            <div class="mag-cta"><span class="ptag ptag-lt"><b>6</b><i>$</i></span><a class="btn wa" id="bookCrWa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="bookCrCart">🛒 أضفه إلى طلبك</button><a class="btn ms" href="#contact" id="bookCrMsg">✉️ أرسل طلبًا من الموقع</a><small>الكتاب باللغة الإنجليزية، نحو 500 صفحة. السعر 6$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
+            <div class="mag-cta"><span class="ptag ptag-lt"><b>6</b><i>$</i></span><a class="btn wa" id="bookCrWa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="bookCrCart">🛒 أضفه إلى طلبك</button><a class="btn ms" href="#contact" id="bookCrMsg">✉️ أرسل طلبًا من الموقع</a><button type="button" class="btn ms item-share" data-share-page data-share-key="book-crime" data-share-title="كتاب معالجة مسرح الجريمة">📣 شارك</button><small>الكتاب باللغة الإنجليزية، نحو 500 صفحة. السعر 6$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
           </div>
         </article>
         <div class="lib-day" id="libDay"></div>
@@ -1338,7 +1339,7 @@ em.tt{font-style:normal;color:var(--leaf)}
         <div class="fg-hud"><div class="mm-lv" role="group" aria-label="المستوى"><button type="button" class="on" data-n="4">🐣 سهل</button><button type="button" data-n="6">🐥 أصعب</button></div><div class="fg-score"><b id="mmMoves">0</b><span>محاولة</span></div><button class="btn ms fg-snd" type="button" id="mmSnd" title="الصوت">🔊</button></div></div>
         <div class="mm-board" id="mmBoard"></div>
         <div class="mm-win" id="mmWin" hidden></div>
-        <div class="fg-foot"><button class="btn" type="button" id="mmReset">🔄 العب من جديد</button></div>
+        <div class="fg-foot"><button class="btn" type="button" id="mmReset">🔄 العب من جديد</button><button type="button" class="btn ms item-share" data-share-page data-share-key="kids-memory" data-share-title="لعبة ذاكرة أبطال البستان للصغار">📣 شارك</button></div>
       </section>
       <section class="fg" id="food-game" aria-labelledby="fgH">
         <div class="ego-head"><div><div class="eyebrow">🍋 ثمار · للأعمار 7–9 وما فوق</div><h2 id="fgH">مائدة فلسطين 🇵🇸</h2><p class="muted" style="margin:4px 0 0">ثمانية أطباق من مطبخ فلسطين، لكلٍّ منها مدينة تشتهر به. اختر طبقًا، ثم اضغط على الوصف الذي يناسبه. حللنا الأول لك!</p></div>
@@ -1347,7 +1348,7 @@ em.tt{font-style:normal;color:var(--leaf)}
           <div class="fg-dishes" id="fgDishes" aria-label="الأطباق"></div>
           <ol class="fg-clues" id="fgClues"></ol>
         </div>
-        <div class="fg-foot"><button class="btn" type="button" id="fgReset">🔄 العب من جديد</button><button class="btn ms" type="button" id="fgShow">👀 أظهر الحل</button></div>
+        <div class="fg-foot"><button class="btn" type="button" id="fgReset">🔄 العب من جديد</button><button class="btn ms" type="button" id="fgShow">👀 أظهر الحل</button><button type="button" class="btn ms item-share" data-share-page data-share-key="food-game" data-share-title="لعبة مائدة فلسطين 🇵🇸">📣 شارك</button></div>
       </section>
     </div>
   </section>
@@ -1999,7 +2000,7 @@ function priceTag(n,was,note){return `<span class="ptag-wrap"><span class="ptag"
 function productGallery(){const f=STORIES.find(s=>s.id==="fruit");return f?[f.cover,f.cover2].filter(Boolean).join("|"):""}
 function productImg(p){if(p.src)return p.src;const f=STORIES.find(s=>s.id==="fruit");if(!f)return"";return p.img==="cover"?f.cover:p.img==="cover2"?f.cover2:p.img==="g3"?f.cover:f.cover2}
 function renderStore(){
-  $("#products").innerHTML=PRODUCTS.map(p=>`<div class="product"><div class="pimg"><img loading="lazy" src="${productImg(p)}" alt="${esc(p.name)}" data-zoom${SAMPLES[p.id]?` data-gallery="${prodGallery(p.id).join("|")}"`:p.gal?` data-gallery="${p.gal.join("|")}"`:""}><span class="zoom-tag">🔍 اضغط للتكبير</span></div>${SAMPLES[p.id]?`<div class="samples"><div class="samples-h">${SAMPLES[p.id].h}${SAMPLES[p.id].list.length>3?` <small>تتجدّد تلقائيًّا</small>`:""}</div><div class="samples-row" id="smp-${p.id}"></div></div>`:""}<div class="pb">${p.badge?`<span class="status" style="margin:0;align-self:flex-start">${p.badge}</span>`:""}<h3>${p.name}</h3><div class="muted" style="font-size:13.5px">${p.sub}</div><ul>${p.items.map(i=>`<li>${i}</li>`).join("")}</ul><div class="row">${p.price?priceTag(p.price,p.was,p.was?"عند الطلب من الموقع":""):`<span class="ptag ptag-ask"><b>السعر</b><i>عند التأكيد</i></span>`}<span class="qty"><button type="button" data-p="${p.id}" data-d="-1" aria-label="إنقاص">−</button><span>${cart[p.id]||0}</span><button type="button" data-p="${p.id}" data-d="1" aria-label="زيادة">+</button></span></div></div></div>`).join("");
+  $("#products").innerHTML=PRODUCTS.map(p=>`<div class="product" id="p-${p.id}"><div class="pimg"><img loading="lazy" src="${productImg(p)}" alt="${esc(p.name)}" data-zoom${SAMPLES[p.id]?` data-gallery="${prodGallery(p.id).join("|")}"`:p.gal?` data-gallery="${p.gal.join("|")}"`:""}><span class="zoom-tag">🔍 اضغط للتكبير</span></div>${SAMPLES[p.id]?`<div class="samples"><div class="samples-h">${SAMPLES[p.id].h}${SAMPLES[p.id].list.length>3?` <small>تتجدّد تلقائيًّا</small>`:""}</div><div class="samples-row" id="smp-${p.id}"></div></div>`:""}<div class="pb">${p.badge?`<span class="status" style="margin:0;align-self:flex-start">${p.badge}</span>`:""}<h3>${p.name}</h3><div class="muted" style="font-size:13.5px">${p.sub}</div><ul>${p.items.map(i=>`<li>${i}</li>`).join("")}</ul><div class="row">${p.price?priceTag(p.price,p.was,p.was?"عند الطلب من الموقع":""):`<span class="ptag ptag-ask"><b>السعر</b><i>عند التأكيد</i></span>`}<span class="qty"><button type="button" data-p="${p.id}" data-d="-1" aria-label="إنقاص">−</button><span>${cart[p.id]||0}</span><button type="button" data-p="${p.id}" data-d="1" aria-label="زيادة">+</button></span></div><button type="button" class="btn ms item-share" data-share-page data-share-key="p-${p.id}" data-share-title="${esc(p.name+(p.sub&&!/[A-Za-z]/.test(p.sub)?" · "+p.sub:""))}" style="margin-top:8px">📣 شارك هذا المنتج</button></div></div>`).join("");
   fillSamples();
   const lines=PRODUCTS.filter(p=>cart[p.id]);
   $("#cartLines").innerHTML=lines.length?lines.map(p=>`<div class="cart-line"><span>${p.name}</span><b>× ${cart[p.id]}${p.price?` · ${p.price*cart[p.id]}$`:""}</b></div>`).join(""):`<p class="muted" style="margin:0">لم تضف شيئًا بعد. اختر الكمية من البطاقات.</p>`;
@@ -2181,7 +2182,7 @@ function route(){
   else if(h.startsWith("s-")){v="series";navKey="stories";showSeries(h.slice(2))}
   else if(h.startsWith("e-")){v="episode";navKey="stories";const m=h.match(/^e-(\w+)-(\d+)$/);if(m)showEpisode(m[1],m[2])}
   if(v==="kinda")navKey="stories";
-  const ANCH={library:"#library",shop:"#shop","facts-day":"#facts-day","mag-humanbody":"#mag-humanbody","mag-ngk":"#mag-ngk","mag-ngk10":"#mag-ngk10","book-crime":"#book-crime",faq:"#faq",courses:"#courses"};const anch=ANCH[h];const toLab=!!anch;if(anch){v="store";navKey=(h==="lab"||h==="library")?h:(h==="mag-humanbody"||h==="book-crime")?"library":"store"}
+  const ANCH={library:"#library",shop:"#shop","facts-day":"#facts-day","mag-humanbody":"#mag-humanbody","mag-ngk":"#mag-ngk","mag-ngk10":"#mag-ngk10","book-crime":"#book-crime",faq:"#faq",courses:"#courses","p-mag_ngk10":"#p-mag_ngk10","p-mag_ngk":"#p-mag_ngk","p-mag_hb":"#p-mag_hb","p-book_crc":"#p-book_crc","p-kit":"#p-kit","p-school":"#p-school"};const anch=ANCH[h];const toLab=!!anch;if(anch){v="store";navKey=(h==="lab"||h==="library")?h:(h==="mag-humanbody"||h==="book-crime")?"library":"store"}
   let qzAnch=null;if(h==="quiz-all"){v="quiz";navKey="quiz";qzAnch="#quizAll"}
   if(h==="food-game"){v="games";navKey="games";qzAnch="#food-game"}
   if(h==="kids-memory"){v="games";navKey="games";qzAnch="#kids-memory"}
@@ -2515,8 +2516,8 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelect
 
 /* share any page */
 (function(){const d=document.createElement("div");d.className="shr";d.hidden=true;d.setAttribute("role","dialog");d.setAttribute("aria-label","مشاركة");document.body.appendChild(d);
- function open(){const hsh=decodeURIComponent(location.hash.slice(1))||"home";const url=pageUrl(hsh);
-  const cr=[...document.querySelectorAll("#pathList li")].map(x=>x.textContent.replace(/^[^\p{L}]+/u,"").trim());const last=cr[cr.length-1];let ttl=hsh==="home"||!last?"منصّة أترجّة: علمٌ يُقرأ بمتعة، وحكاياتٌ تزرع المعرفة":last;if(/^e-/.test(hsh)&&cr.length>=2)ttl=cr[cr.length-2]+" · "+last;
+ function open(K,TT){const hsh=K||decodeURIComponent(location.hash.slice(1))||"home";const url=pageUrl(hsh);
+  const cr=[...document.querySelectorAll("#pathList li")].map(x=>x.textContent.replace(/^[^\p{L}]+/u,"").trim());const last=cr[cr.length-1];let ttl=hsh==="home"||!last?"منصّة أترجّة: علمٌ يُقرأ بمتعة، وحكاياتٌ تزرع المعرفة":last;if(/^e-/.test(hsh)&&cr.length>=2)ttl=cr[cr.length-2]+" · "+last;if(TT)ttl=TT;
   const txt="🍋 "+ttl+"\nمن منصّة أترجّة · ننير العقول بضياء العلوم\n"+url;const T=encodeURIComponent(txt),U=encodeURIComponent(url);
   d.innerHTML=`<div class="shr-box"><h3>📣 شارك هذه الصفحة</h3><p>${esc(ttl)}</p><div class="shr-g">
    <a target="_blank" rel="noopener" href="https://wa.me/?text=${T}"><i style="background:#25D366">💬</i>واتساب</a>
@@ -2526,7 +2527,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelect
    <a target="_blank" rel="noopener" href="https://www.linkedin.com/sharing/share-offsite/?url=${U}"><i style="background:#0A66C2">in</i>لينكدإن</a>
    <button type="button" data-copy="${esc(txt)}"><i style="background:#2F6B3A">🔗</i>نسخ الرابط</button></div>
    <button type="button" class="shr-x">إغلاق</button></div>`;d.hidden=false}
- document.addEventListener("click",e=>{if(e.target.closest("[data-share-page]")){e.preventDefault();open();return}
+ document.addEventListener("click",e=>{{const sb=e.target.closest("[data-share-page]");if(sb){e.preventDefault();open(sb.dataset.shareKey,sb.dataset.shareTitle);return}}
   if(!d.hidden&&(e.target===d||e.target.closest(".shr-x")))d.hidden=true;else if(!d.hidden&&e.target.closest(".shr-g a"))setTimeout(()=>d.hidden=true,300)});
  document.addEventListener("keydown",e=>{if(e.key==="Escape")d.hidden=true})})();
 </script>
