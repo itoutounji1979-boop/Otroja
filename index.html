@@ -1773,7 +1773,7 @@ function shareBar(url,title){
   return `<a class="iconbtn" target="_blank" rel="noopener" href="https://wa.me/?text=${t}">واتساب</a><a class="iconbtn" target="_blank" rel="noopener" href="https://x.com/intent/post?text=${t}">X</a><a class="iconbtn" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}">فيسبوك</a><button class="iconbtn" data-copy="${esc(url)}">${ICON.link} نسخ الرابط</button>`;
 }
 const PUBLIC_URL="https://otroja.itoutounji-1979.workers.dev/";
-function pageUrl(h){const base=/(^|\.)claude\.ai$/.test(location.hostname)?location.href.split("#")[0]:location.href.split("#")[0];return h&&h!=="home"?base+"#"+h:base}
+function pageUrl(h){const o=location.origin;return h&&h!=="home"?o+"/p/"+encodeURIComponent(h)+"/":o+"/"}
 function showArticle(id){
   const a=ARTS.find(x=>x.id===id); if(!a){location.hash="articles";return}
   read.add(id);store.set("otroja.read",[...read]);
