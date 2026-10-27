@@ -977,6 +977,7 @@ em.tt{font-style:normal;color:var(--leaf)}
 .don-amts button.on{border-color:#2F6B3A;background:#2F6B3A;color:#fff}.don-amts button.on b{color:#C8DA4B}
 .don-thx{font-size:13.5px;color:var(--muted);margin-top:10px!important}
 @media (max-width:600px){.donate{grid-template-columns:1fr}.don-art{width:72px;height:72px;font-size:46px}.don-amts{grid-template-columns:1fr 1fr}}
+.vw{white-space:nowrap;color:var(--muted)}.meta .vw{margin-inline-start:6px}.byline .vw:empty{display:none}
 </style>
 </head>
 <body>
@@ -1618,9 +1619,22 @@ const dkey=a=>a.d?+a.d.replace(/-/g,""):((a.y||2000)*10000+(a.m||0)*100);
 const cc=c=>`--cc:var(--c-${c})`;
 function draftCanvas(a,big){const i=ARTS.indexOf(a);return `<canvas class="draft" aria-hidden="true" data-cat="${a.cat}" data-mo="${a.mo||""}" data-seed="${a.id}-${DAY}" data-fig="${AR(i+1)}" data-label="${CATS[a.cat]}" data-issue=""${big?' data-big="1"':""}></canvas>`}
 function coverHTML(a,ribbon){return `<div class="cover">${a.cover?`<img class="ci" src="${a.cover}" alt="" loading="lazy">`:draftCanvas(a)}${ribbon?`<span class="ribbon">${ribbon}</span>`:""}</div>`}
+/* ---------- views & visits (live only on the public site) ---------- */
+const STATS_ON=true;let VIEWC={};
+const fmtN=n=>n>=1000?(n/1000).toFixed(n>=10000?0:1).replace(/\.0$/,"")+"k":String(n);
+function vbadge(k){const n=VIEWC[k];return STATS_ON&&n?`<span class="vw" title="عدد القرّاء">👁 ${fmtN(n)}</span>`:""}
+function paintViews(){document.querySelectorAll("[data-vk]").forEach(s=>{const n=VIEWC[s.dataset.vk];s.textContent=STATS_ON&&n?"👁 "+fmtN(n)+" قارئ":"";s.title="عدد القرّاء"})}
+function visitorId(){try{let v=localStorage.getItem("otroja.vid");if(!v){v=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem("otroja.vid",v)}return v}catch(e){return "anon"}}
+const TRACK=/^(a|e|s|p|mag)-|^(home|articles|stories|lab|kinda|quiz|games|food-game|kids-memory|store|library|courses|support|about|rate|book-crime|platform|contact)$/;
+let lastHit="";
+function trackHit(k){if(!STATS_ON||!TRACK.test(k)||k===lastHit)return;lastHit=k;try{if(localStorage.getItem("otroja.noTrack")==="1")return}catch(e){}
+ const body=JSON.stringify({k,v:visitorId(),r:document.referrer?new URL(document.referrer).hostname:"",w:innerWidth});
+ try{if(!(navigator.sendBeacon&&navigator.sendBeacon("/api/hit",new Blob([body],{type:"application/json"}))))fetch("/api/hit",{method:"POST",body,keepalive:true,headers:{"content-type":"application/json"}})}catch(e){}}
+async function loadViews(){if(!STATS_ON)return;try{const r=await fetch("/api/views",{cache:"no-store"});if(!r.ok)return;VIEWC=await r.json();paintViews();
+ const v=decodeURIComponent(location.hash.slice(1))||"home";if(v==="articles"&&typeof renderArticles==="function")renderArticles();if(v==="home"&&typeof renderHome==="function"){const s=$("#homeSeries");if(s)s.innerHTML=seriesCards()}}catch(e){}}
 function cardHTML(a){
   const lc=likeCounts[a.id]||0;
-  return `<a class="card" href="#a-${a.id}">${coverHTML(a,a.series?esc(a.series):"")}<div class="body"><span class="chip" style="${cc(a.cat)}">${CATS[a.cat]}</span><h3>${esc(a.title)}</h3><p>${esc(a.deck)}</p><div class="meta"><span>${mins(a.w)} د قراءة</span>${lc?`<span>· ♥ ${lc}</span>`:""}${saved.has(a.id)?'<span class="saved-dot">· محفوظ</span>':""}${read.has(a.id)?"<span>· قرأته</span>":""}</div></div></a>`;
+  return `<a class="card" href="#a-${a.id}">${coverHTML(a,a.series?esc(a.series):"")}<div class="body"><span class="chip" style="${cc(a.cat)}">${CATS[a.cat]}</span><h3>${esc(a.title)}</h3><p>${esc(a.deck)}</p><div class="meta"><span>${mins(a.w)} د قراءة</span>${vbadge("a-"+a.id)}${lc?`<span>· ♥ ${lc}</span>`:""}${saved.has(a.id)?'<span class="saved-dot">· محفوظ</span>':""}${read.has(a.id)?"<span>· قرأته</span>":""}</div></div></a>`;
 }
 function postHTML(p){const d=new Date(p.d);return `<a class="post${p.img?" has-img":""}" href="${CONTACT.blog}${p.u}" target="_blank" rel="noopener">${p.img?`<span class="post-cov"><img src="${p.img}" alt="" loading="lazy"></span>`:""}<b>${esc(p.t)}</b><p>${esc(p.s)}</p><div class="tags">${p.l.map(t=>`<span>${esc(t)}</span>`).join("")}</div></a>`}
 
@@ -1826,7 +1840,7 @@ function showArticle(id){
   const idx=ARTS.indexOf(a), prev=ARTS[idx-1], next=ARTS[idx+1];
   $("#reader").innerHTML=`<nav class="crumbs"><a href="#articles">المقالات</a>›<a href="#articles" data-cat="${a.cat}">${CATS[a.cat]}</a>${a.series?`›<span>${esc(a.series)}</span>`:""}</nav>
   <span class="chip" style="${cc(a.cat)}">${CATS[a.cat]}</span><h1>${esc(a.title)}</h1><p class="deck">${esc(a.deck)}</p>
-  <div class="byline">${a.rev||a.upd?`<span class="revd">✓ مُراجَع ومحدَّث</span>`:""}${a.by?`<span>بقلم <b>${esc(a.by)}</b></span>`:""}<span>${mins(a.w)} دقائق قراءة</span><span id="likeCount"></span></div>
+  <div class="byline">${a.rev||a.upd?`<span class="revd">✓ مُراجَع ومحدَّث</span>`:""}${a.by?`<span>بقلم <b>${esc(a.by)}</b></span>`:""}<span>${mins(a.w)} دقائق قراءة</span><span class="vw" data-vk="a-${a.id}"></span><span id="likeCount"></span></div>
   <div class="tools"><button class="iconbtn" id="likeBtn" aria-pressed="${liked.has(id)}">${ICON.heart} أعجبني</button><button class="iconbtn" id="saveBtn" aria-pressed="${saved.has(id)}">${ICON.book} <span>${saved.has(id)?"في قائمتي":"احفظ للقراءة"}</span></button><span class="sp"></span><button class="iconbtn" data-fs="-1" aria-label="تصغير الخط">أ-</button><button class="iconbtn" data-fs="1" aria-label="تكبير الخط">أ+</button></div>
   ${a.hero?(a.hero.vid?`<div class="hero-media"><video controls playsinline preload="metadata" poster="${a.hero.poster}"><source src="${a.hero.vid}.mp4?v=2" type="video/mp4"><source src="${a.hero.vid}.webm?v=2" type="video/webm"></video><small>🎬 إعلان الحلقة</small></div>`:`<div class="hero-media"><img src="${a.hero.img}" alt="بطاقة ${esc(a.title)}" data-zoom><small>🔍 اضغط البطاقة لتكبيرها</small></div>`):`<div class="banner">${draftCanvas(a,1)}</div>`}
   <div class="prose" style="--fs:${fs}px">${bodyHTML(a.body)}</div>
@@ -1858,7 +1872,7 @@ function showSeries(id){
   ${s.id==="fruit"?quizHTML():""}</div></div>
   ${s.id==="fruit"?fruitExtras():""}
   ${s.gallery&&s.gallery.length?(()=>{const G=shuffleArr(s.gallery);return `<h2 style="font-size:20px;margin-top:30px">صفحات من داخل الكتاب</h2><p class="muted" style="margin:-6px 0 10px;font-size:14px">🔍 اضغط أي صفحة لتكبيرها، وتنقّل بين الصفحات بالأسهم أو بالسحب</p><div class="gallery">${G.map(g=>`<img loading="lazy" src="${g}" alt="صفحة من الكتاب" data-zoom data-gallery="${G.join("|")}">`).join("")}</div>`})():""}
-  ${s.eps.length?`<h2 style="font-size:20px;margin-top:30px">الحلقات</h2>${s.free?`<div class="free-note">🎁 اقرأ مجانًا الحلقات <b>${s.free.join(" · ")}</b> من هذه السلسلة، وبقية الحلقات في النسخة الكاملة. <a href="#" data-lockwa="${esc(s.name)}">احجز نسختك ←</a></div>`:""}<ol class="eplist">${s.eps.map(e=>`<li class="${read.has(s.id+"-"+e.n)?"done":""}${e.lock?" locked":s.free?" free":""}"><a href="#e-${s.id}-${e.n}"><span class="n">${e.n}</span><span class="t">${esc(e.title.replace(/^الحلقة\s+[^:]+:\s*/,"")||e.title)}<small>${esc(e.deck)}</small></span><span class="rd">${e.lock?"🔒":s.free?"<em>مجانية</em>":""} ${mins(e.w)} د</span></a></li>`).join("")}</ol>`:""}`;
+  ${s.eps.length?`<h2 style="font-size:20px;margin-top:30px">الحلقات</h2>${s.free?`<div class="free-note">🎁 اقرأ مجانًا الحلقات <b>${s.free.join(" · ")}</b> من هذه السلسلة، وبقية الحلقات في النسخة الكاملة. <a href="#" data-lockwa="${esc(s.name)}">احجز نسختك ←</a></div>`:""}<ol class="eplist">${s.eps.map(e=>`<li class="${read.has(s.id+"-"+e.n)?"done":""}${e.lock?" locked":s.free?" free":""}"><a href="#e-${s.id}-${e.n}"><span class="n">${e.n}</span><span class="t">${esc(e.title.replace(/^الحلقة\s+[^:]+:\s*/,"")||e.title)}<small>${esc(e.deck)}</small></span><span class="rd">${vbadge("e-"+s.id+"-"+e.n)} ${e.lock?"🔒":s.free?"<em>مجانية</em>":""} ${mins(e.w)} د</span></a></li>`).join("")}</ol>`:""}`;
   bindQuiz();
   if(id==="fruit")startChars("charsSeries");
 }
@@ -1868,7 +1882,7 @@ function showEpisode(sid,n){
   const prev=s.eps.find(x=>x.n===e.n-1), next=s.eps.find(x=>x.n===e.n+1);
   $("#epReader").innerHTML=`<nav class="crumbs"><a href="#stories">القصص</a>›<a href="#s-${s.id}">${esc(s.name)}</a>›<span>الحلقة ${e.n} من ${s.eps.length}</span></nav>
   <div class="eyebrow">${esc(s.name)}</div><h1>${esc(e.title)}</h1>${e.deck&&!e.deck.endsWith("…")?`<p class="deck">${esc(e.deck)}</p>`:""}
-  <div class="byline"><span>بقلم <b>إيهاب صلاح توتونجي</b></span><span>${mins(e.w)} دقائق قراءة</span><span>الحلقة ${e.n} من ${s.eps.length}</span></div>
+  <div class="byline"><span>بقلم <b>إيهاب صلاح توتونجي</b></span><span>${mins(e.w)} دقائق قراءة</span><span>الحلقة ${e.n} من ${s.eps.length}</span><span class="vw" data-vk="e-${sid}-${e.n}"></span></div>
   <div class="tools"><span class="sp"></span><button class="iconbtn" data-fs="-1" aria-label="تصغير الخط">أ-</button><button class="iconbtn" data-fs="1" aria-label="تكبير الخط">أ+</button></div>
   ${e.img?`<figure class="hero-img"><img src="${e.img}" alt="${esc(e.title)}" data-zoom${e.gal?` data-gallery="${e.gal.join("|")}"`:""}>${e.gal?`<figcaption>🔍 اضغط الصورة لتكبيرها · رسوم: ${esc((s.credits&&s.credits.ill)||"")}</figcaption>`:""}</figure>${e.gal&&e.gal.length>1?`<div class="ep-strip" aria-label="مشاهد من الحلقة"><b>🎨 مشاهد من الحلقة</b><div>${e.gal.map(g=>`<img src="${g}" alt="مشهد من الحلقة" loading="lazy" data-zoom data-gallery="${e.gal.join("|")}">`).join("")}</div></div>`:""}`:`<div class="banner"><canvas class="draft" aria-hidden="true" data-big="1" data-cat="story" data-mo="${e.mo||({fruit:"fruit",planets:"planet",time:"leaf",medical:"heart",terms:"brain"})[sid]||"leaf"}" data-seed="${sid+n}" data-fig="${AR(e.n)}" data-label="${esc(s.name)}" data-issue="الحلقة ${AR(e.n)}"></canvas></div>`}
   <div class="prose${e.lock?" prose-locked":""}" style="--fs:${fs}px">${bodyHTML(e.body)}</div>
@@ -2253,6 +2267,7 @@ function route(){
   requestAnimationFrame(()=>paintAll());
   $("#nav").classList.remove("open");$("#menuBtn").setAttribute("aria-expanded","false");
   try{renderPath(h,v)}catch(e){}
+  try{paintViews();trackHit(h)}catch(e){}
   if(qzAnch){requestAnimationFrame(()=>{const el=$(qzAnch);if(el){const y=el.getBoundingClientRect().top+scrollY-($(".mast").offsetHeight+12);window.scrollTo({top:y,behavior:"smooth"})}})}else if(toLab){requestAnimationFrame(()=>{const el=$(anch);if(el){const y=el.getBoundingClientRect().top+scrollY-($(".mast").offsetHeight+12);window.scrollTo({top:y,behavior:"smooth"})}})}else window.scrollTo(0,0);
 }
 
@@ -2635,6 +2650,8 @@ function fillWhish(){document.querySelectorAll(".wslot[data-whish]").forEach(s=>
 (function(){const g=document.querySelector(".don-amts");if(!g)return;const out=document.getElementById("donWhish");
  const set=a=>{g.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.amt==a));out.innerHTML=whishHTML("تبرّع لأترجّة",a,"","don")};
  g.onclick=e=>{const b=e.target.closest("button");if(b)set(b.dataset.amt)};set(20);fillWhish()})();
+
+loadViews();
 </script>
 
 </body>
