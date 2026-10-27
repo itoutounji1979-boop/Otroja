@@ -954,6 +954,29 @@ em.tt{font-style:normal;color:var(--leaf)}
 .shr-tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.shr-tools .btn{font-size:13.5px;padding:6px 12px}
 .shr-n{display:block;margin-top:8px;font-size:12.5px}
 .shr-box{max-height:92vh;overflow-y:auto}
+/* Whish pay */
+.wbox{margin-top:10px;border:1.5px solid #f3c2cd;background:#fff7f9;border-radius:16px;padding:10px 12px;display:grid;gap:6px;color:#18231E;text-align:start}
+:root[data-theme="dark"] .wbox{background:#2a1a1e;border-color:#6b2a3a;color:#f3e6e9}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .wbox{background:#2a1a1e;border-color:#6b2a3a;color:#f3e6e9}}
+.wb-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14.5px}
+.wb-logo{font:800 14px/1 var(--f-ui);letter-spacing:.02em;background:#E30613;color:#fff;border-radius:99px;padding:5px 10px;direction:ltr}
+.wb-n{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.wb-n span{font:800 17px var(--f-ui);letter-spacing:.03em}
+.wb-n button{font:700 12.5px var(--f-ui);border:1px solid #E30613;color:#E30613;background:transparent;border-radius:99px;padding:3px 10px;cursor:pointer}
+.wbox small{font-size:12.5px;opacity:.85;line-height:1.6}
+.wb-done{justify-self:start;font-size:13.5px!important;padding:7px 14px!important;background:#25D366!important;color:#fff!important;border:0!important}
+.mag-cta .wslot{flex-basis:100%}
+.donate{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;margin:34px 0 10px;background:linear-gradient(135deg,#eaf6e3,#fffbe6);border:1.5px solid #cfe6c2;border-radius:24px;padding:clamp(16px,3vw,28px)}
+:root[data-theme="dark"] .donate{background:linear-gradient(135deg,#1c2e20,#2e2a14);border-color:#3b5a3f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .donate{background:linear-gradient(135deg,#1c2e20,#2e2a14);border-color:#3b5a3f}}
+.don-art{font-size:64px;line-height:1;width:96px;height:96px;border-radius:28px;background:#fff;display:grid;place-items:center;box-shadow:0 10px 24px rgba(47,107,58,.18)}
+.donate h2{font-family:var(--f-display);font-size:clamp(22px,3.4vw,30px);margin:4px 0 8px}
+.donate p{margin:0 0 12px;line-height:1.85}
+.don-amts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:6px}
+.don-amts button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border-radius:16px;border:2px solid #cfe6c2;background:var(--sheet);color:var(--ink);cursor:pointer;font-family:var(--f-ui)}
+.don-amts b{font:800 22px var(--f-display);color:#2F6B3A}.don-amts small{font-size:12px}
+.don-amts button.on{border-color:#2F6B3A;background:#2F6B3A;color:#fff}.don-amts button.on b{color:#C8DA4B}
+.don-thx{font-size:13.5px;color:var(--muted);margin-top:10px!important}
+@media (max-width:600px){.donate{grid-template-columns:1fr}.don-art{width:72px;height:72px;font-size:46px}.don-amts{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -973,7 +996,7 @@ em.tt{font-style:normal;color:var(--leaf)}
         <div class="ng" style="--c:#2E6FC2"><button type="button" class="ng-b" aria-expanded="false"><i aria-hidden="true">📖</i>اقرأ<span class="ng-car" aria-hidden="true">▾</span></button><div class="ng-m"><a href="#articles" data-v="articles" style="--c:#0E8A8A"><i aria-hidden="true">📰</i>المقالات</a><a href="#stories" data-v="stories" style="--c:#2E6FC2"><i aria-hidden="true">📖</i>القصص</a><a href="#lab" data-v="lab" class="nav-lab" style="--c:#7A8A12"><i aria-hidden="true">🧪</i>مختبر كِندة</a></div></div>
         <div class="ng" style="--c:#7B4FC9"><button type="button" class="ng-b" aria-expanded="false"><i aria-hidden="true">🧠</i>العب وتعلّم<span class="ng-car" aria-hidden="true">▾</span></button><div class="ng-m"><a href="#quiz" data-v="quiz" class="nav-quiz" style="--c:#7B4FC9"><i aria-hidden="true">🧠</i>تحدّي الفضول</a><a href="#games" data-v="games" class="nav-games" style="--c:#D9822B"><i aria-hidden="true">🍋</i>بستان أترجّة</a></div></div>
         <div class="ng" style="--c:#C0392B"><button type="button" class="ng-b" aria-expanded="false"><i aria-hidden="true">🛒</i>المتجر<span class="ng-car" aria-hidden="true">▾</span></button><div class="ng-m"><a href="#store" data-v="store" style="--c:#C0392B"><i aria-hidden="true">🛒</i>الإصدارات والدورات</a><a href="#library" data-v="library" class="nav-lib" style="--c:#2F7A45"><i aria-hidden="true">📚</i>مكتبة أترجّة</a></div></div>
-        <div class="ng" style="--c:#2F7A45"><button type="button" class="ng-b" aria-expanded="false"><i aria-hidden="true">🍋</i>عن أترجّة<span class="ng-car" aria-hidden="true">▾</span></button><div class="ng-m"><a href="#about" data-v="about" style="--c:#2F7A45"><i aria-hidden="true">ℹ️</i>المؤسس والهوية</a><a href="#platform" data-v="platform" style="--c:#5B6B73"><i aria-hidden="true">🌐</i>المنصّة</a><a href="#rate" data-v="rate" style="--c:#C0392B"><i aria-hidden="true">⭐</i>قيّم أترجّة</a><a href="#contact" data-v="contact" style="--c:#5B6B73"><i aria-hidden="true">✉️</i>تواصل</a></div></div>
+        <div class="ng" style="--c:#2F7A45"><button type="button" class="ng-b" aria-expanded="false"><i aria-hidden="true">🍋</i>عن أترجّة<span class="ng-car" aria-hidden="true">▾</span></button><div class="ng-m"><a href="#about" data-v="about" style="--c:#2F7A45"><i aria-hidden="true">ℹ️</i>المؤسس والهوية</a><a href="#platform" data-v="platform" style="--c:#5B6B73"><i aria-hidden="true">🌐</i>المنصّة</a><a href="#rate" data-v="rate" style="--c:#C0392B"><i aria-hidden="true">⭐</i>قيّم أترجّة</a><a href="#support" data-v="support" style="--c:#2F8F3A"><i aria-hidden="true">💚</i>ادعم أترجّة</a><a href="#contact" data-v="contact" style="--c:#5B6B73"><i aria-hidden="true">✉️</i>تواصل</a></div></div>
       </div>
       <div class="nav-sub"><a href="#saved" data-v="saved" class="nav-saved" style="--c:#5B6B73" title="قائمتي"><i aria-hidden="true">🔖</i><span class="ns-t">قائمتي</span></a></div>
     </nav>
@@ -1163,7 +1186,7 @@ em.tt{font-style:normal;color:var(--leaf)}
         <div class="products" id="products"></div>
         <aside class="panel cart" style="margin-top:0" aria-labelledby="cartH">
           <h3 id="cartH">طلبك</h3>
-          <div id="cartLines"><p class="muted" style="margin:0">لم تضف شيئًا بعد. اختر الكمية من البطاقات.</p></div>
+          <div id="cartLines"><p class="muted" style="margin:0">لم تضف شيئًا بعد. اختر الكمية من البطاقات.</p></div><div id="cartWhish"></div>
           <form class="form" id="orderForm" style="margin-top:14px">
             <label>الاسم<input id="oName" required autocomplete="name"></label>
             <div class="two"><label>المدينة / البلد<input id="oCity" required></label><label>الهاتف<input id="oPhone" inputmode="tel" required></label></div>
@@ -1192,6 +1215,23 @@ em.tt{font-style:normal;color:var(--leaf)}
             <div class="pz-offer">🎁 <b>عرض خاص:</b> اشترِ 3 نسخ من رواية «الخضار والفواكه إن تكلّمت» واحصل على دورة واحدة من الدورات الثلاث مجانًا</div>
           </div>
           <div class="pz-contact"><span>📞 +961 3 985 202</span><span>✉️ itoutounji.1979@gmail.com</span><span>f ihab toutounji</span><span>𝕏 @1979ihab</span></div>
+        </div>
+      <div class="wslot" data-whish="دورة Ego plan (للشخص الواحد)|20" style="max-width:980px;margin:14px auto 0"></div>
+      </section>
+      <section class="donate" id="support" aria-labelledby="donH">
+        <div class="don-art" aria-hidden="true">🌳</div>
+        <div class="don-b">
+          <div class="eyebrow">💚 ادعم أترجّة</div>
+          <h2 id="donH">ليبقى النور مضاءً… ازرع معنا شجرة أترجّة</h2>
+          <p>أترجّة مشروع مستقل يُكتب ويُرسم ويُبرمج بجهد شخصي: قصص علمية للأطفال، ومقالات موثّقة، وألعاب تعليمية <b>مجانية وبلا إعلانات</b>. تبرّعك، مهما صغر، يساعدنا على كتابة حلقات جديدة، وتصميم ألعاب للصغار، وإبقاء المحتوى الهادف متاحًا لكل عائلة عربية.</p>
+          <div class="don-amts" role="group" aria-label="اختر مبلغ التبرّع">
+            <button type="button" data-amt="5"><b>5$</b><small>💧 قطرة نور</small></button>
+            <button type="button" data-amt="10"><b>10$</b><small>🌿 غصن أترجّة</small></button>
+            <button type="button" data-amt="20" class="on"><b>20$</b><small>🌱 شجرة صغيرة</small></button>
+            <button type="button" data-amt="50"><b>50$</b><small>🌳 بستان كامل</small></button>
+          </div>
+          <div id="donWhish"></div>
+          <p class="don-thx">جزاك الله خيرًا 🍋 كل تبرّع يصلنا نردّ عليه شخصيًا بالشكر.</p>
         </div>
       </section>
 
@@ -1224,7 +1264,7 @@ em.tt{font-style:normal;color:var(--leaf)}
               <li><div><b>جهاز الغدد الصمّاء</b><span>حيث تتكلّم الهرمونات بلغة الكيمياء</span></div></li>
               <li><div><b>الجهاز الغلافي (الجلد)</b><span>كيف يكون أكبر أعضائنا درعًا حيًّا</span></div></li>
             </ol></div>
-            <div class="mag-cta"><span class="ptag ptag-lt"><b>5</b><i>$</i></span><a class="btn wa" id="magHbWa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="magHbCart">🛒 أضفها إلى طلبك</button><a class="btn ms" href="#contact" id="magHbMsg">✉️ أرسل طلبًا من الموقع</a><button type="button" class="btn ms item-share" data-share-page data-share-key="mag-humanbody" data-share-title="مجلة الدليل الكامل لجسم الإنسان">📣 شارك</button><small>المجلة باللغة الإنجليزية. السعر 5$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
+            <div class="mag-cta"><span class="ptag ptag-lt"><b>5</b><i>$</i></span><a class="btn wa" id="magHbWa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="magHbCart">🛒 أضفها إلى طلبك</button><a class="btn ms" href="#contact" id="magHbMsg">✉️ أرسل طلبًا من الموقع</a><button type="button" class="btn ms item-share" data-share-page data-share-key="mag-humanbody" data-share-title="مجلة الدليل الكامل لجسم الإنسان">📣 شارك</button><div class="wslot" data-whish="مجلة الدليل الكامل لجسم الإنسان|5"></div><small>المجلة باللغة الإنجليزية. السعر 5$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
           </div>
         </article>
         <article class="mag-feat" id="mag-ngk" aria-labelledby="magNgT">
@@ -1246,7 +1286,7 @@ em.tt{font-style:normal;color:var(--leaf)}
               <li><div><b>الصورة الكبيرة</b><span>كيف يساعد العلماء صغار الباندا على العودة إلى البرية</span></div></li>
               <li><div><b>ركن المستكشف: خذ قضمة!</b><span>لعبة أطباق العالم، وماذا تأكل القروش، والصباغة بالكركم، ومسابقة الطعام</span></div></li>
             </ol></div>
-            <div class="mag-cta"><span class="ptag ptag-lt"><b>5</b><i>$</i></span><a class="btn wa" id="magNgWa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="magNgCart">🛒 أضفها إلى طلبك</button><a class="btn ms" href="#contact" id="magNgMsg">✉️ أرسل طلبًا من الموقع</a><a class="btn ms" href="#games">🍋 العب في بستان أترجّة</a><button type="button" class="btn ms item-share" data-share-page data-share-key="mag-ngk" data-share-title="مجلة ناشيونال جيوغرافيك كيدز: صراع السناجب">📣 شارك</button><small>المجلة باللغة الإنجليزية. السعر 5$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
+            <div class="mag-cta"><span class="ptag ptag-lt"><b>5</b><i>$</i></span><a class="btn wa" id="magNgWa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="magNgCart">🛒 أضفها إلى طلبك</button><a class="btn ms" href="#contact" id="magNgMsg">✉️ أرسل طلبًا من الموقع</a><a class="btn ms" href="#games">🍋 العب في بستان أترجّة</a><button type="button" class="btn ms item-share" data-share-page data-share-key="mag-ngk" data-share-title="مجلة ناشيونال جيوغرافيك كيدز: صراع السناجب">📣 شارك</button><div class="wslot" data-whish="مجلة ناشيونال جيوغرافيك كيدز: صراع السناجب|5"></div><small>المجلة باللغة الإنجليزية. السعر 5$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
           </div>
         </article>
         <article class="mag-feat" id="mag-ngk10" aria-labelledby="magN10T">
@@ -1267,7 +1307,7 @@ em.tt{font-style:normal;color:var(--leaf)}
               <li><div><b>وجهة: الفضاء</b><span>كواكب مظلمة وعاصفة ووردية تمطر حصى</span></div></li>
               <li><div><b>ركن المستكشف</b><span>متاهة الحلوى، ورسوم القرّاء، وتجربة السلايم، ونصائح لاحتفال صديق للبيئة</span></div></li>
             </ol></div>
-            <div class="mag-cta"><span class="ptag ptag-lt"><b>5</b><i>$</i></span><a class="btn wa" id="magN10Wa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="magN10Cart">🛒 أضفها إلى طلبك</button><a class="btn ms" href="#contact" id="magN10Msg">✉️ أرسل طلبًا من الموقع</a><button type="button" class="btn ms item-share" data-share-page data-share-key="mag-ngk10" data-share-title="مجلة ناشيونال جيوغرافيك كيدز: حيوانات عجيبة">📣 شارك</button><small>المجلة باللغة الإنجليزية. السعر 5$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
+            <div class="mag-cta"><span class="ptag ptag-lt"><b>5</b><i>$</i></span><a class="btn wa" id="magN10Wa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="magN10Cart">🛒 أضفها إلى طلبك</button><a class="btn ms" href="#contact" id="magN10Msg">✉️ أرسل طلبًا من الموقع</a><button type="button" class="btn ms item-share" data-share-page data-share-key="mag-ngk10" data-share-title="مجلة ناشيونال جيوغرافيك كيدز: حيوانات عجيبة">📣 شارك</button><div class="wslot" data-whish="مجلة ناشيونال جيوغرافيك كيدز: حيوانات عجيبة|5"></div><small>المجلة باللغة الإنجليزية. السعر 5$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
           </div>
         </article>
         <article class="mag-feat book-feat" id="book-crime" aria-labelledby="bookCrT">
@@ -1292,7 +1332,7 @@ em.tt{font-style:normal;color:var(--leaf)}
               <li><div><b>مسارح ذات طبيعة خاصة</b><span>مسارح الحرائق، والبحث عن الرفات المدفونة أو المتناثرة</span></div></li>
               <li><div><b>تحليل المسرح وإعادة بنائه</b><span>كيف تُروى القصة الحقيقية من الأدلة</span></div></li>
             </ol></div>
-            <div class="mag-cta"><span class="ptag ptag-lt"><b>6</b><i>$</i></span><a class="btn wa" id="bookCrWa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="bookCrCart">🛒 أضفه إلى طلبك</button><a class="btn ms" href="#contact" id="bookCrMsg">✉️ أرسل طلبًا من الموقع</a><button type="button" class="btn ms item-share" data-share-page data-share-key="book-crime" data-share-title="كتاب معالجة مسرح الجريمة">📣 شارك</button><small>الكتاب باللغة الإنجليزية، نحو 500 صفحة. السعر 6$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
+            <div class="mag-cta"><span class="ptag ptag-lt"><b>6</b><i>$</i></span><a class="btn wa" id="bookCrWa" target="_blank" rel="noopener">💬 احجز نسختك الأصلية عبر واتساب</a><button class="btn ms" type="button" id="bookCrCart">🛒 أضفه إلى طلبك</button><a class="btn ms" href="#contact" id="bookCrMsg">✉️ أرسل طلبًا من الموقع</a><button type="button" class="btn ms item-share" data-share-page data-share-key="book-crime" data-share-title="كتاب معالجة مسرح الجريمة">📣 شارك</button><div class="wslot" data-whish="كتاب معالجة مسرح الجريمة|6"></div><small>الكتاب باللغة الإنجليزية، نحو 500 صفحة. السعر 6$ للنسخة، والكمية محدودة، ونؤكّد لك موعد التسليم عند التواصل.</small></div>
           </div>
         </article>
         <div class="lib-day" id="libDay"></div>
@@ -1511,7 +1551,7 @@ em.tt{font-style:normal;color:var(--leaf)}
     <div class="foot-brand"><img src="img/logo.png" alt="Otroja" style="height:46px;width:auto"><p class="foot-tag">ننير العقول بضياء العلوم</p><p class="muted" style="margin:0;font-size:13.5px">علمٌ يُقرأ بمتعة، وحكايات تزرع المعرفة. مقالات وقصص إيهاب صلاح توتونجي.</p></div>
     <nav class="foot-col" aria-label="اقرأ"><h4>اقرأ</h4><a href="#articles">المقالات</a><a href="#stories">القصص</a><a href="#lab">مختبر كِندة</a><a href="#games">بستان أترجّة</a><a href="#quiz">تحدّي الفضول</a></nav>
     <nav class="foot-col" aria-label="المتجر"><h4>المتجر</h4><a href="#shop">إصدارات أترجّة</a><a href="#library">مكتبة أترجّة</a><a href="#faq">أسئلة شائعة</a><a href="#store">طلب المدارس والجمعيات</a></nav>
-    <nav class="foot-col" aria-label="أترجّة"><h4>أترجّة</h4><a href="#about">عن أترجّة</a><a href="#about">المؤسس</a><a href="#platform">المنصّة</a><a href="#contact">تواصل معنا</a></nav>
+    <nav class="foot-col" aria-label="أترجّة"><h4>أترجّة</h4><a href="#about">عن أترجّة</a><a href="#about">المؤسس</a><a href="#platform">المنصّة</a><a href="#contact">تواصل معنا</a><a href="#support">💚 ادعم أترجّة</a></nav>
   </div>
   <div class="wrap foot-social" aria-label="تواصل معنا">
     <a class="soc" id="socWa" target="_blank" rel="noopener" aria-label="واتساب"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg></a>
@@ -2005,9 +2045,9 @@ function priceTag(n,was,note){return `<span class="ptag-wrap"><span class="ptag"
 function productGallery(){const f=STORIES.find(s=>s.id==="fruit");return f?[f.cover,f.cover2].filter(Boolean).join("|"):""}
 function productImg(p){if(p.src)return p.src;const f=STORIES.find(s=>s.id==="fruit");if(!f)return"";return p.img==="cover"?f.cover:p.img==="cover2"?f.cover2:p.img==="g3"?f.cover:f.cover2}
 function renderStore(){
-  $("#products").innerHTML=PRODUCTS.map(p=>`<div class="product" id="p-${p.id}"><div class="pimg"><img loading="lazy" src="${productImg(p)}" alt="${esc(p.name)}" data-zoom${SAMPLES[p.id]?` data-gallery="${prodGallery(p.id).join("|")}"`:p.gal?` data-gallery="${p.gal.join("|")}"`:""}><span class="zoom-tag">🔍 اضغط للتكبير</span></div>${SAMPLES[p.id]?`<div class="samples"><div class="samples-h">${SAMPLES[p.id].h}${SAMPLES[p.id].list.length>3?` <small>تتجدّد تلقائيًّا</small>`:""}</div><div class="samples-row" id="smp-${p.id}"></div></div>`:""}<div class="pb">${p.badge?`<span class="status" style="margin:0;align-self:flex-start">${p.badge}</span>`:""}<h3>${p.name}</h3><div class="muted" style="font-size:13.5px">${p.sub}</div><ul>${p.items.map(i=>`<li>${i}</li>`).join("")}</ul><div class="row">${p.price?priceTag(p.price,p.was,p.was?"عند الطلب من الموقع":""):`<span class="ptag ptag-ask"><b>السعر</b><i>عند التأكيد</i></span>`}<span class="qty"><button type="button" data-p="${p.id}" data-d="-1" aria-label="إنقاص">−</button><span>${cart[p.id]||0}</span><button type="button" data-p="${p.id}" data-d="1" aria-label="زيادة">+</button></span></div><button type="button" class="btn ms item-share" data-share-page data-share-key="p-${p.id}" data-share-title="${esc(p.name+(p.sub&&!/[A-Za-z]/.test(p.sub)?" · "+p.sub:""))}" style="margin-top:8px">📣 شارك هذا المنتج</button></div></div>`).join("");
-  fillSamples();
-  const lines=PRODUCTS.filter(p=>cart[p.id]);
+  $("#products").innerHTML=PRODUCTS.map(p=>`<div class="product" id="p-${p.id}"><div class="pimg"><img loading="lazy" src="${productImg(p)}" alt="${esc(p.name)}" data-zoom${SAMPLES[p.id]?` data-gallery="${prodGallery(p.id).join("|")}"`:p.gal?` data-gallery="${p.gal.join("|")}"`:""}><span class="zoom-tag">🔍 اضغط للتكبير</span></div>${SAMPLES[p.id]?`<div class="samples"><div class="samples-h">${SAMPLES[p.id].h}${SAMPLES[p.id].list.length>3?` <small>تتجدّد تلقائيًّا</small>`:""}</div><div class="samples-row" id="smp-${p.id}"></div></div>`:""}<div class="pb">${p.badge?`<span class="status" style="margin:0;align-self:flex-start">${p.badge}</span>`:""}<h3>${p.name}</h3><div class="muted" style="font-size:13.5px">${p.sub}</div><ul>${p.items.map(i=>`<li>${i}</li>`).join("")}</ul><div class="row">${p.price?priceTag(p.price,p.was,p.was?"عند الطلب من الموقع":""):`<span class="ptag ptag-ask"><b>السعر</b><i>عند التأكيد</i></span>`}<span class="qty"><button type="button" data-p="${p.id}" data-d="-1" aria-label="إنقاص">−</button><span>${cart[p.id]||0}</span><button type="button" data-p="${p.id}" data-d="1" aria-label="زيادة">+</button></span></div>${p.price?whishHTML(p.name,p.price):""}<button type="button" class="btn ms item-share" data-share-page data-share-key="p-${p.id}" data-share-title="${esc(p.name+(p.sub&&!/[A-Za-z]/.test(p.sub)?" · "+p.sub:""))}" style="margin-top:8px">📣 شارك هذا المنتج</button></div></div>`).join("");
+  fillSamples();fillWhish();
+  const lines=PRODUCTS.filter(p=>cart[p.id]);{const tot=PRODUCTS.reduce((s,p)=>s+(cart[p.id]&&p.price?p.price*cart[p.id]:0),0);const cw=$("#cartWhish");if(cw)cw.innerHTML=tot?whishHTML("طلبي من متجر أترجّة ("+PRODUCTS.filter(p=>cart[p.id]).map(p=>p.name+" × "+cart[p.id]).join("، ")+")",tot,"المجموع قبل الشحن"):""}
   $("#cartLines").innerHTML=lines.length?lines.map(p=>`<div class="cart-line"><span>${p.name}</span><b>× ${cart[p.id]}${p.price?` · ${p.price*cart[p.id]}$`:""}</b></div>`).join(""):`<p class="muted" style="margin:0">لم تضف شيئًا بعد. اختر الكمية من البطاقات.</p>`;
 }
 function orderText(){const lines=PRODUCTS.filter(p=>cart[p.id]).map(p=>"• "+p.name+" × "+cart[p.id]+(p.price?" ("+p.price*cart[p.id]+"$)":"")).join("\n");
@@ -2187,7 +2227,7 @@ function route(){
   else if(h.startsWith("s-")){v="series";navKey="stories";showSeries(h.slice(2))}
   else if(h.startsWith("e-")){v="episode";navKey="stories";const m=h.match(/^e-(\w+)-(\d+)$/);if(m)showEpisode(m[1],m[2])}
   if(v==="kinda")navKey="stories";
-  const ANCH={library:"#library",shop:"#shop","facts-day":"#facts-day","mag-humanbody":"#mag-humanbody","mag-ngk":"#mag-ngk","mag-ngk10":"#mag-ngk10","book-crime":"#book-crime",faq:"#faq",courses:"#courses","p-mag_ngk10":"#p-mag_ngk10","p-mag_ngk":"#p-mag_ngk","p-mag_hb":"#p-mag_hb","p-book_crc":"#p-book_crc","p-kit":"#p-kit","p-school":"#p-school"};const anch=ANCH[h];const toLab=!!anch;if(anch){v="store";navKey=(h==="lab"||h==="library")?h:(h==="mag-humanbody"||h==="book-crime")?"library":"store"}
+  const ANCH={library:"#library",shop:"#shop","facts-day":"#facts-day","mag-humanbody":"#mag-humanbody","mag-ngk":"#mag-ngk","mag-ngk10":"#mag-ngk10","book-crime":"#book-crime",faq:"#faq",courses:"#courses",support:"#support","p-mag_ngk10":"#p-mag_ngk10","p-mag_ngk":"#p-mag_ngk","p-mag_hb":"#p-mag_hb","p-book_crc":"#p-book_crc","p-kit":"#p-kit","p-school":"#p-school"};const anch=ANCH[h];const toLab=!!anch;if(anch){v="store";navKey=(h==="lab"||h==="library")?h:(h==="mag-humanbody"||h==="book-crime")?"library":"store"}
   let qzAnch=null;if(h==="quiz-all"){v="quiz";navKey="quiz";qzAnch="#quizAll"}
   if(h==="food-game"){v="games";navKey="games";qzAnch="#food-game"}
   if(h==="kids-memory"){v="games";navKey="games";qzAnch="#kids-memory"}
@@ -2450,6 +2490,7 @@ function renderPath(h,v){const bar=$("#pathBar");if(!bar)return;const H=["الر
  else if(sub[h])t=[nm.store,nm.library,[sub[h]]];
  else if(h==="shop")t=[nm.store,["إصدارات أترجّة"]];
  else if(h==="courses")t=[nm.store,["دورات Ego plan"]];
+ else if(h==="support")t=[nm.store,["ادعم أترجّة"]];
  else if(h==="faq")t=[nm.store,["الأسئلة الشائعة"]];
  else if(h==="library")t=[nm.store,nm.library];
  else if(h==="food-game")t=[nm.games,["مائدة فلسطين"]];
@@ -2548,6 +2589,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelect
    "courses":[`🎓 دورات Ego plan · خطّة حياتي موجودة\n🌱 Eco School · 🥗 Go Healthy · 🎯 خطّط لحياتك\nساعتان تفاعليتان في كل دورة\n💰 20$ للشخص مع حسومات للمجموعات\n🎁 اشترِ 3 نسخ من رواية «الخضار والفواكه إن تكلّمت» واحصل على دورة مجانًا\n👉 ${url}`,`مدرستك أو جمعيتك تبحث عن نشاط مفيد وممتع؟ 🏫\nدورات Ego plan للطلاب والمعلمين والأهل\n👉 ${url}${S}`],
    "quiz":[`🧠 تحدّي الفضول\n150 سؤالًا علميًا بأجوبة تُضحك وتقنع 😄\nلماذا يخفت سمعك حين تتثاءب؟ كم عظمة في جسمك؟\nكم سؤالًا تعرف؟ 👇\n${url}${S}`],
    "lab":[`🧪 مختبر كِندة\nالعلم الذي يجعل الأدلة الصامتة تتكلّم 🔎\nحلقات من علم الحشرات الجنائي ومسرح الجريمة لأصحاب الحسّ البوليسي\n👉 ${url}${S}`],
+   "support":[`💚 ادعم أترجّة… ليبقى النور مضاءً\nقصص علمية للأطفال ومقالات موثّقة وألعاب تعليمية مجانية وبلا إعلانات، بجهد شخصي مستقل.\nتبرّعك عبر Whish Money، ولو 5$، يكتب حلقة جديدة ويصنع لعبة للصغار 🌱\n👉 ${url}${S}`,`هل تحبّ محتوى أترجّة؟ 🍋\nازرع معنا شجرة: 💧5$ · 🌿10$ · 🌱20$ · 🌳50$\n👉 ${url}`],
    "games":[`🎮 بستان أترجّة: ألعاب تعليمية مجانية حسب العمر\n🌱 براعم 4–6 · 🍋 ثمار 7–9 · 🌳 أشجار 10+\nالعب… واقطف معلومة!\n👉 ${url}`],
    "home":[`🍋 أترجّة: علمٌ يُقرأ بمتعة، وحكاياتٌ تزرع المعرفة\n📖 قصص علمية للأطفال · 📰 مقالات صحية وتربوية · 🧪 مختبر كِندة · 🧠 تحدّي الفضول · 🎮 ألعاب\n👉 ${url}\nننير العقول بضياء العلوم ✨`,`موقع عربي جديد لكل العائلة 👨‍👩‍👧\nقصص وألعاب ومعلومات علمية بأسلوب ممتع\nجرّبه وأخبرني رأيك 👇\n${url}`]};
   return F[key]||[`🍋 ${ttl}\n\nاكتشفها على أترجّة 👇\n${url}${S}`]}
@@ -2579,6 +2621,20 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelect
   if(e.target===d||e.target.closest(".shr-x"))d.hidden=true});
  document.addEventListener("click",e=>{const sb=e.target.closest("[data-share-page]");if(sb){e.preventDefault();open(sb.dataset.shareKey,sb.dataset.shareTitle)}});
  document.addEventListener("keydown",e=>{if(e.key==="Escape")d.hidden=true})})();
+
+/* Whish Money payments & donations */
+const WHISH={num:"+961 3 985 202",raw:"+9613985202",name:"Ihab Totonji"};
+function whishHTML(name,price,note,kind){const don=kind==="don";
+ const msg=don?`مرحبًا، تبرّعت بمبلغ ${price}$ عبر Whish Money لدعم محتوى أترجّة الهادف 💚\nاسم المُرسِل في Whish: \n(أرفقت صورة التحويل)`
+  :`مرحبًا، دفعت ${price}$ عبر Whish Money ثمن: ${name}\nاسم المُرسِل في Whish: \nالاسم الكامل: \nالمدينة والعنوان: \nالهاتف: \n(أرفقت صورة التحويل)`;
+ return `<div class="wbox"><div class="wb-h"><span class="wb-logo">whish</span><b>${don?"تبرّع بـ":"ادفع"} ${price}$ عبر Whish Money</b>${note?`<small>· ${esc(note)}</small>`:""}</div>
+ <div class="wb-n"><span dir="ltr">${WHISH.num}</span><button type="button" data-copy="${WHISH.raw}">نسخ الرقم</button></div>
+ <small>تأكّد أن اسم المستلم في التطبيق: <b dir="ltr">${WHISH.name}</b> · ${don?"بعد التحويل أرسل لنا صورة الإيصال لنشكرك 💚":"بعد الدفع أرسل صورة التحويل مع عنوانك لنؤكّد طلبك ونحدّد موعد التسليم"}</small>
+ <a class="btn wb-done" target="_blank" rel="noopener" href="${wa(msg)}">✅ ${don?"تبرّعت، أرسل الإيصال":"دفعت، أرسل التأكيد"} عبر واتساب</a></div>`}
+function fillWhish(){document.querySelectorAll(".wslot[data-whish]").forEach(s=>{if(s.firstChild)return;const [n,p]=s.dataset.whish.split("|");s.innerHTML=whishHTML(n,+p)})}
+(function(){const g=document.querySelector(".don-amts");if(!g)return;const out=document.getElementById("donWhish");
+ const set=a=>{g.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.amt==a));out.innerHTML=whishHTML("تبرّع لأترجّة",a,"","don")};
+ g.onclick=e=>{const b=e.target.closest("button");if(b)set(b.dataset.amt)};set(20);fillWhish()})();
 </script>
 
 </body>
