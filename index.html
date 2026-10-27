@@ -978,6 +978,10 @@ em.tt{font-style:normal;color:var(--leaf)}
 .don-thx{font-size:13.5px;color:var(--muted);margin-top:10px!important}
 @media (max-width:600px){.donate{grid-template-columns:1fr}.don-art{width:72px;height:72px;font-size:46px}.don-amts{grid-template-columns:1fr 1fr}}
 .vw{white-space:nowrap;color:var(--muted)}.meta .vw{margin-inline-start:6px}.byline .vw:empty{display:none}
+.ep-vid{margin:22px auto;max-width:340px;text-align:center}
+.ep-vid video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:20px;background:#000;box-shadow:0 16px 34px rgba(0,0,0,.22)}
+.ep-snd{margin-top:10px;font:700 13.5px var(--f-ui);border:1px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:99px;padding:6px 14px;cursor:pointer}
+.ep-vid figcaption{font-size:13px;color:var(--muted);margin-top:6px}
 </style>
 </head>
 <body>
@@ -1818,7 +1822,7 @@ function renderMiniFacts(){if(!ARTS.length||!$("#facts"))return;if(!HERO_POOL.le
   $("#facts").innerHTML=facts.map(x=>`<a class="fact" href="#a-${x.id}"><span>${esc(teaserOf(x,"fact"+Math.random()))}</span><small>من مقالة «${esc(x.title)}» ←</small></a>`).join("");
 }
 /* ---------- reader ---------- */
-function bodyHTML(body){return body.map(b=>{let x=b.x;if(b.t==="p"&&x.length<60&&/[:：]$/.test(x))return `<h3>${esc(x.replace(/[:：]$/,""))}</h3>`;
+function bodyHTML(body){return body.map(b=>{if(b.t==="vid")return `<figure class="ep-vid"><video src="${b.src}" poster="${b.poster||""}" muted loop playsinline autoplay preload="metadata" aria-label="${esc(b.cap||"فيديو من الحلقة")}"></video><button type="button" class="ep-snd">🔇 شغّل الصوت</button>${b.cap?`<figcaption>${esc(b.cap)}</figcaption>`:""}</figure>`;let x=b.x;if(b.t==="p"&&x.length<60&&/[:：]$/.test(x))return `<h3>${esc(x.replace(/[:：]$/,""))}</h3>`;
  if(b.t==="h")return `<h3>${esc(x)}</h3>`;if(b.t==="q")return `<blockquote>${esc(x)}</blockquote>`;if(b.t==="row")return `<div class="row">${esc(x)}</div>`;
  const m=x.match(/^([^:.،؟!]{2,45}):\s+(.+)$/);return m?`<p><b class="lbl">${esc(m[1])}:</b> ${esc(m[2])}</p>`:`<p>${esc(x)}</p>`}).join("")}
 function updHTML(a){if(!a.upd||!a.upd.length)return "";const d=a.rev?new Date(a.rev).toLocaleDateString("ar-LB",{year:"numeric",month:"long",day:"numeric"}):"";
@@ -1894,6 +1898,7 @@ function showEpisode(sid,n){
   <div class="panel" id="comments"><h3>رأيك في الحلقة</h3><div id="cList"></div><form class="form" id="cForm" style="margin-top:12px"><label>اسمك<input id="cName" maxlength="40" required></label><label>تعليقك<textarea id="cText" maxlength="1200" required></textarea></label><button class="btn primary" type="submit">انشر التعليق</button></form><p class="note" id="cNote" hidden></p></div>`;
   $$("[data-fs]").forEach(b=>b.onclick=()=>{fs=Math.min(26,Math.max(15,fs+(+b.dataset.fs)));store.set("otroja.fs",fs);$(".prose").style.setProperty("--fs",fs+"px")});
   loadComments("e-"+sid+"-"+n);
+  epVideos();
 }
 const QUIZ=[
  {q:"أي خضار يشبه شكلُه العين في الرواية، فصار «الأستاذ جزرة»؟",o:["الجزر","البطاطا","الفاصوليا"],a:0},
@@ -2652,6 +2657,12 @@ function fillWhish(){document.querySelectorAll(".wslot[data-whish]").forEach(s=>
  g.onclick=e=>{const b=e.target.closest("button");if(b)set(b.dataset.amt)};set(20);fillWhish()})();
 
 loadViews();
+
+/* episode videos: autoplay (muted) while on screen, sound on demand */
+let epIO=null;
+function epVideos(){document.querySelectorAll(".ep-vid").forEach(f=>{const v=f.querySelector("video"),b=f.querySelector(".ep-snd");
+  b.onclick=()=>{v.muted=!v.muted;if(!v.muted){v.currentTime=0;v.play().catch(()=>{})}b.textContent=v.muted?"🔇 شغّل الصوت":"🔊 أوقف الصوت"};
+  if("IntersectionObserver" in window){epIO=epIO||new IntersectionObserver(es=>es.forEach(e=>{const vv=e.target;if(e.isIntersecting)vv.play().catch(()=>{});else vv.pause()}),{threshold:.4});epIO.observe(v)}else v.play().catch(()=>{})})}
 </script>
 
 </body>
