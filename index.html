@@ -977,7 +977,7 @@ em.tt{font-style:normal;color:var(--leaf)}
 .don-amts button.on{border-color:#2F6B3A;background:#2F6B3A;color:#fff}.don-amts button.on b{color:#C8DA4B}
 .don-thx{font-size:13.5px;color:var(--muted);margin-top:10px!important}
 @media (max-width:600px){.donate{grid-template-columns:1fr}.don-art{width:72px;height:72px;font-size:46px}.don-amts{grid-template-columns:1fr 1fr}}
-.vw{white-space:nowrap;color:var(--muted)}.meta .vw{margin-inline-start:6px}.byline .vw:empty{display:none}
+.vw{white-space:nowrap;color:var(--muted)}.vpill{display:inline-block;font-size:12px;font-weight:600;line-height:1.6;padding:0 8px;border-radius:999px;background:rgba(0,0,0,.06);vertical-align:middle;margin-inline-start:4px}.meta .vw{margin-inline-start:6px}.byline .vw:empty{display:none}
 .ep-vid{margin:22px auto;max-width:340px;text-align:center}
 .ep-vid video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:20px;background:#000;box-shadow:0 16px 34px rgba(0,0,0,.22)}
 .ep-snd{margin-top:10px;font:700 13.5px var(--f-ui);border:1px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:99px;padding:6px 14px;cursor:pointer}
@@ -1631,8 +1631,9 @@ function coverHTML(a,ribbon){return `<div class="cover">${a.cover?`<img class="c
 /* ---------- views & visits (live only on the public site) ---------- */
 const STATS_ON=true;let VIEWC={};
 const fmtN=n=>n>=1000?(n/1000).toFixed(n>=10000?0:1).replace(/\.0$/,"")+"k":String(n);
-function vbadge(k){const n=VIEWC[k];return STATS_ON&&n?`<span class="vw" title="عدد القرّاء">👁 ${fmtN(n)}</span>`:""}
-function paintViews(){document.querySelectorAll("[data-vk]").forEach(s=>{const n=VIEWC[s.dataset.vk];s.textContent=STATS_ON&&n?"👁 "+fmtN(n)+" قارئ":"";s.title="عدد القرّاء"})}
+const vtxt=(k,long)=>{const n=VIEWC[k]||0;return n?"👁 "+fmtN(n)+(long?" قارئ":""):"👁 جديد"};
+function vbadge(k){return STATS_ON?`<span class="vw vpill" data-vk="${k}" data-short="1" title="عدد القرّاء">${vtxt(k)}</span>`:""}
+function paintViews(){if(!STATS_ON)return;document.querySelectorAll("[data-vk]").forEach(s=>{if(!s.dataset.vk)return;s.textContent=vtxt(s.dataset.vk,!s.dataset.short);s.title="عدد القرّاء"})}
 function visitorId(){try{let v=localStorage.getItem("otroja.vid");if(!v){v=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem("otroja.vid",v)}return v}catch(e){return "anon"}}
 const TRACK=/^(a|e|s|p|mag)-|^(home|articles|stories|lab|kinda|quiz|games|food-game|kids-memory|store|library|courses|support|about|rate|book-crime|platform|contact)$/;
 let lastHit="";
@@ -1643,7 +1644,7 @@ async function loadViews(){if(!STATS_ON)return;try{const r=await fetch("/api/vie
  const v=decodeURIComponent(location.hash.slice(1))||"home";if(v==="articles"&&typeof renderArticles==="function")renderArticles();if(v==="home"&&typeof renderHome==="function"){const s=$("#homeSeries");if(s)s.innerHTML=seriesCards()}}catch(e){}}
 function cardHTML(a){
   const lc=likeCounts[a.id]||0;
-  return `<a class="card" href="#a-${a.id}">${coverHTML(a,a.series?esc(a.series):"")}<div class="body"><span class="chip" style="${cc(a.cat)}">${CATS[a.cat]}</span><h3>${esc(a.title)}</h3><p>${esc(a.deck)}</p><div class="meta"><span>${mins(a.w)} د قراءة</span>${vbadge("a-"+a.id)}${lc?`<span>· ♥ ${lc}</span>`:""}${saved.has(a.id)?'<span class="saved-dot">· محفوظ</span>':""}${read.has(a.id)?"<span>· قرأته</span>":""}</div></div></a>`;
+  return `<a class="card" href="#a-${a.id}">${coverHTML(a,a.series?esc(a.series):"")}<div class="body"><span class="chip" style="${cc(a.cat)}">${CATS[a.cat]}</span><h3>${esc(a.title)} ${vbadge("a-"+a.id)}</h3><p>${esc(a.deck)}</p><div class="meta"><span>${mins(a.w)} د قراءة</span>${lc?`<span>· ♥ ${lc}</span>`:""}${saved.has(a.id)?'<span class="saved-dot">· محفوظ</span>':""}${read.has(a.id)?"<span>· قرأته</span>":""}</div></div></a>`;
 }
 function postHTML(p){const d=new Date(p.d);return `<a class="post${p.img?" has-img":""}" href="${CONTACT.blog}${p.u}" target="_blank" rel="noopener">${p.img?`<span class="post-cov"><img src="${p.img}" alt="" loading="lazy"></span>`:""}<b>${esc(p.t)}</b><p>${esc(p.s)}</p><div class="tags">${p.l.map(t=>`<span>${esc(t)}</span>`).join("")}</div></a>`}
 
@@ -1857,7 +1858,7 @@ function paintHero(a){const t=$("#today");if(!t||!a)return;t.classList.add("hero
   setTimeout(()=>{t.href="#a-"+a.id;
   const cov=t.querySelector(".today-cov");cov.querySelectorAll("canvas").forEach(c=>c.remove());cov.insertAdjacentHTML("afterbegin",draftCanvas(a,1));
   $("#todayCat").textContent=CATS[a.cat];$("#todayCat").setAttribute("style",cc(a.cat));
-  $("#todayTitle").textContent=a.title;$("#todayTeaser").textContent=teaserOf(a,"hero"+Math.random());
+  $("#todayTitle").textContent=a.title;if(STATS_ON)$("#todayTitle").insertAdjacentHTML("beforeend"," "+vbadge("a-"+a.id));$("#todayTeaser").textContent=teaserOf(a,"hero"+Math.random());
   $("#todayTag").textContent=(HERO_LABEL.get(a.id)||"🔥 مقالة مشوّقة")+" · تتبدّل تلقائيًا";
   requestAnimationFrame(()=>{paintAll();t.classList.remove("hero-swap")})},250)}
 function renderDaily(){
@@ -1877,7 +1878,7 @@ function renderDaily(){
   renderMiniFacts()}
 function renderMiniFacts(){if(!ARTS.length||!$("#facts"))return;if(!HERO_POOL.length)HERO_POOL=shuffleArr(ARTS.filter(x=>!isLab(x)).sort((x,y)=>hotScore(y)-hotScore(x)).slice(0,40));
   const facts=(HERO_LABEL&&HERO_LABEL.size?HERO_POOL.filter(a=>HERO_LABEL.has(a.id)).slice(0,2).concat(shuffleArr(HERO_POOL.filter(a=>!HERO_LABEL.has(a.id))).slice(0,1)):shuffleArr(HERO_POOL).slice(0,3));$("#factsDay").textContent="معلومات تتجدّد مع كل زيارة";
-  $("#facts").innerHTML=facts.map(x=>`<a class="fact" href="#a-${x.id}"><span>${esc(teaserOf(x,"fact"+Math.random()))}</span><small>من مقالة «${esc(x.title)}» ←</small></a>`).join("");
+  $("#facts").innerHTML=facts.map(x=>`<a class="fact" href="#a-${x.id}"><span>${esc(teaserOf(x,"fact"+Math.random()))}</span><small>من مقالة «${esc(x.title)}» ${vbadge("a-"+x.id)} ←</small></a>`).join("");
 }
 /* ---------- reader ---------- */
 function bodyHTML(body){return body.map(b=>{if(b.t==="vid")return `<figure class="ep-vid"><video src="${b.src}" poster="${b.poster||""}" muted loop playsinline autoplay preload="metadata" aria-label="${esc(b.cap||"فيديو من الحلقة")}"></video><button type="button" class="ep-snd">🔇 شغّل الصوت</button>${b.cap?`<figcaption>${esc(b.cap)}</figcaption>`:""}</figure>`;let x=b.x;if(b.t==="p"&&x.length<60&&/[:：]$/.test(x))return `<h3>${esc(x.replace(/[:：]$/,""))}</h3>`;
