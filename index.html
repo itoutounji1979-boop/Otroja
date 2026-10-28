@@ -982,6 +982,10 @@ em.tt{font-style:normal;color:var(--leaf)}
 .ep-vid video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:20px;background:#000;box-shadow:0 16px 34px rgba(0,0,0,.22)}
 .ep-snd{margin-top:10px;font:700 13.5px var(--f-ui);border:1px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:99px;padding:6px 14px;cursor:pointer}
 .ep-vid figcaption{font-size:13px;color:var(--muted);margin-top:6px}
+.occ-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:12px;padding:10px 14px;border-radius:14px;background:linear-gradient(90deg,#fff3c4,#fde7ef);color:#18231E;font-size:15px}
+.occ-bar .occ-e{font-size:22px}.occ-bar a{font-weight:700;color:#B04A2E;text-decoration:none}
+:root[data-theme="dark"] .occ-bar{background:linear-gradient(90deg,#3a3214,#3a1f29);color:#f3eee0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .occ-bar{background:linear-gradient(90deg,#3a3214,#3a1f29);color:#f3eee0}}
 </style>
 </head>
 <body>
@@ -1029,6 +1033,7 @@ em.tt{font-style:normal;color:var(--leaf)}
   <a href="#store" style="--c:#C0392B"><i>🛒</i><b>المتجر</b><small>إصدارات · مكتبة · دورات</small></a>
   <a href="#about" style="--c:#2F7A45"><i>🍋</i><b>عن أترجّة</b><small>المؤسس · المنصّة · تواصل</small></a>
 </nav></div>
+<div class="wrap"><div class="occ-bar" id="occBar" hidden></div></div>
 <div class="wrap" style="padding-top:12px"><a class="rt-banner" href="https://docs.google.com/forms/d/1IZtrZDtDj1tBnDYMrNzNOxzl_7ECrHZStsNzDzdYeak/viewform" target="_blank" rel="noopener">🧪 <b>أنت من أوائل المستكشفين!</b> جرّب الموقع ثم أعطنا رأيك في دقيقة <span>⭐ قيّم أترجّة ←</span></a></div>
     <div class="wrap hero">
       <div>
@@ -1798,17 +1803,70 @@ function sentencesOf(a){return a.body.filter(b=>b.t==="p").flatMap(b=>b.x.split(
 function teaserOf(a,salt){const ss=sentencesOf(a);if(!ss.length)return a.deck;const score=s=>(/\d/.test(s)?3:0)+(/[؟?]/.test(s)?2:0)+(/(دراسة|العلماء|الباحثون|تشير|اكتشف)/.test(s)?2:0);
  const top=ss.map(s=>[score(s),s]).sort((x,y)=>y[0]-x[0]).slice(0,4).map(x=>x[1]);return top[Math.floor(rng("t"+DAY+salt+a.id)()*top.length)]}
 const OFFERS=["النسخة الكاملة: القصة في كتابين، وكتاب الألعاب والتمارين، ولعبة الطاولة، بـ17$ بدل 20$ عند الطلب من الموقع.","10 ألعاب و5 أنشطة و12 قصة من كنوز الآنسة تغذية ترافق الرواية في كتيّب خاص.","هل يستطيع تمّور وأصدقاؤه إنقاذ تينة من الوطواط الشرير باتفوكس؟ الجواب بين دفّتي الرواية.","رواية تعلّم أطفالك فوائد الخضار والفواكه وهم يضحكون ويتحمّسون، للأعمار من 10 إلى 15 سنة.","للمدارس والجمعيات: أسعار خاصة للكميات وإمكانية لقاء مع الكاتب."];
+/* ---------- seasons, time of day & occasions: what the homepage highlights ---------- */
+const OCCASIONS=[
+ {d:"02-04",n:"اليوم العالمي للسرطان",e:"🎗️",k:"السرطان|سرطان|الأورام"},
+ {d:"02-11",n:"اليوم الدولي للمرأة والفتاة في العلوم",e:"🔬",k:"العلماء|العلم|اكتشاف|المختبر"},
+ {d:"03-08",n:"اليوم العالمي للمرأة",e:"🌸",k:"المرأة|النساء|الأم"},
+ {d:"03-21",n:"عيد الأم",e:"💐",k:"الأم|الأمومة|الحمل|الرضاعة|الأمهات"},
+ {d:"04-07",n:"يوم الصحة العالمي",e:"🩺",k:"الصحة|صحتك|الوقاية"},
+ {d:"04-22",n:"يوم الأرض",e:"🌍",k:"البيئة|الأرض|التلوث|المناخ|النفايات|الشجر"},
+ {d:"04-23",n:"اليوم العالمي للكتاب",e:"📚",k:"القراءة|الكتاب|الكتب|المطالعة"},
+ {d:"05-31",n:"اليوم العالمي للامتناع عن التدخين",e:"🚭",k:"التدخين|السجائر|النيكوتين|الأرجيلة"},
+ {d:"06-05",n:"يوم البيئة العالمي",e:"🌱",k:"البيئة|التلوث|المناخ|النفايات|البلاستيك"},
+ {d:"06-14",n:"اليوم العالمي للتبرّع بالدم",e:"🩸",k:"الدم|التبرع|فقر الدم"},
+ {d:"08-12",n:"اليوم الدولي للشباب",e:"🧑‍🎓",k:"الشباب|المراهق|المراهقة|اليافع"},
+ {d:"09-21",n:"اليوم العالمي للزهايمر",e:"🧠",k:"الزهايمر|الذاكرة|الخرف|النسيان"},
+ {d:"09-29",n:"اليوم العالمي للقلب",e:"❤️",k:"القلب|الضغط|الكوليسترول|الشرايين"},
+ {d:"10-10",n:"اليوم العالمي للصحة النفسية",e:"💚",k:"النفسية|الاكتئاب|القلق|التوتر|الضغط النفسي"},
+ {d:"10-16",n:"يوم الأغذية العالمي",e:"🥗",k:"الغذاء|التغذية|الطعام|الأكل"},
+ {d:"11-14",n:"اليوم العالمي للسكري",e:"🩸",k:"السكري|السكّري|سكر الدم|الأنسولين"},
+ {d:"11-20",n:"اليوم العالمي للطفل",e:"🧒",k:"الطفل|الأطفال|طفلي|طفلك|التربية"},
+ {d:"11-29",n:"اليوم الدولي للتضامن مع الشعب الفلسطيني",e:"🇵🇸",k:"فلسطين|القدس|غزة",go:"food-game",goT:"العب «مائدة فلسطين» 🇵🇸"},
+ {d:"12-03",n:"اليوم الدولي للأشخاص ذوي الإعاقة",e:"♿",k:"الإعاقة|التوحد|متلازمة"},
+ {d:"12-18",n:"اليوم العالمي للغة العربية",e:"📜",k:"العربية|اللغة|لغتنا"},
+ {from:"10-01",to:"10-31",n:"أكتوبر الوردي للتوعية بسرطان الثدي",e:"🎀",k:"سرطان الثدي|الثدي|الكشف المبكر"},
+ {range:["2027-02-07","2027-03-09"],n:"شهر رمضان المبارك",e:"🌙",k:"رمضان|الصيام|الصائم|السحور|الإفطار",cat:"ramadan"},
+ {range:["2028-01-27","2028-02-25"],n:"شهر رمضان المبارك",e:"🌙",k:"رمضان|الصيام|الصائم|السحور|الإفطار",cat:"ramadan"}];
+const SEASONS={
+ winter:{n:"مختارات الشتاء",e:"❄️",k:"الشتاء|شتاء|البرد|نزلات البرد|الإنفلونزا|الانفلونزا|الزكام|الرشح|المناعة|مناعة|فيتامين د|التدفئة|المطر|السعال|الكحة|الحمّى|الحرارة|يغلي|الفيروس|فيروس"},
+ spring:{n:"مختارات الربيع",e:"🌸",k:"الربيع|الحساسية|حبوب اللقاح|الأزهار|النحل|الطبيعة|المشي|الرياضة"},
+ summer:{n:"مختارات الصيف",e:"☀️",k:"الصيف|الحرّ|الحر |الشمس|الجفاف|العطش|الماء|البحر|السباحة|ضربة|العطلة|السفر|المثلجات"},
+ autumn:{n:"مختارات الخريف والعودة إلى المدرسة",e:"🍂",k:"الخريف|المدرسة|المدرسي|الدراسة|الدراسي|الواجبات|التركيز|الحقيبة"}};
+const DAYPARTS={night:{n:"لقراءة المساء",e:"🌙",k:"النوم|الأرق|السهر|الأحلام|الليل|النجوم|القمر|الاسترخاء"},morning:{n:"لبداية يومك",e:"🌅",k:"الفطور|الإفطار الصباحي|الصباح|النشاط|القهوة|الطاقة"}};
+function nowCtx(d=new Date()){const md=(d.getMonth()+1+"").padStart(2,"0")+"-"+(d.getDate()+"").padStart(2,"0"),iso=d.toISOString().slice(0,10),day=864e5;
+ const occ=OCCASIONS.find(o=>{if(o.range)return iso>=o.range[0]&&iso<=o.range[1];if(o.from)return md>=o.from&&md<=o.to;
+   const t=new Date(d.getFullYear()+"-"+o.d+"T12:00:00");const diff=(t-d)/day;return diff<=4&&diff>=-1});
+ const m=d.getMonth()+1,dd=d.getDate();const season=(m===12||m<=2||m===11||(m===10&&dd>=25))?"winter":m<=5?"spring":m<=8?"summer":"autumn";
+ const hr=d.getHours();const part=hr>=20||hr<5?"night":hr<11?"morning":null;
+ return {occ,season,part}}
+function ctxMatch(a,c){const re=new RegExp("("+c.k+")");return (c.cat&&a.cat===c.cat)||re.test(a.title+" "+(a.deck||""))}
+let CTX=null;
+function contextPool(){CTX=nowCtx();const base=ARTS.filter(x=>!isLab(x));const tagd=[];
+ const add=(c,label)=>{if(!c)return;const L=shuffleArr(base.filter(a=>ctxMatch(a,c)&&!tagd.some(t=>t.a===a))).slice(0,8);L.forEach(a=>tagd.push({a,label}))};
+ if(CTX.occ)add(CTX.occ,CTX.occ.e+" "+CTX.occ.n);
+ add(SEASONS[CTX.season],SEASONS[CTX.season].e+" "+SEASONS[CTX.season].n);
+ if(CTX.part)add(DAYPARTS[CTX.part],DAYPARTS[CTX.part].e+" "+DAYPARTS[CTX.part].n);
+ return tagd}
+let HERO_LABEL=new Map();
+function paintOccasion(){const el=$("#occBar");if(!el)return;const o=CTX&&CTX.occ;if(!o){el.hidden=true;return}
+ const first=HERO_POOL.find(a=>HERO_LABEL.get(a.id)===o.e+" "+o.n);
+ el.innerHTML=`<span class="occ-e">${o.e}</span><b>${esc(o.n)}</b>${o.go?`<a href="#${o.go}">${esc(o.goT)} ←</a>`:first?`<a href="#a-${first.id}">اقرأ: ${esc(first.title)} ←</a>`:""}`;el.hidden=false}
 let HERO_POOL=[],heroI=0,heroTimer=null;
 function paintHero(a){const t=$("#today");if(!t||!a)return;t.classList.add("hero-swap");
   setTimeout(()=>{t.href="#a-"+a.id;
   const cov=t.querySelector(".today-cov");cov.querySelectorAll("canvas").forEach(c=>c.remove());cov.insertAdjacentHTML("afterbegin",draftCanvas(a,1));
   $("#todayCat").textContent=CATS[a.cat];$("#todayCat").setAttribute("style",cc(a.cat));
   $("#todayTitle").textContent=a.title;$("#todayTeaser").textContent=teaserOf(a,"hero"+Math.random());
+  $("#todayTag").textContent=(HERO_LABEL.get(a.id)||"🔥 مقالة مشوّقة")+" · تتبدّل تلقائيًا";
   requestAnimationFrame(()=>{paintAll();t.classList.remove("hero-swap")})},250)}
 function renderDaily(){
   if(!ARTS.length)return;
-  HERO_POOL=shuffleArr(ARTS.filter(x=>!isLab(x)).sort((x,y)=>hotScore(y)-hotScore(x)).slice(0,40));heroI=0;
-  $("#todayTag").textContent="🔥 مقالة مشوّقة · تتبدّل تلقائيًا";
+  const ctxL=contextPool();HERO_LABEL=new Map(ctxL.map(t=>[t.a.id,t.label]));
+  const offRamadan=!(CTX&&CTX.occ&&CTX.occ.cat==="ramadan");const hot=shuffleArr(ARTS.filter(x=>!isLab(x)&&!HERO_LABEL.has(x.id)&&!(offRamadan&&(x.cat==="ramadan"||/رمضان|الصيام/.test(x.title)))).sort((x,y)=>hotScore(y)-hotScore(x)).slice(0,30));
+  /* weave: two seasonal/occasion picks, then one popular pick */
+  HERO_POOL=[];{const c=ctxL.map(t=>t.a);let i=0,j=0;while(i<c.length||j<hot.length){if(i<c.length)HERO_POOL.push(c[i++]);if(i<c.length)HERO_POOL.push(c[i++]);if(j<hot.length)HERO_POOL.push(hot[j++])}}heroI=0;
+  paintOccasion();
   paintHero(HERO_POOL[0]);
   clearInterval(heroTimer);heroTimer=setInterval(()=>{const v=$("#v-home");if(!v||v.hidden||document.hidden)return;if($("#today").matches(":hover")||Date.now()<(window.heroPauseUntil||0))return;heroI=(heroI+1)%HERO_POOL.length;paintHero(HERO_POOL[heroI])},25000);
   if(!window.heroTouchBound){window.heroTouchBound=1;["touchstart","focusin","mouseenter"].forEach(ev=>$("#today").addEventListener(ev,()=>{window.heroPauseUntil=Date.now()+60000},{passive:true}))}
@@ -1818,7 +1876,7 @@ function renderDaily(){
     const fe=f.eps.filter(e=>!e.lock);const ep=fe[Math.floor(Math.random()*fe.length)]||f.eps[0];$("#offerEp").textContent="من حلقات الرواية: "+ep.title.replace(/\s*:\s*/," — ");$("#offerRead").href="#e-fruit-"+ep.n}
   renderMiniFacts()}
 function renderMiniFacts(){if(!ARTS.length||!$("#facts"))return;if(!HERO_POOL.length)HERO_POOL=shuffleArr(ARTS.filter(x=>!isLab(x)).sort((x,y)=>hotScore(y)-hotScore(x)).slice(0,40));
-  const facts=shuffleArr(HERO_POOL).slice(0,3);$("#factsDay").textContent="معلومات تتجدّد مع كل زيارة";
+  const facts=(HERO_LABEL&&HERO_LABEL.size?HERO_POOL.filter(a=>HERO_LABEL.has(a.id)).slice(0,2).concat(shuffleArr(HERO_POOL.filter(a=>!HERO_LABEL.has(a.id))).slice(0,1)):shuffleArr(HERO_POOL).slice(0,3));$("#factsDay").textContent="معلومات تتجدّد مع كل زيارة";
   $("#facts").innerHTML=facts.map(x=>`<a class="fact" href="#a-${x.id}"><span>${esc(teaserOf(x,"fact"+Math.random()))}</span><small>من مقالة «${esc(x.title)}» ←</small></a>`).join("");
 }
 /* ---------- reader ---------- */
