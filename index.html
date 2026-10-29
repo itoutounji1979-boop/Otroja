@@ -876,7 +876,13 @@ em.tt{font-style:normal;color:var(--leaf)}
 .cine-marquee{margin-bottom:8px!important;padding:3px 14px!important}.cine-marquee span{font-size:15px!important}.cine-marquee small{display:none}
 .cine-screen{max-width:none!important;border-width:4px!important}
 .cine-ctl{position:relative!important;inset:auto!important;z-index:2;display:flex;justify-content:center;gap:8px;margin:10px auto 0}
-.cine-ctl button{background:#2a1a1e!important;border:1px solid #d4a72c!important;color:#FFD76A!important;padding:7px 16px!important;font-size:14px!important}
+.cine-ctl button{background:#2a1a1e!important;border:1px solid #d4a72c!important;color:#FFD76A!important;padding:5px 12px!important;font-size:12.5px!important;white-space:nowrap}
+.cine-ctl{gap:6px!important}
+@media (max-width:600px){.cine-ctl{gap:5px!important}.cine-ctl button{padding:5px 9px!important;font-size:11.5px!important}}
+.cine-screen:fullscreen{max-width:none!important;width:100vw;height:100vh;border:0!important;border-radius:0!important;background:#000;display:flex;align-items:center;justify-content:center}
+.cine-screen:-webkit-full-screen{max-width:none!important;width:100vw;height:100vh;border:0!important;border-radius:0!important;background:#000;display:flex;align-items:center;justify-content:center}
+.cine-screen:fullscreen video{width:100%;height:100%;aspect-ratio:auto;object-fit:contain;cursor:pointer}
+.cine-screen:-webkit-full-screen video{width:100%;height:100%;aspect-ratio:auto;object-fit:contain;cursor:pointer}
 .cine-ctl button:hover{background:#3a2328!important}
 .cine-glow{height:24px!important;max-width:none!important}
 .cine-seats{max-width:760px!important;margin-top:-10px!important;opacity:.85}
@@ -1028,7 +1034,7 @@ em.tt{font-style:normal;color:var(--leaf)}
  var d=new Date(),h=d.getHours();if(!(P.allDay.indexOf(d.getDay())>-1||(h>=P.from&&h<P.to)))return;
  var v=document.getElementById("promoVid");if(!v)return;v.poster=P.poster;v.setAttribute("aria-label",P.label);v.src=P.src;try{v.load();var r=v.play();if(r&&r.catch)r.catch(function(){})}catch(e){}})();</script>
 </div>
-  <div class="cine-ctl"><button type="button" id="promoSnd">🔇 شغّل الصوت</button><button type="button" id="promoReplay" aria-label="أعد العرض">↺ أعد العرض</button></div>
+  <div class="cine-ctl"><button type="button" id="promoSnd">🔇 شغّل الصوت</button><button type="button" id="promoReplay" aria-label="أعد العرض">↺ أعد العرض</button><button type="button" id="promoFull" aria-label="ملء الشاشة">⛶ ملء الشاشة</button></div>
   <div class="cine-glow" aria-hidden="true"></div>
   <div class="cine-seats" id="cineSeats" aria-hidden="true"></div>
 </section></div>
@@ -2603,6 +2609,13 @@ $("#pathBack").onclick=()=>{if(history.length>1)history.back();else location.has
  const v=document.getElementById("promoVid"),sb=document.getElementById("promoSnd");
  sb.onclick=()=>{v.muted=!v.muted;if(!v.muted){v.currentTime=0;v.play().catch(()=>{})}sb.textContent=v.muted?"🔇 شغّل الصوت":"🔊 أوقف الصوت"};
  document.getElementById("promoReplay").onclick=()=>{v.currentTime=0;v.play().catch(()=>{})};
+ // ملء الشاشة: الشاشة وحدها تملأ الإطار وتختفي الأزرار؛ الخروج بزر Esc أو بلمس الفيديو
+ const scr=v.closest(".cine-screen"),fsEl=()=>document.fullscreenElement||document.webkitFullscreenElement;
+ document.getElementById("promoFull").onclick=()=>{
+  const go=scr.requestFullscreen||scr.webkitRequestFullscreen;
+  if(go){Promise.resolve(go.call(scr)).catch(()=>{});v.play().catch(()=>{})}
+  else if(v.webkitEnterFullscreen){v.webkitEnterFullscreen()}};
+ v.addEventListener("click",()=>{if(fsEl()===scr){(document.exitFullscreen||document.webkitExitFullscreen).call(document)}});
 })();
 
 document.addEventListener("click",e=>{const a=e.target.closest("[data-lockwa]");if(!a)return;e.preventDefault();window.open(wa("مرحبًا، أودّ حجز نسختي الكاملة من سلسلة «"+a.dataset.lockwa+"» لأتابع القراءة. كيف أطلبها؟"),"_blank","noopener")});
