@@ -20,7 +20,7 @@
 <meta name="twitter:image" content="https://otroja.itoutounji-1979.workers.dev/img/og.jpg">
 <link rel="canonical" href="https://otroja.itoutounji-1979.workers.dev/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;600;700&family=Noto+Sans+Arabic:wght@400;500;600&family=Readex+Pro:wght@400;500;600&family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@500;600;700&family=Noto+Sans+Arabic:wght@400;500;600&family=Readex+Pro:wght@400;500;600&display=swap">
 <style>
 /* Layout: a citron-and-leaf Arabic magazine — sticky masthead, view-per-hash sections, card grids that collapse to one column, a full-width reading sheet. */
 :root{
@@ -881,25 +881,6 @@ em.tt{font-style:normal;color:var(--leaf)}
 .cine-glow{height:24px!important;max-width:none!important}
 .cine-seats{max-width:760px!important;margin-top:-10px!important;opacity:.85}
 @media (max-width:600px){.cine{padding-top:24px!important}.cine-valance{height:10px!important}}
-/* cinema: featured vertical trailer at peak hours */
-.cine-feat{position:absolute;inset:0;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) 31.64%;background:#000}
-.cine-feat[hidden]{display:none}
-.cf-vid{min-width:0;height:100%;overflow:hidden;background:#000;box-shadow:0 0 40px rgba(255,170,60,.18)}
-.cine-screen .cf-vid video{width:100%;height:100%;aspect-ratio:auto;object-fit:contain}
-.cf-txt{display:flex;flex-direction:column;min-height:0;padding:clamp(8px,2.4vw,26px) clamp(8px,2.6vw,30px);color:#f1e3c2;text-align:center;background:radial-gradient(ellipse at 50% 40%,rgba(120,60,20,.22),transparent 70%)}
-.cf-head b{display:block;font:700 clamp(19px,4.6vw,50px)/1.25 "Aref Ruqaa",var(--f-display);color:#FFD76A;text-shadow:0 0 18px rgba(255,190,80,.45)}
-.cf-head small{display:block;font:400 clamp(11px,1.9vw,19px)/1.4 "Amiri",serif;color:#d9c79c}
-.cf-roll{flex:1;min-height:0;overflow:hidden;margin:clamp(4px,1.2vw,12px) 0;-webkit-mask:linear-gradient(transparent,#000 22%,#000 78%,transparent);mask:linear-gradient(transparent,#000 22%,#000 78%,transparent)}
-.cf-track{animation:cfRoll 34s linear infinite}
-.cf-roll:hover .cf-track{animation-play-state:paused}
-.cf-track p{margin:0 0 .65em;font:400 clamp(12px,2.1vw,22px)/1.6 "Amiri",serif}
-@keyframes cfRoll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
-.cf-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 10px}
-.cf-soon{font:700 clamp(13px,2.5vw,26px) "Aref Ruqaa",var(--f-display);color:#FFD76A}
-.cf-btn{font:700 clamp(10.5px,1.5vw,15px) var(--f-ui);background:#d4a72c;color:#140b0d!important;border-radius:99px;padding:.4em 1.1em;text-decoration:none;box-shadow:0 0 14px rgba(212,167,44,.45);white-space:nowrap}
-.cf-btn:hover{background:#FFD76A}
-@media (max-width:600px){.cf-head small{display:none}.cf-track p{margin-bottom:.45em}.cine-ctl{gap:5px!important}.cine-ctl button{font-size:12.5px!important;padding:6px 10px!important;white-space:nowrap}}
-@media (prefers-reduced-motion:reduce){.cf-track{animation:none}.cf-track>div{display:none}.cf-roll{overflow-y:auto}}
 /* grouped nav */
 .nav{gap:10px}.nav-sub{border:0!important;padding:0!important}
 .ng{position:relative}
@@ -1041,16 +1022,8 @@ em.tt{font-style:normal;color:var(--leaf)}
   <div class="cine-curt l" aria-hidden="true"></div><div class="cine-curt r" aria-hidden="true"></div>
   <div class="cine-marquee"><span>🍋 سينما أترجّة</span><small>عرض خاص لكل العائلة</small></div>
   <div class="cine-screen"><video id="promoVid" poster="img/promo_poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="فيديو ترويجي لمنصّة أترجّة: عائلة تتصفّح الموقع"><source src="promo.mp4?v=1" type="video/mp4"></video>
-  <div class="cine-feat" id="cineFeat" hidden>
-    <div class="cf-txt">
-      <div class="cf-head"><b>فرسان الحكمة</b><small>فتى الميكانيكا والسهام النارية</small></div>
-      <div class="cf-roll"><div class="cf-track"><p>سنةَ ٦٥٦هـ… سقطت بغداد.</p><p>لكنّ فتىً واحداً خرج من بين الرماد…</p><p>ومعه دفترٌ بخيطٍ أحمر.</p><p>ماذا كتب أبوه بين صفحاته؟</p><p>ولماذا سيغيّر مصير قلعةٍ كاملة؟</p><p>⚙️ تروسٌ تدور…</p><p>🕊️ رسالةٌ في جناح…</p><p>🏹 سهمٌ يعرف طريقه…</p><p>🌊 ونارٌ تمشي على الماء!</p><p>عشر حلقات لأبنائنا من ١٢ إلى ١٧ سنة</p><p>العلمُ درعٌ يحمي الحياة… لا أداةٌ للبطش.</p><div aria-hidden="true"><p>سنةَ ٦٥٦هـ… سقطت بغداد.</p><p>لكنّ فتىً واحداً خرج من بين الرماد…</p><p>ومعه دفترٌ بخيطٍ أحمر.</p><p>ماذا كتب أبوه بين صفحاته؟</p><p>ولماذا سيغيّر مصير قلعةٍ كاملة؟</p><p>⚙️ تروسٌ تدور…</p><p>🕊️ رسالةٌ في جناح…</p><p>🏹 سهمٌ يعرف طريقه…</p><p>🌊 ونارٌ تمشي على الماء!</p><p>عشر حلقات لأبنائنا من ١٢ إلى ١٧ سنة</p><p>العلمُ درعٌ يحمي الحياة… لا أداةٌ للبطش.</p></div></div></div>
-      <div class="cf-foot"><span class="cf-soon">قريباً على أترجّة</span><a class="cf-btn" id="cfFollow" href="#" target="_blank" rel="noopener">🔔 كن من أوائل المتابعين</a></div>
-    </div>
-    <div class="cf-vid"><video id="featVid" poster="img/fursan_poster.jpg" muted loop playsinline preload="none" aria-label="إعلان سلسلة فرسان الحكمة"><source src="fursan-promo.mp4?v=1" type="video/mp4"></video></div>
-  </div>
 </div>
-  <div class="cine-ctl"><button type="button" id="promoSnd">🔇 شغّل الصوت</button><button type="button" id="promoReplay" aria-label="أعد العرض">↺ أعد العرض</button><button type="button" id="promoSwap">🎬 فرسان الحكمة</button></div>
+  <div class="cine-ctl"><button type="button" id="promoSnd">🔇 شغّل الصوت</button><button type="button" id="promoReplay" aria-label="أعد العرض">↺ أعد العرض</button></div>
   <div class="cine-glow" aria-hidden="true"></div>
   <div class="cine-seats" id="cineSeats" aria-hidden="true"></div>
 </section></div>
@@ -2622,19 +2595,9 @@ $("#pathBack").onclick=()=>{if(history.length>1)history.back();else location.has
  let s="";rows.forEach(r=>{const n=r.occ.length,gap=r.w*1.12,start=(W-gap*(n-1))/2;let seats="",ppl="";
   [...r.occ].forEach((o,i)=>{const x=start+i*gap;seats+=seat(x,r.y,r.w);if(o!==".")ppl+=person(x,r.y+4,r.w,o)});s+=ppl+seats});
  el.innerHTML=`<svg viewBox="0 0 ${W} 110" preserveAspectRatio="xMidYMax meet"><defs><linearGradient id="sb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a3263a"/><stop offset=".6" stop-color="#6e1222"/><stop offset="1" stop-color="#3d0a13"/></linearGradient></defs>${s}</svg>`;
- const base=document.getElementById("promoVid"),feat=document.getElementById("featVid"),box=document.getElementById("cineFeat"),sb=document.getElementById("promoSnd"),sw=document.getElementById("promoSwap");
- // Peak hours (visitor's own clock): 14:00–23:00 daily, all day Fri & Sat → featured trailer; otherwise the base promo.
- const PEAK={from:14,to:23,allDay:[5,6]};
- const isPeak=(d=new Date())=>PEAK.allDay.includes(d.getDay())||(d.getHours()>=PEAK.from&&d.getHours()<PEAK.to);
- let mode=null,manual=false;const cur=()=>mode==="feat"?feat:base;
- function show(m){if(m===mode)return;mode=m;const f=m==="feat";box.hidden=!f;const off=f?base:feat;off.pause();off.muted=true;
-  const v=cur();v.muted=true;v.play().catch(()=>{});sb.textContent="🔇 شغّل الصوت";sw.textContent=f?"🎬 العرض العام":"🎬 فرسان الحكمة"}
- document.getElementById("cfFollow").href=wa("مرحبًا، أريد أن أكون من أوائل متابعي سلسلة «فرسان الحكمة». أرسلوا لي الحلقة الأولى فور صدورها 🔔");
- show(isPeak()?"feat":"base");
- setInterval(()=>{if(!manual)show(isPeak()?"feat":"base")},600000);
- sw.onclick=()=>{manual=true;show(mode==="feat"?"base":"feat")};
- sb.onclick=()=>{const v=cur();v.muted=!v.muted;if(!v.muted){v.currentTime=0;v.play().catch(()=>{})}sb.textContent=v.muted?"🔇 شغّل الصوت":"🔊 أوقف الصوت"};
- document.getElementById("promoReplay").onclick=()=>{const v=cur();v.currentTime=0;v.play().catch(()=>{})};
+ const v=document.getElementById("promoVid"),sb=document.getElementById("promoSnd");
+ sb.onclick=()=>{v.muted=!v.muted;if(!v.muted){v.currentTime=0;v.play().catch(()=>{})}sb.textContent=v.muted?"🔇 شغّل الصوت":"🔊 أوقف الصوت"};
+ document.getElementById("promoReplay").onclick=()=>{v.currentTime=0;v.play().catch(()=>{})};
 })();
 
 document.addEventListener("click",e=>{const a=e.target.closest("[data-lockwa]");if(!a)return;e.preventDefault();window.open(wa("مرحبًا، أودّ حجز نسختي الكاملة من سلسلة «"+a.dataset.lockwa+"» لأتابع القراءة. كيف أطلبها؟"),"_blank","noopener")});
