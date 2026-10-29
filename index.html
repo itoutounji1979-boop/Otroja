@@ -1022,6 +1022,11 @@ em.tt{font-style:normal;color:var(--leaf)}
   <div class="cine-curt l" aria-hidden="true"></div><div class="cine-curt r" aria-hidden="true"></div>
   <div class="cine-marquee"><span>🍋 سينما أترجّة</span><small>عرض خاص لكل العائلة</small></div>
   <div class="cine-screen"><video id="promoVid" poster="img/promo_poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="فيديو ترويجي لمنصّة أترجّة: عائلة تتصفّح الموقع"><source src="promo.mp4?v=1" type="video/mp4"></video>
+<script>/* سينما أترجّة: في أوقات الذروة (بساعة الزائر) يُعرض إعلان «فرسان الحكمة» تلقائياً، وفي بقية الأوقات فيديو العائلة الأساسي.
+   الذروة: كل يوم 14:00–23:00، والجمعة والسبت طوال اليوم. لتغيير الفيديو بدّل src وposter فقط. */
+(function(){var P={from:14,to:23,allDay:[5,6],src:"fursan-promo.mp4?v=1",poster:"img/fursan_poster.jpg",label:"إعلان سلسلة فرسان الحكمة: قريباً على أترجّة"};
+ var d=new Date(),h=d.getHours();if(!(P.allDay.indexOf(d.getDay())>-1||(h>=P.from&&h<P.to)))return;
+ var v=document.getElementById("promoVid");if(!v)return;v.poster=P.poster;v.setAttribute("aria-label",P.label);v.src=P.src;try{v.load();var r=v.play();if(r&&r.catch)r.catch(function(){})}catch(e){}})();</script>
 </div>
   <div class="cine-ctl"><button type="button" id="promoSnd">🔇 شغّل الصوت</button><button type="button" id="promoReplay" aria-label="أعد العرض">↺ أعد العرض</button></div>
   <div class="cine-glow" aria-hidden="true"></div>
