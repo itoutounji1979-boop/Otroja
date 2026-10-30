@@ -886,9 +886,32 @@
   requestAnimationFrame(frame);
 
   /* ================= التثبيت ودون اتصال ================= */
+  // زر التحميل ظاهر دائمًا، ويُفتح بعد تقييم المنصة
   let deferred = null;
-  window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; $('bInstall').hidden = false; });
-  $('bInstall').onclick = async () => { if (!deferred) return; deferred.prompt(); await deferred.userChoice; deferred = null; $('bInstall').hidden = true; };
+  const standalone = () => matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches || navigator.standalone;
+  if (standalone()) $('bInstall').hidden = true;
+  window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; });
+  window.addEventListener('appinstalled', () => { $('bInstall').hidden = true; });
+  function refreshDown() {
+    $('stRate').classList.toggle('done', !!save.rated);
+    $('stGet').classList.toggle('wait', !save.rated);
+  }
+  $('bInstall').onclick = () => { AU.init(); $('howTo').hidden = true; refreshDown(); overlay('sDown', true); };
+  $('bDownClose').onclick = () => overlay('sDown', false);
+  $('bRate').addEventListener('click', () => { save.rated = true; persist(); setTimeout(refreshDown, 600); });
+  $('bGet').onclick = async () => {
+    if (!save.rated) { toast('⭐ قيّم أترجّة أولًا، ثم حمّل اللعبة مجانًا'); return; }
+    if (deferred) {
+      deferred.prompt(); const r = await deferred.userChoice; deferred = null;
+      if (r.outcome === 'accepted') { overlay('sDown', false); toast('🎉 تمّ! ستجد «حرّاس أترجّة» على شاشتك الرئيسية'); }
+      return;
+    }
+    const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    $('howTo').innerHTML = ios
+      ? 'على آيفون وآيباد: افتح اللعبة في <b>Safari</b>، ثم اضغط زر المشاركة <b>⬆️</b> واختر <b>«إضافة إلى الشاشة الرئيسية»</b>.'
+      : 'افتح قائمة المتصفح <b>⋮</b> واختر <b>«تثبيت التطبيق»</b> أو <b>«إضافة إلى الشاشة الرئيسية»</b>. يفضّل استخدام Chrome.';
+    $('howTo').hidden = false;
+  };
   if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
 
   refreshTitle();

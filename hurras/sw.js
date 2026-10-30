@@ -1,5 +1,5 @@
 /* يحفظ اللعبة كاملة على الجهاز لتعمل دون إنترنت */
-const CACHE = 'hurras-v3';
+const CACHE = 'hurras-v4';
 const FILES = [
   './', 'index.html', 'style.css', 'game.js', 'audio.js', 'manifest.webmanifest',
   'fonts/alexandria-ar.woff2', 'fonts/alexandria-lat.woff2',
