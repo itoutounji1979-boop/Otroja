@@ -4,7 +4,7 @@
   const A = {};
   let ctx = null, master, musicBus, sfxBus, noiseBuf, verb;
   const pluckCache = new Map();
-  const MUSIC_VOL = 0.2; // الموسيقى خلفية هادئة تحت المؤثرات
+  const MUSIC_VOL = 0.13; // الموسيقى خلفية هادئة تحت المؤثرات
   const st = { music: true, sfx: true };
   try { Object.assign(st, JSON.parse(localStorage.getItem('hurras.snd') || '{}')); } catch (e) {}
 
