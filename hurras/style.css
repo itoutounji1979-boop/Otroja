@@ -171,3 +171,16 @@ h1,h2,p{margin:0}
 .step .btn{justify-self:start;text-decoration:none}
 .step.wait{opacity:.45}.step.done b{background:#5be09a}
 .howto{font-size:14px;line-height:1.9;background:rgba(63,211,255,.12);border-radius:14px;padding:10px 12px}
+
+/* مرآة المجهر */
+#arVid{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);background:#000}
+#sARIntro{background:rgba(2,20,32,.6)}
+#sARIntro p{font-size:15px;line-height:1.8}
+.ar-ic{font-size:52px}
+.privacy{font-size:13px!important;color:#9fe6b8;background:rgba(80,220,140,.1);border-radius:12px;padding:8px 12px}
+#arUI{position:fixed;inset:0;z-index:6;pointer-events:none}
+#arUI .ic{position:absolute;top:max(12px,env(safe-area-inset-top));left:12px;pointer-events:auto;background:rgba(4,38,58,.6)}
+#arUI .ring.sm{position:absolute;top:max(10px,env(safe-area-inset-top));right:12px;width:92px;height:92px}
+#arUI .ring.sm b{font-size:30px;margin-top:-6px}#arUI .ring.sm small{bottom:18px;font-size:11px}
+#arHint{position:absolute;left:50%;transform:translateX(-50%);bottom:max(22px,env(safe-area-inset-bottom));background:rgba(4,38,58,.8);border:1px solid var(--line);
+  padding:10px 18px;border-radius:99px;font-size:16px;white-space:nowrap;max-width:94vw;overflow:hidden;text-overflow:ellipsis}

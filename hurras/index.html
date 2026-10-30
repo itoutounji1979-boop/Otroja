@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<video id="arVid" playsinline muted hidden></video>
 <canvas id="cv"></canvas>
 
 <!-- الشاشة الرئيسية -->
@@ -66,6 +67,20 @@
   </div>
 </section>
 
+<!-- مرآة المجهر: التمهيد -->
+<section class="scr" id="sARIntro">
+  <div class="panel">
+    <div class="ar-ic">🖐️🔬</div>
+    <h2>مرآة المجهر</h2>
+    <p>هل تظنّ يديك نظيفتين؟ شغّل الكاميرا وارفع يدك، وسيكشف لك المجهر ما يختبئ عليها!</p>
+    <p class="muted">ثم <b>افرك يديك معًا ٢٠ ثانية</b> أمام الكاميرا لتفجّر الجراثيم برغوة الصابون. ويمكنك أيضًا أن تفتح يدك وتغلقها بسرعة، أو تلمس الجرثومة على الشاشة.</p>
+    <p class="privacy">🔒 الصورة لا تُحفظ ولا تُرسل إلى أي مكان. كل شيء يحدث داخل جهازك.</p>
+    <p class="howto" id="arErr" hidden></p>
+    <button class="btn big" id="bArGo">📷 افتح الكاميرا</button>
+    <button class="btn ghost small" id="bArBack">رجوع</button>
+  </div>
+</section>
+
 <!-- القصة -->
 <section class="scr" id="sStory">
   <div class="story">
@@ -96,6 +111,12 @@
 <div id="scrub" hidden>
   <div class="ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" class="bg"/><circle cx="50" cy="50" r="44" class="fg" id="scrubArc"/></svg><b id="scrubNum">٠</b><small>ثانية</small></div>
   <p id="scrubTxt">افرك الشاشة بإصبعك ذهابًا وإيابًا!</p>
+</div>
+
+<div id="arUI" hidden>
+  <button class="ic" id="bArQuit" aria-label="خروج">✕</button>
+  <div class="ring sm"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" class="bg"/><circle cx="50" cy="50" r="44" class="fg" id="arArc"/></svg><b id="arNum">٠</b><small>ثانية</small></div>
+  <p id="arHint"></p>
 </div>
 
 <div id="toast" hidden></div>
@@ -164,5 +185,6 @@
 
 <script src="audio.js"></script>
 <script src="game.js"></script>
+<script src="ar.js"></script>
 </body>
 </html>

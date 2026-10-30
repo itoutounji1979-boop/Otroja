@@ -39,6 +39,10 @@
       a: 'افرك يديك بالصابون عشرين ثانية كاملة: بين الأصابع، وعلى ظهر اليد، وتحت الأظافر. ثم اغسلها بالماء.',
       b: 'الفرك هو السرّ: يحرّك الصابون إلى كل زاوية في اليد، ثم يحمل الماء الجراثيم بعيدًا. عشرون ثانية تكفي ليعمل الصابون.',
       c: 'الصابون يفكّ التصاق الجراثيم بطبقة الدهون على الجلد، ويحبسها مع الأوساخ في كرات مجهرية تسمّى المذيلات، فيجرفها الماء. الفرك عشرين ثانية يمنحه الوقت الكافي.' } },
+    { id: 'mirror', title: 'جراثيم لا تراها العين', emoji: '🔬', txt: {
+      a: 'على يديك جراثيم كثيرة لا تراها، لأنها صغيرة جدًّا جدًّا. لهذا نغسل أيدينا حتى لو بدت نظيفة!',
+      b: 'طول البكتيريا نحو جزء من ألف من المليمتر، والفيروس أصغر منها بعشرات المرّات. لا نراها إلا بالمجهر، وتختبئ بين الأصابع وتحت الأظافر.',
+      c: 'تقيس البكتيريا ميكرومترًا أو اثنين تقريبًا (الميكرومتر جزء من ألف من المليمتر)، والفيروسات بين ٢٠ و٣٠٠ نانومتر. المجهر الضوئي يكشف البكتيريا، أمّا معظم الفيروسات فتحتاج المجهر الإلكتروني.' } },
     // بطاقات المهمّات القادمة
     { id: 'iodine', title: 'سرّ اليود', img: 'iodine', future: true },
     { id: 'uv', title: 'الضوء البنفسجي', img: 'uv', future: true },
@@ -48,6 +52,7 @@
 
   const LEVELS = [
     { n: 1, title: 'يد سَنَد قبل الطعام', sub: 'الصابون ضد الفيروسات والبكتيريا', open: true },
+    { n: 'ar', emoji: '🖐️', title: 'مرآة المجهر ✨ جديد', sub: 'شغّل الكاميرا وشاهد الجراثيم على يدك الحقيقية!', open: true, ar: true },
     { n: 2, title: 'تحدّي اليدين', sub: '٣٢٠٠ جرثومة في انتظارك', badge: 'قريبًا' },
     { n: 3, title: 'جرح في البستان', sub: 'أداة جديدة: اليود', img: 'iodine', paid: true },
     { n: 4, title: 'غرفة الضوء البنفسجي', sub: 'أداة جديدة: الأشعة فوق البنفسجية', img: 'uv', paid: true },
@@ -167,17 +172,22 @@
 
   function openMap() {
     const box = $('levels'); box.innerHTML = '';
+    // «مرآة المجهر» مخفية مؤقتًا حتى تُجرَّب على الجوال: تظهر عند فتح اللعبة بـ ?ar
+    if (/[?&]ar\b/.test(location.search)) try { localStorage.setItem('hurras.ar', '1'); } catch (e) {}
+    let arOn = false; try { arOn = localStorage.getItem('hurras.ar') === '1'; } catch (e) {}
     LEVELS.forEach(L => {
+      if (L.ar && !arOn) return;
       const el = document.createElement('button');
       el.className = 'lvl' + (L.open ? ' go' : ' lock');
       const stars = save.stars[L.n] || 0;
       el.innerHTML =
-        (L.img ? `<img src="assets/${L.img}.webp" alt="">` : `<span class="n">${AR(L.n)}</span>`) +
+        (L.img ? `<img src="assets/${L.img}.webp" alt="">` : `<span class="n">${L.emoji || AR(L.n)}</span>`) +
         `<span class="t"><b>${L.title}</b><span>${L.sub}</span></span>` +
         (L.open ? `<span class="s">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</span>`
           : L.paid ? '<span class="badge gold">🔒 مع الفتح الكامل</span>' : `<span class="badge">${L.badge}</span>`);
       el.onclick = () => {
-        if (L.open) startLevel();
+        if (L.ar) window.__AR.intro();
+        else if (L.open) startLevel();
         else toast(L.paid ? '🔒 تُفتح هذه المهمّة مع النسخة الكاملة قريبًا' : '⏳ هذه المهمّة قيد البناء');
       };
       box.appendChild(el);
@@ -286,6 +296,7 @@
 
   function beginPlay() {
     show('none');
+    G.again = null;
     AU.music('play');
     Object.assign(G, {
       mode: 'play', germs: [], projs: [], parts: [], texts: [], hearts: 3, score: 0, wave: 0, queue: [],
@@ -534,7 +545,7 @@
       show('sResult'); AU.sfx(won ? 'win' : 'lose'); AU.music('menu');
     }, won ? 200 : 300);
   }
-  $('bResAgain').onclick = () => beginPlay();
+  $('bResAgain').onclick = () => G.again ? G.again() : beginPlay();
   $('bResMap').onclick = () => { G.mode = 'menu'; openMap(); };
 
   /* ---- إيقاف مؤقت ---- */
@@ -796,6 +807,15 @@
 
     cx.save();
     if (G.shake > 0) { cx.translate(rnd(-G.shake, G.shake), rnd(-G.shake, G.shake)); G.shake = Math.max(0, G.shake - dt * 30); }
+    if (G.mode === 'ar' && window.__AR) {
+      cx.clearRect(0, 0, W, H);
+      window.__AR.frame(t, dt);
+      drawParts(dt);
+      drawTexts(dt);
+      cx.restore();
+      requestAnimationFrame(frame);
+      return;
+    }
     drawBg(t);
     const inGame = ['play', 'tip', 'paused', 'scrub', 'wash', 'over', 'between'].includes(G.mode);
     if (!inGame) drawMenuGerms(t);
@@ -924,4 +944,7 @@
   };
   ['pointerdown', 'touchend', 'click', 'keydown'].forEach(ev => document.addEventListener(ev, wake, true));
   window.__G = G;
+  // واجهة داخلية تستعملها مرحلة «مرآة المجهر» (ar.js)
+  window.__H = { G, AU, save, persist, hit, part, label, unlockCard, show, overlay, toast, AR, IMG, ready, cx,
+    drawVirus, drawBurst, drawBact, rnd, clamp, $, openMap, openCard, CARDS, size: () => ({ W, H }) };
 })();

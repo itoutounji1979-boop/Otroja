@@ -1,7 +1,7 @@
 /* يحفظ اللعبة كاملة على الجهاز لتعمل دون إنترنت */
-const CACHE = 'hurras-v5';
+const CACHE = 'hurras-v6';
 const FILES = [
-  './', 'index.html', 'style.css', 'game.js', 'audio.js', 'manifest.webmanifest',
+  './', 'index.html', 'style.css', 'game.js', 'audio.js', 'ar.js', 'manifest.webmanifest',
   'fonts/alexandria-ar.woff2', 'fonts/alexandria-lat.woff2',
   'assets/bg.webp', 'assets/hero.webp', 'assets/virus.webp', 'assets/virus_burst.webp', 'assets/bacterium.webp',
   'assets/iodine.webp', 'assets/uv.webp', 'assets/lister.webp', 'assets/icon-192.png', 'assets/icon-512.png', 'assets/otroja-logo.png'
