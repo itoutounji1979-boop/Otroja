@@ -915,5 +915,13 @@
   if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
 
   refreshTitle();
+  // موسيقى ناعمة عند الفتح: تبدأ فورًا إن سمح المتصفح، وإلا فمع أول لمسة في أي مكان
+  AU.music('menu');
+  const wake = () => {
+    AU.init();
+    if (G.mode === 'menu') AU.music('menu');
+    ['pointerdown', 'touchend', 'click', 'keydown'].forEach(ev => document.removeEventListener(ev, wake, true));
+  };
+  ['pointerdown', 'touchend', 'click', 'keydown'].forEach(ev => document.addEventListener(ev, wake, true));
   window.__G = G;
 })();
