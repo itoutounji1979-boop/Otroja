@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>حرّاس أترجّة</title>
+<meta name="description" content="حرّاس أترجّة: مغامرة علمية للأطفال في العالم المجهري، يتعلّم فيها اللاعب كيف يهزم الصابون والمطهّرات الجراثيم. من منصة أترجّة.">
+<meta name="theme-color" content="#06324a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="حرّاس أترجّة">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="preload" href="fonts/alexandria-ar.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="cv"></canvas>
+
+<!-- الشاشة الرئيسية -->
+<section class="scr on" id="sTitle">
+  <div class="title-wrap">
+    <div class="brand">منصّة أترجّة تقدّم</div>
+    <img class="title-hero" src="assets/hero.webp" alt="قطرة، بطلة اللعبة">
+    <h1 class="logo">حرّاس <span>أترجّة</span></h1>
+    <p class="tag">مغامرة علمية في العالم المجهري</p>
+    <button class="btn big" id="bPlay">ابدأ المغامرة</button>
+    <div class="row">
+      <button class="btn ghost" id="bAlbum">🔬 ألبوم الفضول <b id="albumCount"></b></button>
+      <button class="btn ghost" id="bAge">العمر: <b id="ageLbl"></b></button>
+    </div>
+  </div>
+  <div class="snd">
+    <button class="ic" id="bMusic" aria-label="الموسيقى">♫</button>
+    <button class="ic" id="bSfx" aria-label="المؤثرات">🔊</button>
+  </div>
+  <button class="install" id="bInstall" hidden>📲 ثبّت اللعبة على جهازك</button>
+</section>
+
+<!-- اختيار العمر -->
+<section class="scr" id="sAge">
+  <div class="panel">
+    <h2>كم عمرك يا بطل؟</h2>
+    <p class="muted">نختار لك العلم الذي يناسبك، ويمكنك تغييره لاحقًا.</p>
+    <div class="ages">
+      <button class="age" data-age="a"><i>🌱</i><b>٧ – ٨</b><span>مستكشف صغير</span></button>
+      <button class="age" data-age="b"><i>🔎</i><b>٩ – ١٠</b><span>باحث نشيط</span></button>
+      <button class="age" data-age="c"><i>🧪</i><b>١١ – ١٢</b><span>عالِم المستقبل</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- خريطة المراحل -->
+<section class="scr" id="sMap">
+  <header class="top">
+    <button class="ic" data-go="sTitle" aria-label="رجوع">→</button>
+    <h2>خريطة المهمّات</h2>
+    <span></span>
+  </header>
+  <div class="levels" id="levels"></div>
+  <div class="unlock" id="unlockBox">
+    <div><b>افتح كل المهمّات والأدوات</b><span>اليود، الأشعة فوق البنفسجية، بخّاخ ليستر</span></div>
+    <button class="btn gold" id="bUnlock">١ $ قريبًا</button>
+  </div>
+</section>
+
+<!-- القصة -->
+<section class="scr" id="sStory">
+  <div class="story">
+    <div class="story-art" id="storyArt"></div>
+    <p class="story-txt" id="storyTxt"></p>
+    <div class="row">
+      <button class="btn ghost small" id="bSkip">تخطَّ</button>
+      <button class="btn" id="bNext">التالي ←</button>
+    </div>
+  </div>
+</section>
+
+<!-- واجهة اللعب -->
+<div id="hud" hidden>
+  <div class="hud-l"><span id="hearts"></span></div>
+  <div class="hud-c"><span id="waveLbl"></span><div class="bar"><i id="waveBar"></i></div></div>
+  <div class="hud-r"><b id="score">٠</b><button class="ic small" id="bPause" aria-label="إيقاف مؤقت">❚❚</button></div>
+</div>
+
+<!-- فقاعة كلام قطرة -->
+<div id="tip" hidden>
+  <img src="assets/hero.webp" alt="">
+  <div class="bubble"><p id="tipTxt"></p><button class="btn small" id="bTip">هيّا!</button></div>
+</div>
+
+<!-- تحدّي الفرك -->
+<div id="scrub" hidden>
+  <div class="ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" class="bg"/><circle cx="50" cy="50" r="44" class="fg" id="scrubArc"/></svg><b id="scrubNum">٠</b><small>ثانية</small></div>
+  <p id="scrubTxt">افرك الشاشة بإصبعك ذهابًا وإيابًا!</p>
+</div>
+
+<div id="toast" hidden></div>
+
+<!-- إيقاف مؤقت -->
+<section class="scr dim" id="sPause">
+  <div class="panel">
+    <h2>استراحة قصيرة</h2>
+    <button class="btn big" id="bResume">متابعة</button>
+    <button class="btn ghost" id="bRestart">إعادة المهمّة</button>
+    <button class="btn ghost" id="bQuit">الخريطة</button>
+  </div>
+</section>
+
+<!-- النتيجة -->
+<section class="scr dim" id="sResult">
+  <div class="panel result">
+    <h2 id="resTitle"></h2>
+    <div class="stars" id="stars"><i>★</i><i>★</i><i>★</i></div>
+    <p class="muted" id="resScore"></p>
+    <div class="quiz" id="quiz" hidden>
+      <div class="q-h">🔬 سؤال المجهر</div>
+      <p id="qTxt"></p>
+      <div class="q-opts" id="qOpts"></div>
+      <p class="q-why" id="qWhy" hidden></p>
+    </div>
+    <div class="newcards" id="newCards"></div>
+    <div class="row">
+      <button class="btn ghost" id="bResMap">الخريطة</button>
+      <button class="btn" id="bResAgain">العب مجددًا</button>
+    </div>
+  </div>
+</section>
+
+<!-- ألبوم الفضول -->
+<section class="scr" id="sAlbum">
+  <header class="top">
+    <button class="ic" id="bAlbumBack" aria-label="رجوع">→</button>
+    <h2>ألبوم الفضول</h2>
+    <span></span>
+  </header>
+  <div class="album" id="album"></div>
+</section>
+
+<section class="scr dim" id="sCard">
+  <div class="card-big" id="cardBig"></div>
+</section>
+
+<script src="audio.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
