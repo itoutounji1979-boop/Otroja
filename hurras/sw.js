@@ -1,10 +1,10 @@
 /* يحفظ اللعبة كاملة على الجهاز لتعمل دون إنترنت */
-const CACHE = 'hurras-v1';
+const CACHE = 'hurras-v2';
 const FILES = [
   './', 'index.html', 'style.css', 'game.js', 'audio.js', 'manifest.webmanifest',
   'fonts/alexandria-ar.woff2', 'fonts/alexandria-lat.woff2',
   'assets/bg.webp', 'assets/hero.webp', 'assets/virus.webp', 'assets/virus_burst.webp', 'assets/bacterium.webp',
-  'assets/iodine.webp', 'assets/uv.webp', 'assets/lister.webp', 'assets/icon-192.png', 'assets/icon-512.png'
+  'assets/iodine.webp', 'assets/uv.webp', 'assets/lister.webp', 'assets/icon-192.png', 'assets/icon-512.png', 'assets/otroja-logo.png'
 ];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => {

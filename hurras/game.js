@@ -129,6 +129,10 @@
     $('albumCount').textContent = AR(n) + '/' + AR(tot);
     $('bMusic').classList.toggle('off', !AU.state.music);
     $('bSfx').classList.toggle('off', !AU.state.sfx);
+    $('pMusic').classList.toggle('off', !AU.state.music);
+    $('pSfx').classList.toggle('off', !AU.state.sfx);
+    const silent = !AU.state.music && !AU.state.sfx;
+    $('bMute').textContent = silent ? '🔇' : '🔊';
   }
 
   document.addEventListener('click', e => {
@@ -140,6 +144,10 @@
 
   $('bMusic').onclick = () => { AU.toggle('music'); refreshTitle(); };
   $('bSfx').onclick = () => { AU.toggle('sfx'); refreshTitle(); };
+  $('pMusic').onclick = () => { AU.toggle('music'); refreshTitle(); };
+  $('pSfx').onclick = () => { AU.toggle('sfx'); refreshTitle(); };
+  // زر كتم سريع أثناء اللعب: يطفئ الموسيقى والمؤثرات معًا أو يعيدهما
+  $('bMute').onclick = () => { AU.setAll(!AU.state.music && !AU.state.sfx); refreshTitle(); };
   $('bPlay').onclick = () => {
     AU.init(); AU.music('menu');
     if (!save.age) { afterAge = 'map'; openAge(); } else openMap();

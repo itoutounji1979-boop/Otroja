@@ -33,6 +33,7 @@ h1,h2,p{margin:0}
 /* العنوان */
 #sTitle{background:radial-gradient(ellipse at 50% 35%,rgba(10,70,100,.2),rgba(2,20,32,.75))}
 .title-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;max-width:420px}
+.brand-logo{width:min(40vw,170px);opacity:.95;filter:drop-shadow(0 3px 10px rgba(0,0,0,.4))}
 .brand{font-size:13px;color:var(--citron);letter-spacing:.5px;background:rgba(0,0,0,.25);padding:4px 14px;border-radius:99px}
 .title-hero{width:min(46vw,210px);filter:drop-shadow(0 12px 30px rgba(63,211,255,.55));animation:bob 3s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-12px) rotate(-3deg)}}
@@ -156,3 +157,8 @@ h1,h2,p{margin:0}
 .card-big h3{margin:0;font-size:22px;color:var(--citron)}
 .card-big p{font-size:16px;line-height:1.9}
 .card-big .lvl-t{font-size:12px;color:var(--muted)}
+
+.wm{position:fixed;left:12px;bottom:max(10px,env(safe-area-inset-bottom));width:min(22vw,92px);opacity:.45;pointer-events:none}
+.panel-logo{width:130px;opacity:.9}
+.panel-logo.small{width:96px;opacity:.6;margin-top:4px}
+.btn.ghost.off{opacity:.45;text-decoration:line-through}

@@ -22,7 +22,7 @@
 <!-- الشاشة الرئيسية -->
 <section class="scr on" id="sTitle">
   <div class="title-wrap">
-    <div class="brand">منصّة أترجّة تقدّم</div>
+    <img class="brand-logo" src="assets/otroja-logo.png" alt="منصّة أترجّة">
     <img class="title-hero" src="assets/hero.webp" alt="قطرة، بطلة اللعبة">
     <h1 class="logo">حرّاس <span>أترجّة</span></h1>
     <p class="tag">مغامرة علمية في العالم المجهري</p>
@@ -82,7 +82,8 @@
 <div id="hud" hidden>
   <div class="hud-l"><span id="hearts"></span></div>
   <div class="hud-c"><span id="waveLbl"></span><div class="bar"><i id="waveBar"></i></div></div>
-  <div class="hud-r"><b id="score">٠</b><button class="ic small" id="bPause" aria-label="إيقاف مؤقت">❚❚</button></div>
+  <div class="hud-r"><b id="score">٠</b><button class="ic small" id="bMute" aria-label="كتم الصوت">🔊</button><button class="ic small" id="bPause" aria-label="إيقاف مؤقت">❚❚</button></div>
+  <img class="wm" src="assets/otroja-logo.png" alt="">
 </div>
 
 <!-- فقاعة كلام قطرة -->
@@ -102,7 +103,9 @@
 <!-- إيقاف مؤقت -->
 <section class="scr dim" id="sPause">
   <div class="panel">
+    <img class="panel-logo" src="assets/otroja-logo.png" alt="منصّة أترجّة">
     <h2>استراحة قصيرة</h2>
+    <div class="row"><button class="btn ghost small" id="pMusic">♫ الموسيقى</button><button class="btn ghost small" id="pSfx">🔊 المؤثرات</button></div>
     <button class="btn big" id="bResume">متابعة</button>
     <button class="btn ghost" id="bRestart">إعادة المهمّة</button>
     <button class="btn ghost" id="bQuit">الخريطة</button>
@@ -126,6 +129,7 @@
       <button class="btn ghost" id="bResMap">الخريطة</button>
       <button class="btn" id="bResAgain">العب مجددًا</button>
     </div>
+    <img class="panel-logo small" src="assets/otroja-logo.png" alt="منصّة أترجّة">
   </div>
 </section>
 

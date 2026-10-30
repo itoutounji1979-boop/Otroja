@@ -4,6 +4,7 @@
   const A = {};
   let ctx = null, master, musicBus, sfxBus, noiseBuf, verb;
   const pluckCache = new Map();
+  const MUSIC_VOL = 0.2; // الموسيقى خلفية هادئة تحت المؤثرات
   const st = { music: true, sfx: true };
   try { Object.assign(st, JSON.parse(localStorage.getItem('hurras.snd') || '{}')); } catch (e) {}
 
@@ -18,7 +19,7 @@
     const comp = ctx.createDynamicsCompressor();
     comp.threshold.value = -14; comp.ratio.value = 3;
     master.connect(comp); comp.connect(ctx.destination);
-    musicBus = ctx.createGain(); musicBus.gain.value = st.music ? 0.42 : 0;
+    musicBus = ctx.createGain(); musicBus.gain.value = st.music ? MUSIC_VOL : 0;
     sfxBus = ctx.createGain(); sfxBus.gain.value = st.sfx ? 0.8 : 0;
     musicBus.connect(master); sfxBus.connect(master);
     // صدى بسيط يمنح الموسيقى رحابة
@@ -228,14 +229,14 @@
   function now() { return ctx.currentTime + 0.005; }
   A.sfx = function (n, a) { init(); if (!ctx || !st.sfx) return; try { F[n](a); } catch (e) {} };
 
-  A.toggle = function (k) {
-    st[k] = !st[k]; save();
+  function apply() {
     if (ctx) {
-      musicBus.gain.setTargetAtTime(st.music ? 0.42 : 0, ctx.currentTime, 0.05);
+      musicBus.gain.setTargetAtTime(st.music ? MUSIC_VOL : 0, ctx.currentTime, 0.05);
       sfxBus.gain.setTargetAtTime(st.sfx ? 0.8 : 0, ctx.currentTime, 0.05);
     }
-    return st[k];
-  };
+  }
+  A.toggle = function (k) { st[k] = !st[k]; save(); apply(); return st[k]; };
+  A.setAll = function (on) { st.music = on; st.sfx = on; save(); apply(); };
   A.state = st;
   A.init = init;
   A.suspend = () => { if (ctx && ctx.state === 'running') ctx.suspend(); };
