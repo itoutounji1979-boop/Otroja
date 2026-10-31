@@ -992,6 +992,7 @@ em.tt{font-style:normal;color:var(--leaf)}
 .occ-bar .occ-e{font-size:22px}.occ-bar a{font-weight:700;color:#B04A2E;text-decoration:none}
 :root[data-theme="dark"] .occ-bar{background:linear-gradient(90deg,#3a3214,#3a1f29);color:#f3eee0}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .occ-bar{background:linear-gradient(90deg,#3a3214,#3a1f29);color:#f3eee0}}
+.sr-promo{max-width:420px;margin:26px auto 6px;text-align:center}.sr-promo video{width:100%;aspect-ratio:9/16;max-height:78vh;border-radius:18px;background:#000;box-shadow:0 10px 30px rgba(0,0,0,.25)}.sr-promo figcaption{font-size:14px;color:var(--muted);margin-top:8px}
 </style>
 </head>
 <body>
@@ -1948,6 +1949,7 @@ function showSeries(id){
   ${s.id==="fruit"?quizHTML():""}</div></div>
   ${s.id==="fruit"?fruitExtras():""}
   ${s.gallery&&s.gallery.length?(()=>{const G=shuffleArr(s.gallery);return `<h2 style="font-size:20px;margin-top:30px">صفحات من داخل الكتاب</h2><p class="muted" style="margin:-6px 0 10px;font-size:14px">🔍 اضغط أي صفحة لتكبيرها، وتنقّل بين الصفحات بالأسهم أو بالسحب</p><div class="gallery">${G.map(g=>`<img loading="lazy" src="${g}" alt="صفحة من الكتاب" data-zoom data-gallery="${G.join("|")}">`).join("")}</div>`})():""}
+  ${SERIES_PROMO[s.id]?`<figure class="sr-promo"><video controls playsinline preload="none" poster="${SERIES_PROMO[s.id].poster}"><source src="${SERIES_PROMO[s.id].src}" type="video/mp4"></video><figcaption>🎬 ${SERIES_PROMO[s.id].cap}</figcaption></figure>`:""}
   ${s.eps.length?`<h2 style="font-size:20px;margin-top:30px">الحلقات</h2>${s.soon?`<div class="free-note">🔒 الحلقات مقفلة حتى موعد الإطلاق، وتُفتح تباعًا على أترجّة. اقرأ العناوين… وخمّن ما يخبّئه كلٌّ منها!</div>`:""}${s.free?`<div class="free-note">🎁 اقرأ مجانًا الحلقات <b>${s.free.join(" · ")}</b> من هذه السلسلة، وبقية الحلقات في النسخة الكاملة. <a href="#" data-lockwa="${esc(s.name)}">احجز نسختك ←</a></div>`:""}<ol class="eplist">${s.eps.map(e=>`<li class="${read.has(s.id+"-"+e.n)?"done":""}${e.lock?" locked":s.free?" free":""}"><a href="#e-${s.id}-${e.n}"><span class="n">${e.n}</span><span class="t">${esc(e.title.replace(/^الحلقة\s+[^:]+:\s*/,"")||e.title)} ${vbadge("e-"+s.id+"-"+e.n)}<small>${esc(e.deck)}</small></span><span class="rd">${s.soon?"🔒 قريبًا":`${e.lock?"🔒":s.free?"<em>مجانية</em>":""} ${mins(e.w)} د`}</span></a></li>`).join("")}</ol>`:""}`;
   bindQuiz();
   if(id==="fruit")startChars("charsSeries");
@@ -2047,6 +2049,7 @@ function fillSamples(){const rows={};
     const free=r.L.filter(u=>!r.pick.includes(u));const slot=Math.floor(Math.random()*r.pick.length);r.pick[slot]=free[Math.floor(Math.random()*free.length)];
     const im=r.row.children[slot];if(im)im.style.opacity="0";setTimeout(r.draw,350)},4000)}
 
+const SERIES_PROMO={time:{src:"time-promo.mp4?v=1",poster:"img/time_promo_poster.jpg",cap:"إعلان السلسلة: شاهد قبل أن تقرأ"}};
 const CHARS=[
  {k:"tagh",n:"الآنسة تغذية",r:"أخصائية التغذية · بيروت",t:"أهلًا بكم في بيتي! عندي سرّ صغير: كل خضرة وفاكهة تشبه عضوًا في جسمكم… تعالوا نكتشف ماذا يفيده.",ep:1},
  {k:"jawz",n:"القائدة جوزة",r:"قائدة الفريق · تشبه الدماغ",t:"قطعت الطريق من سهول البقاع إلى بيروت لأدافع عن سمعة الجوز. أنا غذاء الدماغ… والقائدة التي لا تتراجع!",ep:1},
