@@ -62,7 +62,7 @@
   </header>
   <div class="levels" id="levels"></div>
   <div class="unlock" id="unlockBox">
-    <div><b>افتح كل المهمّات والأدوات</b><span>اليود، الأشعة فوق البنفسجية، بخّاخ ليستر</span></div>
+    <div><b>افتح كل المهمّات والأدوات</b><span>اليود، الأشعة فوق البنفسجية، ورحلة إلى بغداد مع الرازي</span></div>
     <button class="btn gold" id="bUnlock">١ $ قريبًا</button>
   </div>
 </section>
@@ -117,6 +117,19 @@
   <button class="ic" id="bArQuit" aria-label="خروج">✕</button>
   <div class="ring sm"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" class="bg"/><circle cx="50" cy="50" r="44" class="fg" id="arArc"/></svg><b id="arNum">٠</b><small>ثانية</small></div>
   <p id="arHint"></p>
+</div>
+
+<!-- المرحلة الثانية: تحدّي اليدين -->
+<div id="l2UI" hidden>
+  <div class="l2-top">
+    <button class="ic small" id="l2Quit" aria-label="خروج">✕</button>
+    <div class="l2-count">🦠 <b id="l2Count">٠</b><small>جرثومة على اليد</small></div>
+    <span class="l2-sp"></span>
+  </div>
+  <div class="l2-step" id="l2Step"></div>
+  <div class="bar l2-bar"><i id="l2Bar"></i></div>
+  <button class="btn ghost small l2-flip" id="l2Flip">🔄 اقلب اليد</button>
+  <button class="btn small l2-rinse" id="l2Rinse" hidden></button>
 </div>
 
 <div id="toast" hidden></div>
@@ -186,5 +199,6 @@
 <script src="audio.js"></script>
 <script src="game.js"></script>
 <script src="ar.js"></script>
+<script src="level2.js"></script>
 </body>
 </html>

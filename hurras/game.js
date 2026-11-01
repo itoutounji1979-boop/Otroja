@@ -46,17 +46,17 @@
     // بطاقات المهمّات القادمة
     { id: 'iodine', title: 'سرّ اليود', img: 'iodine', future: true },
     { id: 'uv', title: 'الضوء البنفسجي', img: 'uv', future: true },
-    { id: 'lister', title: 'ليستر وعام ١٨٦٧', img: 'lister', future: true },
+    { id: 'razi', title: 'الرازي ومستشفى بغداد', emoji: '⚗️', future: true },
     { id: 'spore', title: 'الأبواغ المدرّعة', emoji: '🥚', future: true }
   ];
 
   const LEVELS = [
     { n: 1, title: 'يد سَنَد قبل الطعام', sub: 'الصابون ضد الفيروسات والبكتيريا', open: true },
     { n: 'ar', emoji: '🖐️', title: 'مرآة المجهر ✨ جديد', sub: 'شغّل الكاميرا وشاهد الجراثيم على يدك الحقيقية!', open: true, ar: true },
-    { n: 2, title: 'تحدّي اليدين', sub: '٣٢٠٠ جرثومة في انتظارك', badge: 'قريبًا' },
+    { n: 2, title: 'تحدّي اليدين', sub: '٣٢٠٠ جرثومة وخطوات الغسل الصحيحة', open: true, l2: true },
     { n: 3, title: 'جرح في البستان', sub: 'أداة جديدة: اليود', img: 'iodine', paid: true },
     { n: 4, title: 'غرفة الضوء البنفسجي', sub: 'أداة جديدة: الأشعة فوق البنفسجية', img: 'uv', paid: true },
-    { n: 5, title: 'رحلة إلى عام ١٨٦٧', sub: 'ساعد ليستر في إنقاذ المرضى', img: 'lister', paid: true }
+    { n: 5, title: 'رحلة إلى بغداد', sub: 'ساعد الطبيب أبا بكر الرازي في حماية المرضى', emoji: '⚗️', paid: true }
   ];
 
   const STORY = [
@@ -175,18 +175,23 @@
     // «مرآة المجهر» مخفية مؤقتًا حتى تُجرَّب على الجوال: تظهر عند فتح اللعبة بـ ?ar
     if (/[?&]ar\b/.test(location.search)) try { localStorage.setItem('hurras.ar', '1'); } catch (e) {}
     let arOn = false; try { arOn = localStorage.getItem('hurras.ar') === '1'; } catch (e) {}
+    // التوهّج على أول مهمّة مفتوحة لم يكملها اللاعب بعد
+    const firstTodo = LEVELS.find(L => L.open && !(L.ar && !arOn) && !(L.l2 && !save.stars[1]) && !save.stars[L.n]);
+    const stars0 = L => L !== firstTodo;
     LEVELS.forEach(L => {
       if (L.ar && !arOn) return;
       const el = document.createElement('button');
-      el.className = 'lvl' + (L.open ? ' go' : ' lock');
+      const wait = L.l2 && !save.stars[1];   // «تحدّي اليدين» تُفتح بعد المهمّة الأولى
+      el.className = 'lvl' + (L.open && !wait ? (stars0(L) ? '' : ' go') : ' lock');
       const stars = save.stars[L.n] || 0;
       el.innerHTML =
         (L.img ? `<img src="assets/${L.img}.webp" alt="">` : `<span class="n">${L.emoji || AR(L.n)}</span>`) +
         `<span class="t"><b>${L.title}</b><span>${L.sub}</span></span>` +
-        (L.open ? `<span class="s">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</span>`
+        (wait ? '<span class="badge">🔒 بعد المهمّة ١</span>' : L.open ? `<span class="s">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</span>`
           : L.paid ? '<span class="badge gold">🔒 مع الفتح الكامل</span>' : `<span class="badge">${L.badge}</span>`);
       el.onclick = () => {
         if (L.ar) window.__AR.intro();
+        else if (L.l2) { if (save.stars[1]) window.__L2.start(); else toast('🔓 أكمل المهمّة الأولى لتفتح «تحدّي اليدين»'); }
         else if (L.open) startLevel();
         else toast(L.paid ? '🔒 تُفتح هذه المهمّة مع النسخة الكاملة قريبًا' : '⏳ هذه المهمّة قيد البناء');
       };
@@ -807,9 +812,10 @@
 
     cx.save();
     if (G.shake > 0) { cx.translate(rnd(-G.shake, G.shake), rnd(-G.shake, G.shake)); G.shake = Math.max(0, G.shake - dt * 30); }
-    if (G.mode === 'ar' && window.__AR) {
-      cx.clearRect(0, 0, W, H);
-      window.__AR.frame(t, dt);
+    const ext = G.mode === 'ar' ? window.__AR : G.mode === 'l2' ? window.__L2 : null;
+    if (ext) {
+      if (G.mode === 'ar') cx.clearRect(0, 0, W, H); else drawBg(t);
+      ext.frame(t, dt);
       drawParts(dt);
       drawTexts(dt);
       cx.restore();
@@ -946,5 +952,5 @@
   window.__G = G;
   // واجهة داخلية تستعملها مرحلة «مرآة المجهر» (ar.js)
   window.__H = { G, AU, save, persist, hit, part, label, unlockCard, show, overlay, toast, AR, IMG, ready, cx,
-    drawVirus, drawBurst, drawBact, rnd, clamp, $, openMap, openCard, CARDS, size: () => ({ W, H }) };
+    drawVirus, drawBurst, drawBact, drawBg, drawTexts, AGES, tip, updHud, rnd, clamp, $, openMap, openCard, CARDS, size: () => ({ W, H }) };
 })();
