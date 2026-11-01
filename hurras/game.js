@@ -46,7 +46,7 @@
     // بطاقات المهمّات القادمة
     { id: 'iodine', title: 'سرّ اليود', img: 'iodine', future: true },
     { id: 'uv', title: 'الضوء البنفسجي', img: 'uv', future: true },
-    { id: 'razi', title: 'الرازي ومستشفى بغداد', emoji: '⚗️', future: true },
+    { id: 'razi', title: 'الرازي ومستشفى بغداد', img: 'razi', future: true },
     { id: 'spore', title: 'الأبواغ المدرّعة', emoji: '🥚', future: true }
   ];
 
@@ -56,7 +56,7 @@
     { n: 2, title: 'تحدّي اليدين', sub: '٣٢٠٠ جرثومة وخطوات الغسل الصحيحة', open: true, l2: true },
     { n: 3, title: 'جرح في البستان', sub: 'أداة جديدة: اليود', img: 'iodine', paid: true },
     { n: 4, title: 'غرفة الضوء البنفسجي', sub: 'أداة جديدة: الأشعة فوق البنفسجية', img: 'uv', paid: true },
-    { n: 5, title: 'رحلة إلى بغداد', sub: 'ساعد الطبيب أبا بكر الرازي في حماية المرضى', emoji: '⚗️', paid: true }
+    { n: 5, title: 'رحلة إلى بغداد', sub: 'ساعد الطبيب أبا بكر الرازي في حماية المرضى', img: 'razi', paid: true }
   ];
 
   const STORY = [
