@@ -941,7 +941,7 @@
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
     navigator.serviceWorker.register('sw.js').then(r => r.update()).catch(() => {});
     // عند وصول نسخة جديدة من اللعبة نعيد التحميل مرة واحدة إن كان اللاعب في القوائم
-    let reloaded = false;
+    let reloaded = !navigator.serviceWorker.controller;   // أول زيارة: لا داعي لإعادة التحميل
     navigator.serviceWorker.addEventListener('controllerchange', () => { if (!reloaded && G.mode === 'menu') { reloaded = true; location.reload(); } });
   }
 
