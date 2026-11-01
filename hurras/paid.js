@@ -202,14 +202,14 @@
       }
       if (S.phase === 'guard') {
         if (S.supply > 0.02 && Math.hypot(dx, dy) > 2) {
-          const n = Math.max(1, Math.round(Math.hypot(dx, dy) / 10));
+          const n = Math.max(1, Math.round(Math.hypot(dx, dy) / 14));
           for (let i = 0; i < n; i++) {
             const k = i / n;
-            S.blobs.push({ x: x - dx * k, y: y - dy * k, r: g.u * 0.07 * rnd(0.85, 1.15), life: 7, max: 7 });
+            S.blobs.push({ x: x - dx * k, y: y - dy * k, r: g.u * 0.095 * rnd(0.9, 1.1), life: 15, max: 15 });
           }
-          S.supply = Math.max(0, S.supply - 0.012 * n);
+          S.supply = Math.max(0, S.supply - 0.006 * n);
           S.painting = true;
-          if (S.blobs.length > 260) S.blobs.splice(0, S.blobs.length - 260);
+          if (S.blobs.length > 400) S.blobs.splice(0, S.blobs.length - 400);
         }
       }
       if (S.phase === 'band' && S.band && S.band.drag) { S.band.x = x; S.band.y = y; }
@@ -261,28 +261,28 @@
       if (S.phase === 'guard') {
         S.guardT += dt;
         const dur = age() === 'a' ? 40 : 45;
-        if (!S.painting) S.supply = Math.min(1, S.supply + dt * 0.11);
+        S.supply = Math.min(1, S.supply + dt * (S.painting ? 0.06 : 0.16));
         // ظهور الجراثيم من الأطراف
         S.spawnT -= dt;
-        const gap = (age() === 'a' ? 1.5 : age() === 'b' ? 1.15 : 0.95) * (S.guardT > dur * 0.6 ? 0.75 : 1);
+        const gap = (age() === 'a' ? 2.3 : age() === 'b' ? 1.8 : 1.45) * (S.guardT > dur * 0.6 ? 0.85 : 1);
         if (S.spawnT <= 0 && S.guardT < dur - 4) {
           S.spawnT = gap * rnd(0.7, 1.3);
           const side = Math.floor(rnd(0, 4)), type = Math.random() < 0.55 ? 'bact' : 'virus';
           const p = side === 0 ? { x: rnd(0, g.W), y: 70 } : side === 1 ? { x: rnd(0, g.W), y: g.HH - 20 } : side === 2 ? { x: -10, y: rnd(90, g.HH - 40) } : { x: g.W + 10, y: rnd(90, g.HH - 40) };
-          G.germs.push({ type, x: p.x, y: p.y, r: u * (type === 'virus' ? 0.045 : 0.04), dose: 0, sp: u * rnd(0.09, 0.14) * (age() === 'a' ? 0.8 : 1), p: rnd(0, 6), rot: rnd(-0.5, 0.5), dying: -1 });
+          G.germs.push({ type, x: p.x, y: p.y, r: u * (type === 'virus' ? 0.045 : 0.04), dose: 0, sp: u * rnd(0.07, 0.11) * (age() === 'a' ? 0.8 : 1), p: rnd(0, 6), rot: rnd(-0.5, 0.5), dying: -1 });
         }
         for (const gm of G.germs) {
           if (gm.dying >= 0) { gm.dying += dt; gm.alpha = 1 - gm.dying / 0.6; if (gm.dying > 0.6) gm.dead = true; continue; }
           const dx = c.x - gm.x, dy = c.y - gm.y, d = Math.hypot(dx, dy);
           gm.x += (dx / d * gm.sp + Math.sin(S.t * 2 + gm.p) * 20) * dt; gm.y += (dy / d * gm.sp + Math.cos(S.t * 2 + gm.p) * 12) * dt;
-          const inIod = S.blobs.some(b => Math.hypot(b.x - gm.x, b.y - gm.y) < b.r * 0.85);
-          if (inIod) { gm.dose += dt * 1.6; if (Math.random() < 0.15) H.part('bub', gm.x, gm.y, rnd(-20, 20), rnd(-40, -10), rnd(2, 5), 0.6); }
+          const inIod = S.blobs.some(b => Math.hypot(b.x - gm.x, b.y - gm.y) < b.r);
+          if (inIod) { gm.dose += dt * 3; if (Math.random() < 0.15) H.part('bub', gm.x, gm.y, rnd(-20, 20), rnd(-40, -10), rnd(2, 5), 0.6); }
           if (gm.dose >= 1) {
             gm.dying = 0; S.killed++; AU.sfx('membrane');
             for (let k = 0; k < 8; k++) H.part('dot', gm.x, gm.y, rnd(-90, 90), rnd(-110, 30), rnd(2, 4), 0.7);
             if (S.killed === 1) label(gm.x, gm.y - 30, { a: 'اليود هزمها!', b: 'أتلف اليود غشاءها!', c: 'تأكسدت بروتيناتها' }[age()], '#ffd08a');
           } else if (d < u * 0.17) {
-            gm.dead = true; S.infection = Math.min(100, S.infection + (gm.type === 'bact' ? 13 : 10));
+            gm.dead = true; S.infection = Math.min(100, S.infection + (gm.type === 'bact' ? 9 : 7));
             AU.sfx('hurt'); H.part('ring', gm.x, gm.y, 0, 0, gm.r, 0.5);
             label(c.x, c.y - u * 0.16, 'دخلت جرثومة الجرح!', '#ff9fb3');
           }
