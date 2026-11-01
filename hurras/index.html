@@ -62,9 +62,10 @@
   </header>
   <div class="levels" id="levels"></div>
   <div class="unlock" id="unlockBox">
-    <div><b>افتح كل المهمّات والأدوات</b><span>اليود، الأشعة فوق البنفسجية، ورحلة إلى بغداد مع الرازي</span></div>
-    <button class="btn gold" id="bUnlock">١ $ قريبًا</button>
+    <div><b id="unlockH">افتح كل المهمّات والأدوات</b><span id="unlockS">اليود، الأشعة فوق البنفسجية، ورحلة إلى بغداد مع الرازي</span></div>
+    <button class="btn gold" id="bUnlock">٢ $ فقط</button>
   </div>
+  <a class="teacher-link" href="teacher.html" target="_blank" rel="noopener">👩‍🏫 للمعلّمين والمدارس: درس جاهز وورقة نشاط</a>
 </section>
 
 <!-- مرآة المجهر: التمهيد -->
@@ -192,11 +193,29 @@
   </div>
 </section>
 
+<!-- شراء النسخة الكاملة -->
+<section class="scr dim" id="sBuy">
+  <div class="panel">
+    <img class="panel-logo" src="assets/otroja-logo.png" alt="منصّة أترجّة">
+    <h2>النسخة الكاملة</h2>
+    <p class="muted">ثلاث مهمّات جديدة بأدوات جديدة: <b>اليود</b> و<b>الضوء البنفسجي</b> و<b>رحلة إلى بغداد مع الرازي</b>، مع بطاقات فضول جديدة. دفعة واحدة، وتبقى لك كل الإضافات القادمة.</p>
+    <div class="price-big"><b>٢$</b><small>سعر الإطلاق</small></div>
+    <div class="step"><b>١</b><span>اطلب النسخة الكاملة من متجر أترجّة أو عبر واتساب، فيصلك <b>رمز الفتح</b> بعد الدفع.</span>
+      <div class="row" style="justify-content:flex-start"><a class="btn gold small" id="bBuyStore" href="/#p-hurras_full" target="_blank" rel="noopener">🛒 المتجر</a><a class="btn small" id="bBuyWa" target="_blank" rel="noopener">💬 واتساب</a></div></div>
+    <div class="step"><b>٢</b><span>اكتب رمز الفتح هنا:</span>
+      <div class="code-row"><input id="codeIn" dir="ltr" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="HRS-XXXX-XXXX"><button class="btn small" id="bCode">افتح</button></div></div>
+    <p class="howto" id="codeMsg" hidden></p>
+    <p class="muted" style="font-size:13px">🏫 للمدارس: رمز واحد يفتح اللعبة لكل أجهزة الصف.</p>
+    <button class="btn ghost small" id="bBuyClose">لاحقًا</button>
+  </div>
+</section>
+
 <section class="scr dim" id="sCard">
   <div class="card-big" id="cardBig"></div>
 </section>
 
 <script src="audio.js"></script>
+<script src="unlock.js"></script>
 <script src="game.js"></script>
 <script src="ar.js"></script>
 <script src="level2.js"></script>

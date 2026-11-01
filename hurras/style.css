@@ -166,7 +166,7 @@ h1,h2,p{margin:0}
 
 #sDown{z-index:35}
 .step{display:grid;grid-template-columns:34px 1fr;gap:6px 10px;align-items:center;text-align:right;width:100%;background:rgba(255,255,255,.07);border-radius:16px;padding:12px}
-.step b{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--citron);color:#402a00;grid-row:span 2}
+.step>b{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--citron);color:#402a00;grid-row:span 2}
 .step span{font-size:14px;line-height:1.7}
 .step .btn{justify-self:start;text-decoration:none}
 .step.wait{opacity:.45}.step.done b{background:#5be09a}
@@ -200,3 +200,13 @@ h1,h2,p{margin:0}
 .l2-flip.pulse{animation:glowG 1.2s ease-in-out infinite;box-shadow:inset 0 0 0 2px var(--citron);color:var(--citron)}
 .l2-rinse{position:absolute;left:50%;transform:translateX(-50%);bottom:max(70px,calc(env(safe-area-inset-bottom) + 64px));white-space:nowrap}
 .l2-rinse:disabled{background:rgba(4,38,58,.75);color:var(--muted);box-shadow:inset 0 0 0 1px var(--line);font-weight:500}
+
+.teacher-link{display:block;margin:14px auto 0;color:var(--citron);font-size:14px;text-decoration:none;background:rgba(246,207,74,.1);border:1px solid rgba(246,207,74,.35);border-radius:99px;padding:8px 16px;width:max-content;max-width:100%}
+#sBuy{z-index:35}
+.price-big{display:flex;align-items:baseline;gap:8px}.price-big b{font-size:44px;color:var(--citron)}.price-big small{color:var(--muted)}
+.code-row{display:flex;gap:8px;width:100%;grid-column:1/-1}
+.code-row input{flex:1;min-width:0;font:600 16px system-ui,monospace;letter-spacing:1px;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);background:rgba(255,255,255,.08);color:var(--ink);text-transform:uppercase}
+.step .row{grid-column:1/-1}
+.step span b{color:var(--citron)}
+.unlock.done{background:linear-gradient(135deg,rgba(91,224,154,.2),rgba(91,224,154,.05));border-color:rgba(91,224,154,.5)}
+.unlock.done b{color:#9ff5c2}

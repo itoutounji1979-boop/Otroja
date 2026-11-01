@@ -172,9 +172,8 @@
 
   function openMap() {
     const box = $('levels'); box.innerHTML = '';
-    // «مرآة المجهر» مخفية مؤقتًا حتى تُجرَّب على الجوال: تظهر عند فتح اللعبة بـ ?ar
-    if (/[?&]ar\b/.test(location.search)) try { localStorage.setItem('hurras.ar', '1'); } catch (e) {}
-    let arOn = false; try { arOn = localStorage.getItem('hurras.ar') === '1'; } catch (e) {}
+    const arOn = true;   // «مرآة المجهر» متاحة مجانًا للجميع
+    refreshUnlock();
     // التوهّج على أول مهمّة مفتوحة لم يكملها اللاعب بعد
     const firstTodo = LEVELS.find(L => L.open && !(L.ar && !arOn) && !(L.l2 && !save.stars[1]) && !save.stars[L.n]);
     const stars0 = L => L !== firstTodo;
@@ -188,18 +187,51 @@
         (L.img ? `<img src="assets/${L.img}.webp" alt="">` : `<span class="n">${L.emoji || AR(L.n)}</span>`) +
         `<span class="t"><b>${L.title}</b><span>${L.sub}</span></span>` +
         (wait ? '<span class="badge">🔒 بعد المهمّة ١</span>' : L.open ? `<span class="s">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</span>`
-          : L.paid ? '<span class="badge gold">🔒 مع الفتح الكامل</span>' : `<span class="badge">${L.badge}</span>`);
+          : L.paid ? (save.full ? (L.play ? `<span class="s">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</span>` : '<span class="badge gold">⏳ قريبًا</span>') : '<span class="badge gold">🔒 النسخة الكاملة</span>') : `<span class="badge">${L.badge}</span>`);
       el.onclick = () => {
         if (L.ar) window.__AR.intro();
         else if (L.l2) { if (save.stars[1]) window.__L2.start(); else toast('🔓 أكمل المهمّة الأولى لتفتح «تحدّي اليدين»'); }
         else if (L.open) startLevel();
-        else toast(L.paid ? '🔒 تُفتح هذه المهمّة مع النسخة الكاملة قريبًا' : '⏳ هذه المهمّة قيد البناء');
+        else if (L.paid && !save.full) openBuy();
+        else if (L.paid && L.play) L.play();
+        else toast('⏳ هذه المهمّة قيد البناء، وستصلك تلقائيًا');
       };
       box.appendChild(el);
     });
     show('sMap');
   }
-  $('bUnlock').onclick = () => toast('💳 الشراء سيتوفّر في نسخة المتجر قريبًا');
+  /* النسخة الكاملة: طلب من المتجر ثم رمز فتح يُكتب هنا (يُتحقّق منه داخل الجهاز) */
+  function refreshUnlock() {
+    const on = !!save.full;
+    $('unlockBox').classList.toggle('done', on);
+    $('unlockH').textContent = on ? '✅ النسخة الكاملة مفعّلة' : 'افتح كل المهمّات والأدوات';
+    $('unlockS').textContent = on ? 'شكرًا لدعمك أترجّة! كل المهمّات الجديدة تصلك تلقائيًا.' : 'اليود، الأشعة فوق البنفسجية، ورحلة إلى بغداد مع الرازي';
+    $('bUnlock').hidden = on;
+  }
+  function openBuy() {
+    $('codeMsg').hidden = true; $('codeIn').value = '';
+    $('bBuyWa').href = 'https://wa.me/9613985202?text=' + encodeURIComponent('مرحبًا، أريد شراء النسخة الكاملة من لعبة «حرّاس أترجّة» بـ٢$ 🎮');
+    overlay('sBuy', true);
+  }
+  async function tryCode() {
+    const raw = $('codeIn').value.toUpperCase().replace(/[^A-Z0-9]/g, '').replace(/^HRS/, '');
+    const msg = $('codeMsg'); msg.hidden = false;
+    let ok = false;
+    try {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('hurras:HRS' + raw));
+      const hex = [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 24);
+      ok = !!(window.HURRAS_KEYS && window.HURRAS_KEYS.has(hex));
+    } catch (e) {}
+    if (ok) {
+      save.full = true; persist(); AU.sfx('win');
+      msg.textContent = '🎉 تمّ الفتح! شكرًا لدعمك منصّة أترجّة.';
+      setTimeout(() => { overlay('sBuy', false); openMap(); }, 1300);
+    } else { AU.sfx('hurt'); msg.textContent = 'الرمز غير صحيح. تأكّد من كتابته كما وصلك، مثل HRS-AB12-CD34.'; }
+  }
+  $('bUnlock').onclick = openBuy;
+  $('bCode').onclick = tryCode;
+  $('codeIn').addEventListener('keydown', e => { if (e.key === 'Enter') tryCode(); });
+  $('bBuyClose').onclick = () => overlay('sBuy', false);
 
   /* القصة */
   let storyI = 0;
@@ -247,9 +279,15 @@
       box.innerHTML = `<div class="art">${cardArt(c)}</div><h3>${c.title}</h3><p>${c.txt[ag]}</p>
         <div class="row">${ages.map(k => `<button class="btn small ${k === ag ? '' : 'ghost'}" data-ag="${k}">${AGES[k].lbl}</button>`).join('')}</div>
         <span class="lvl-t">اقرأ البطاقة بمستوى أعمق أو أبسط</span>
-        <button class="btn" id="bCardOk">رائع!</button>`;
+        <div class="row"><button class="btn ghost small" id="bCardShare">📤 شارك البطاقة</button><button class="btn" id="bCardOk">رائع!</button></div>`;
       box.querySelectorAll('[data-ag]').forEach(b => b.onclick = () => { ag = b.dataset.ag; render(); });
       $('bCardOk').onclick = () => { overlay('sCard', false); };
+      $('bCardShare').onclick = () => {
+        const url = location.origin + '/hurras/';
+        const text = `🔬 اكتشفتُ بطاقة «${c.title}» في لعبة حرّاس أترجّة!\n${c.txt[ag]}\n\nالعبها مجانًا 💧`;
+        if (navigator.share) navigator.share({ title: 'حرّاس أترجّة', text, url }).catch(() => {});
+        else window.open('https://wa.me/?text=' + encodeURIComponent(text + '\n' + url), '_blank', 'noopener');
+      };
     };
     render();
     overlay('sCard', true);
