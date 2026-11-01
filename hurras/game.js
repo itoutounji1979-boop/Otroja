@@ -175,7 +175,7 @@
     const arOn = true;   // «مرآة المجهر» متاحة مجانًا للجميع
     refreshUnlock();
     // التوهّج على أول مهمّة مفتوحة لم يكملها اللاعب بعد
-    const avail = L => (L.open && !(L.l2 && !save.stars[1])) || (L.paid && save.full && L.play);
+    const avail = L => (L.open && !(L.l2 && !save.stars[1] && !save.full)) || (L.paid && save.full && L.play);
     const firstTodo = LEVELS.find(L => avail(L) && !save.stars[L.n]);
     const stars0 = L => L !== firstTodo;
     LEVELS.forEach(L => {
@@ -191,7 +191,7 @@
           : L.paid ? (save.full ? (L.play ? `<span class="s">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</span>` : '<span class="badge gold">⏳ قريبًا</span>') : '<span class="badge gold">🔒 النسخة الكاملة</span>') : `<span class="badge">${L.badge}</span>`);
       el.onclick = () => {
         if (L.ar) window.__AR.intro();
-        else if (L.l2) { if (save.stars[1]) window.__L2.start(); else toast('🔓 أكمل المهمّة الأولى لتفتح «تحدّي اليدين»'); }
+        else if (L.l2) { if (save.stars[1] || save.full) window.__L2.start(); else toast('🔓 أكمل المهمّة الأولى لتفتح «تحدّي اليدين»'); }
         else if (L.open) startLevel();
         else if (L.paid && !save.full) openBuy();
         else if (L.paid && L.play) L.play();
@@ -230,6 +230,13 @@
     } else { AU.sfx('hurt'); msg.textContent = 'الرمز غير صحيح. تأكّد من كتابته كما وصلك، مثل HRS-AB12-CD34.'; }
   }
   $('bUnlock').onclick = openBuy;
+  // رابط خاص: ?code=HRS-XXXX-XXXX يفتح النسخة الكاملة مباشرة على هذا الجهاز
+  (() => {
+    const q = new URLSearchParams(location.search).get('code'); if (!q) return;
+    history.replaceState(null, '', location.pathname);
+    $('codeIn').value = q;
+    tryCode().then(() => { if (save.full) toast('🎉 النسخة الكاملة مفتوحة على هذا الجهاز', 3000); });
+  })();
   $('bCode').onclick = tryCode;
   $('codeIn').addEventListener('keydown', e => { if (e.key === 'Enter') tryCode(); });
   $('bBuyClose').onclick = () => overlay('sBuy', false);

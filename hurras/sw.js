@@ -1,7 +1,7 @@
 /* يحفظ اللعبة على الجهاز لتعمل دون إنترنت.
    ملفات الصفحة والكود: الشبكة أولًا (ليصل كل تحديث فورًا)، ثم النسخة المحفوظة عند انقطاع الإنترنت.
    الصور والخطوط وملفات المجهر الكبيرة: المحفوظ أولًا. */
-const CACHE = 'hurras-v11';
+const CACHE = 'hurras-v12';
 const FILES = [
   './', 'index.html', 'style.css', 'game.js', 'audio.js', 'ar.js', 'level2.js', 'paid.js', 'unlock.js', 'teacher.html', 'manifest.webmanifest',
   'fonts/alexandria-ar.woff2', 'fonts/alexandria-lat.woff2',
