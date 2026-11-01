@@ -175,13 +175,14 @@
     const arOn = true;   // «مرآة المجهر» متاحة مجانًا للجميع
     refreshUnlock();
     // التوهّج على أول مهمّة مفتوحة لم يكملها اللاعب بعد
-    const firstTodo = LEVELS.find(L => L.open && !(L.ar && !arOn) && !(L.l2 && !save.stars[1]) && !save.stars[L.n]);
+    const avail = L => (L.open && !(L.l2 && !save.stars[1])) || (L.paid && save.full && L.play);
+    const firstTodo = LEVELS.find(L => avail(L) && !save.stars[L.n]);
     const stars0 = L => L !== firstTodo;
     LEVELS.forEach(L => {
       if (L.ar && !arOn) return;
       const el = document.createElement('button');
       const wait = L.l2 && !save.stars[1];   // «تحدّي اليدين» تُفتح بعد المهمّة الأولى
-      el.className = 'lvl' + (L.open && !wait ? (stars0(L) ? '' : ' go') : ' lock');
+      el.className = 'lvl' + (avail(L) ? (stars0(L) ? '' : ' go') : ' lock');
       const stars = save.stars[L.n] || 0;
       el.innerHTML =
         (L.img ? `<img src="assets/${L.img}.webp" alt="">` : `<span class="n">${L.emoji || AR(L.n)}</span>`) +
@@ -850,7 +851,7 @@
 
     cx.save();
     if (G.shake > 0) { cx.translate(rnd(-G.shake, G.shake), rnd(-G.shake, G.shake)); G.shake = Math.max(0, G.shake - dt * 30); }
-    const ext = G.mode === 'ar' ? window.__AR : G.mode === 'l2' ? window.__L2 : null;
+    const ext = G.mode === 'ar' ? window.__AR : G.mode === 'l2' ? window.__L2 : G.mode === 'px' ? window.__PX : null;
     if (ext) {
       if (G.mode === 'ar') cx.clearRect(0, 0, W, H); else drawBg(t);
       ext.frame(t, dt);
@@ -995,5 +996,5 @@
   window.__G = G;
   // واجهة داخلية تستعملها مرحلة «مرآة المجهر» (ar.js)
   window.__H = { G, AU, save, persist, hit, part, label, unlockCard, show, overlay, toast, AR, IMG, ready, cx,
-    drawVirus, drawBurst, drawBact, drawBg, drawTexts, AGES, tip, updHud, rnd, clamp, $, openMap, openCard, CARDS, size: () => ({ W, H }) };
+    drawVirus, drawBurst, drawBact, drawBg, drawTexts, AGES, tip, updHud, LEVELS, rnd, clamp, $, openMap, openCard, CARDS, size: () => ({ W, H }) };
 })();

@@ -1,9 +1,9 @@
 /* يحفظ اللعبة على الجهاز لتعمل دون إنترنت.
    ملفات الصفحة والكود: الشبكة أولًا (ليصل كل تحديث فورًا)، ثم النسخة المحفوظة عند انقطاع الإنترنت.
    الصور والخطوط وملفات المجهر الكبيرة: المحفوظ أولًا. */
-const CACHE = 'hurras-v10';
+const CACHE = 'hurras-v11';
 const FILES = [
-  './', 'index.html', 'style.css', 'game.js', 'audio.js', 'ar.js', 'level2.js', 'unlock.js', 'teacher.html', 'manifest.webmanifest',
+  './', 'index.html', 'style.css', 'game.js', 'audio.js', 'ar.js', 'level2.js', 'paid.js', 'unlock.js', 'teacher.html', 'manifest.webmanifest',
   'fonts/alexandria-ar.woff2', 'fonts/alexandria-lat.woff2',
   'assets/bg.webp', 'assets/hero.webp', 'assets/virus.webp', 'assets/virus_burst.webp', 'assets/bacterium.webp',
   'assets/iodine.webp', 'assets/uv.webp', 'assets/lister.webp', 'assets/icon-192.png', 'assets/icon-512.png', 'assets/otroja-logo.png', 'assets/razi.webp'

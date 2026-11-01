@@ -210,3 +210,13 @@ h1,h2,p{margin:0}
 .step span b{color:var(--citron)}
 .unlock.done{background:linear-gradient(135deg,rgba(91,224,154,.2),rgba(91,224,154,.05));border-color:rgba(91,224,154,.5)}
 .unlock.done b{color:#9ff5c2}
+
+/* مهمّات النسخة الكاملة */
+#pxUI{position:fixed;inset:0;z-index:6;pointer-events:none}
+#pxUI button{pointer-events:auto}
+.px-title{background:rgba(4,38,58,.78);border:1px solid var(--line);border-radius:18px;padding:8px 18px;font-weight:800;font-size:17px}
+.px-meter{display:flex;flex-direction:column;align-items:center;margin-top:6px}
+.px-meter small{font-size:11px;color:var(--muted)}
+.px-meter .l2-bar{margin-top:3px}
+#pxMeter{transition:width .3s}
+#pxHint:empty{display:none}
