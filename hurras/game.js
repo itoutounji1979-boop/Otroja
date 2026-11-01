@@ -938,7 +938,12 @@
       : 'افتح قائمة المتصفح <b>⋮</b> واختر <b>«تثبيت التطبيق»</b> أو <b>«إضافة إلى الشاشة الرئيسية»</b>. يفضّل استخدام Chrome.';
     $('howTo').hidden = false;
   };
-  if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    navigator.serviceWorker.register('sw.js').then(r => r.update()).catch(() => {});
+    // عند وصول نسخة جديدة من اللعبة نعيد التحميل مرة واحدة إن كان اللاعب في القوائم
+    let reloaded = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => { if (!reloaded && G.mode === 'menu') { reloaded = true; location.reload(); } });
+  }
 
   refreshTitle();
   // موسيقى ناعمة عند الفتح: تبدأ فورًا إن سمح المتصفح، وإلا فمع أول لمسة في أي مكان
