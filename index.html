@@ -993,6 +993,8 @@ em.tt{font-style:normal;color:var(--leaf)}
 :root[data-theme="dark"] .occ-bar{background:linear-gradient(90deg,#3a3214,#3a1f29);color:#f3eee0}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .occ-bar{background:linear-gradient(90deg,#3a3214,#3a1f29);color:#f3eee0}}
 .sr-promo{max-width:420px;margin:26px auto 6px;text-align:center}.sr-promo video{width:100%;aspect-ratio:9/16;max-height:78vh;border-radius:18px;background:#000;box-shadow:0 10px 30px rgba(0,0,0,.25)}.sr-promo figcaption{font-size:14px;color:var(--muted);margin-top:8px}
+.rf-day{margin-top:18px;background:#1f3a2c;color:#EEF4EC}.rf-day .eyebrow{color:#E9C46A}.rf-day .q{color:#E9C46A}.rf-day .en{color:#A8C9B0}.rf-day .tz{color:#DCE9DD}.rf-day .side small{color:#A8C9B0}.rf-day::after{content:"✚"}
+.ep-img{margin:18px auto;max-width:560px;text-align:center}.ep-img img{width:100%;border-radius:14px;cursor:zoom-in;box-shadow:0 8px 24px rgba(0,0,0,.15)}.ep-img figcaption{font-size:13px;color:var(--muted);margin-top:6px}
 </style>
 </head>
 <body>
@@ -1112,7 +1114,7 @@ em.tt{font-style:normal;color:var(--leaf)}
     </div>
   </section>
   <section class="view" id="v-articles" data-view="articles" hidden>
-    <div class="wrap" style="padding-top:22px"><section class="term-day" id="termDay" aria-label="مصطلح اليوم"></section></div>
+    <div class="wrap" style="padding-top:22px"><section class="term-day" id="termDay" aria-label="مصطلح اليوم"></section><section class="term-day rf-day" id="rfDay" aria-label="رُفيدة | علمٌ يُداوي"></section></div>
     <div class="wrap" style="padding-top:18px"><div class="facts"><div class="facts-h"><b>هل تعلم؟</b><span id="factsDay"></span></div><div class="facts-g" id="facts"></div></div></div>
     <div class="wrap">
       <div class="sec-head"><div><div class="eyebrow">أرشيف المقالات</div><h2>أرشيف <em class="tt">المقالات</em></h2></div><span class="muted" id="artCount"></span></div>
@@ -1628,7 +1630,8 @@ const PRODUCTS=[
 ];
 let ARTS=[],STORIES=[],shown=24,filt={cat:"all",q:"",year:"all",sort:"hot"};
 const ORD_AR=["الأولى","الثانية","الثالثة","الرابعة","الخامسة","السادسة","السابعة","الثامنة","التاسعة","العاشرة","الحادية عشرة","الثانية عشرة","الثالثة عشرة","الرابعة عشرة","الخامسة عشرة","السادسة عشرة","السابعة عشرة","الثامنة عشرة","التاسعة عشرة","العشرون"];
-function termNo(a){if(!a||a.series!=="مصطلحات تُفسّر العالم")return "";const L=ARTS.filter(x=>x.series===a.series).sort((x,y)=>(x.d||"").localeCompare(y.d||""));const i=L.findIndex(x=>x.id===a.id);return i<0?"":`›<span>الحلقة ${ORD_AR[i]||(i+1)}</span>`}
+const NUM_SERIES=["مصطلحات تُفسّر العالم","رُفيدة | علمٌ يُداوي"];
+function termNo(a){if(!a||!NUM_SERIES.includes(a.series))return "";const L=ARTS.filter(x=>x.series===a.series).sort((x,y)=>(x.d||"").localeCompare(y.d||""));const i=L.findIndex(x=>x.id===a.id);return i<0?"":`›<span>الحلقة ${ORD_AR[i]||(i+1)}</span>`}
 const isLab=a=>!!a&&(a.series==="مختبر كِندة"||/^lab\d/.test(a.id));
 const HOT_SEED=Math.random().toString(36);
 function hotScore(a){const t=a.title+" "+a.deck;let s=(likeCounts[a.id]||0)*3;if(/[؟?]/.test(a.title))s+=3;if(/\d/.test(a.title))s+=1.5;if(/(سرّ|سر |أسرار|لماذا|كيف|هل|حقيقة|خرافة|مذهل|عجيب|غريب|يكشف|اكتشف|خطير|الحقيقة)/.test(t))s+=3;if(a.series)s+=.5;if(a.w&&a.w<700)s+=1;return s+rng(HOT_SEED+a.id)()*6}
@@ -1900,7 +1903,7 @@ function renderMiniFacts(){if(!ARTS.length||!$("#facts"))return;if(!HERO_POOL.le
   $("#facts").innerHTML=facts.map(x=>`<a class="fact" href="#a-${x.id}"><span>${esc(teaserOf(x,"fact"+Math.random()))}</span><small>من مقالة «${esc(x.title)}» ${vbadge("a-"+x.id)} ←</small></a>`).join("");
 }
 /* ---------- reader ---------- */
-function bodyHTML(body){return body.map(b=>{if(b.t==="vid")return `<figure class="ep-vid"><video src="${b.src}" poster="${b.poster||""}" muted loop playsinline autoplay preload="metadata" aria-label="${esc(b.cap||"فيديو من الحلقة")}"></video><button type="button" class="ep-snd">🔇 شغّل الصوت</button>${b.cap?`<figcaption>${esc(b.cap)}</figcaption>`:""}</figure>`;let x=b.x;if(b.t==="p"&&x.length<60&&/[:：]$/.test(x))return `<h3>${esc(x.replace(/[:：]$/,""))}</h3>`;
+function bodyHTML(body){return body.map(b=>{if(b.t==="img")return `<figure class="ep-img"><img src="${b.src}" alt="${esc(b.cap||"")}" loading="lazy" data-zoom data-gallery="${b.src}">${b.cap?`<figcaption>${esc(b.cap)}</figcaption>`:""}</figure>`;if(b.t==="vid")return `<figure class="ep-vid"><video src="${b.src}" poster="${b.poster||""}" muted loop playsinline autoplay preload="metadata" aria-label="${esc(b.cap||"فيديو من الحلقة")}"></video><button type="button" class="ep-snd">🔇 شغّل الصوت</button>${b.cap?`<figcaption>${esc(b.cap)}</figcaption>`:""}</figure>`;let x=b.x;if(b.t==="p"&&x.length<60&&/[:：]$/.test(x))return `<h3>${esc(x.replace(/[:：]$/,""))}</h3>`;
  if(b.t==="h")return `<h3>${esc(x)}</h3>`;if(b.t==="q")return `<blockquote>${esc(x)}</blockquote>`;if(b.t==="row")return `<div class="row">${esc(x)}</div>`;
  const m=x.match(/^([^:.،؟!]{2,45}):\s+(.+)$/);return m?`<p><b class="lbl">${esc(m[1])}:</b> ${esc(m[2])}</p>`:`<p>${esc(x)}</p>`}).join("")}
 function updHTML(a){if(!a.upd||!a.upd.length)return "";const d=a.rev?new Date(a.rev).toLocaleDateString("ar-LB",{year:"numeric",month:"long",day:"numeric"}):"";
@@ -2181,6 +2184,12 @@ function renderPlatform(){
 
 
 /* ---------- مصطلح اليوم ---------- */
+function renderRfDay(){const el=$("#rfDay");const L=ARTS.filter(a=>a.series==="رُفيدة | علمٌ يُداوي").sort((a,b)=>(a.d||"").localeCompare(b.d||""));if(!el)return;if(!L.length){el.hidden=true;return}
+  const e=L[L.length-1];const m=e.title.match(/^(.+?)\s*\(([^)]+)\)\s*$/)||[0,e.title,""];
+  const first=(e.body.find(b=>b.t==="p")||{x:""}).x;const tz=first.length>230?first.slice(0,first.lastIndexOf(" ",225))+"…":first;
+  el.innerHTML=`<div style="position:relative;z-index:1"><div class="eyebrow">🩺 الحلقة ${ORD_AR[L.length-1]||L.length} · من سلسلة «رُفيدة | علمٌ يُداوي»</div><h2>${esc(m[1])}</h2><p class="en" dir="ltr" style="text-align:end">${esc(m[2])}</p><p class="q">${esc(e.deck)}</p><p class="tz">${esc(tz)}</p><div class="hero-cta"><a class="btn citron" href="#a-${e.id}">اقرأ الحلقة كاملة · ${mins(e.w)} د</a></div></div>
+  <div class="side"><small>من خيمة رُفيدة الأسلمية، أول ممرّضة في الإسلام، إلى علوم الرعاية الحديثة. في كل حلقة معرفة طبية وتمريضية تستحق أن تُعرف:</small><div class="term-chips">${L.map((x,i)=>`<a href="#a-${x.id}" class="${x.id===e.id?"on":""}">${i+1}. ${esc(x.title.replace(/\s*\([^)]*\)\s*$/,""))}</a>`).join("")}</div><div class="term-slogan">«المعرفة حين تتحول إلى رعاية.»</div></div>`;
+}
 function renderTermDay(){
   const el=$("#termDay");const L=ARTS.filter(a=>a.series==="مصطلحات تُفسّر العالم").sort((a,b)=>(a.d||"").localeCompare(b.d||""));if(!el||!L.length)return;
   const e=dailyShuffle(L,"term")[0];
@@ -2343,7 +2352,7 @@ function route(){
   if(v==="articles")renderArticles();
   if(v==="lab"){$("#labGrid").innerHTML=ARTS.filter(isLab).sort((x,y)=>x.id.localeCompare(y.id)).map(cardHTML).join("");requestAnimationFrame(()=>paintAll())}
   if(v==="home"){renderHome();renderQuizHome()}
-  if(v==="articles"){renderTermDay();renderMiniFacts();if($("#homePosts")&&!$("#homePosts").firstChild)$("#homePosts").innerHTML=POSTS.slice(0,4).map(postHTML).join("")}
+  if(v==="articles"){renderTermDay();try{renderRfDay()}catch(e){}renderMiniFacts();if($("#homePosts")&&!$("#homePosts").firstChild)$("#homePosts").innerHTML=POSTS.slice(0,4).map(postHTML).join("")}
   if(v==="about")renderHome();
   {const kw=$("#kunuzWrap");if(kw){kw.hidden=!(v==="series"&&h==="s-fruit");if(!kw.hidden)renderKunuz()}}
   if(v==="quiz"&&QZ.length)renderQuizHomePage();
