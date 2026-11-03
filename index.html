@@ -1627,6 +1627,8 @@ const PRODUCTS=[
  {id:"school",name:"طلب المدارس والجمعيات",sub:"نسخ بالجملة + نشاط صفّي",items:["أسعار خاصة للكميات","إمكانية تنظيم لقاء مع الكاتب","دورات Ego plan للطلاب والمعلمين: 20$ للشخص مع حسومات للمجموعات"],src:"img/fruit_p2_1400.jpg",gal:["img/fruit_p2_1400.jpg","img/fruit_p1_1400.jpg","img/fruit_games_1400.jpg","img/fruit_board_1400.jpg"]}
 ];
 let ARTS=[],STORIES=[],shown=24,filt={cat:"all",q:"",year:"all",sort:"hot"};
+const ORD_AR=["الأولى","الثانية","الثالثة","الرابعة","الخامسة","السادسة","السابعة","الثامنة","التاسعة","العاشرة","الحادية عشرة","الثانية عشرة","الثالثة عشرة","الرابعة عشرة","الخامسة عشرة","السادسة عشرة","السابعة عشرة","الثامنة عشرة","التاسعة عشرة","العشرون"];
+function termNo(a){if(!a||a.series!=="مصطلحات تُفسّر العالم")return "";const L=ARTS.filter(x=>x.series===a.series).sort((x,y)=>(x.d||"").localeCompare(y.d||""));const i=L.findIndex(x=>x.id===a.id);return i<0?"":`›<span>الحلقة ${ORD_AR[i]||(i+1)}</span>`}
 const isLab=a=>!!a&&(a.series==="مختبر كِندة"||/^lab\d/.test(a.id));
 const HOT_SEED=Math.random().toString(36);
 function hotScore(a){const t=a.title+" "+a.deck;let s=(likeCounts[a.id]||0)*3;if(/[؟?]/.test(a.title))s+=3;if(/\d/.test(a.title))s+=1.5;if(/(سرّ|سر |أسرار|لماذا|كيف|هل|حقيقة|خرافة|مذهل|عجيب|غريب|يكشف|اكتشف|خطير|الحقيقة)/.test(t))s+=3;if(a.series)s+=.5;if(a.w&&a.w<700)s+=1;return s+rng(HOT_SEED+a.id)()*6}
@@ -1918,7 +1920,7 @@ function showArticle(id){
   read.add(id);store.set("otroja.read",[...read]);
   const rel=ARTS.filter(x=>x.id!==id&&(x.cat===a.cat||(a.series&&x.series===a.series))).sort((x,y)=>(y.series===a.series)-(x.series===a.series)).slice(0,3);
   const idx=ARTS.indexOf(a), prev=ARTS[idx-1], next=ARTS[idx+1];
-  $("#reader").innerHTML=`<nav class="crumbs"><a href="#articles">المقالات</a>›<a href="#articles" data-cat="${a.cat}">${CATS[a.cat]}</a>${a.series?`›<span>${esc(a.series)}</span>`:""}</nav>
+  $("#reader").innerHTML=`<nav class="crumbs"><a href="#articles">المقالات</a>›<a href="#articles" data-cat="${a.cat}">${CATS[a.cat]}</a>${a.series?`›<span>${esc(a.series)}</span>`:""}${termNo(a)}</nav>
   <span class="chip" style="${cc(a.cat)}">${CATS[a.cat]}</span><h1>${esc(a.title)}</h1><p class="deck">${esc(a.deck)}</p>
   <div class="byline">${a.rev||a.upd?`<span class="revd">✓ مُراجَع ومحدَّث</span>`:""}${a.by?`<span>بقلم <b>${esc(a.by)}</b></span>`:""}<span>${mins(a.w)} دقائق قراءة</span><span class="vw" data-vk="a-${a.id}"></span><span id="likeCount"></span></div>
   <div class="tools"><button class="iconbtn" id="likeBtn" aria-pressed="${liked.has(id)}">${ICON.heart} أعجبني</button><button class="iconbtn" id="saveBtn" aria-pressed="${saved.has(id)}">${ICON.book} <span>${saved.has(id)?"في قائمتي":"احفظ للقراءة"}</span></button><span class="sp"></span><button class="iconbtn" data-fs="-1" aria-label="تصغير الخط">أ-</button><button class="iconbtn" data-fs="1" aria-label="تكبير الخط">أ+</button></div>
