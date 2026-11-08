@@ -1192,8 +1192,8 @@ em.tt{font-style:normal;color:var(--leaf)}
       <div class="k-ep" id="kindaEp1" style="background-image:linear-gradient(90deg,rgba(20,19,15,.55),rgba(20,19,15,.92) 55%),url(img/k_city.jpg)">
         <div class="n">01</div>
         <div><span class="free">مجانية</span><h3>ليلة العتمة الأولى</h3>
-          <p>تنطفئ المدينة، ولا يبقى إلا سؤال واحد: ماذا لو لم يبقَ أحد؟ تُنشر الحلقة الأولى هنا مجانًا قريبًا.</p>
-          <a class="btn citron" id="kindaNotify" target="_blank" rel="noopener">أخبرني عند نشرها</a></div>
+          <p>بيروت بلا كهرباء… ثلاثة غرباء، وأسرارٌ تحت الصفر. تنطفئ المدينة، ولا يبقى إلا سؤال واحد: ماذا لو لم يبقَ أحد؟</p>
+          <a class="btn citron" id="kindaNotify" href="#a-kinda1">📖 اقرأ الحلقة الأولى مجانًا</a></div>
       </div>
       <div class="two-col" style="margin-top:30px">
         <div class="panel" style="margin-top:0"><h3>احجز نسختك</h3>
@@ -1636,7 +1636,7 @@ let ARTS=[],STORIES=[],shown=24,filt={cat:"all",q:"",year:"all",sort:"hot"};
 const ORD_AR=["الأولى","الثانية","الثالثة","الرابعة","الخامسة","السادسة","السابعة","الثامنة","التاسعة","العاشرة","الحادية عشرة","الثانية عشرة","الثالثة عشرة","الرابعة عشرة","الخامسة عشرة","السادسة عشرة","السابعة عشرة","الثامنة عشرة","التاسعة عشرة","العشرون"];
 const NUM_SERIES=["مصطلحات تُفسّر العالم","رُفيدة | علمٌ يُداوي"];
 function termNo(a){if(!a||!NUM_SERIES.includes(a.series))return "";const L=ARTS.filter(x=>x.series===a.series).sort((x,y)=>(x.d||"").localeCompare(y.d||""));const i=L.findIndex(x=>x.id===a.id);return i<0?"":`›<span>الحلقة ${ORD_AR[i]||(i+1)}</span>`}
-const isLab=a=>!!a&&(a.series==="مختبر كِندة"||/^lab\d/.test(a.id));
+const isLab=a=>!!a&&(a.series==="مختبر كِندة"||a.series==="قضايا المحقق إياس والدكتورة كِندة"||/^lab\d/.test(a.id));
 const HOT_SEED=Math.random().toString(36);
 function hotScore(a){const t=a.title+" "+a.deck;let s=(likeCounts[a.id]||0)*3;if(/[؟?]/.test(a.title))s+=3;if(/\d/.test(a.title))s+=1.5;if(/(سرّ|سر |أسرار|لماذا|كيف|هل|حقيقة|خرافة|مذهل|عجيب|غريب|يكشف|اكتشف|خطير|الحقيقة)/.test(t))s+=3;if(a.series)s+=.5;if(a.w&&a.w<700)s+=1;return s+rng(HOT_SEED+a.id)()*6}
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -2492,12 +2492,12 @@ $("#orderForm").onsubmit=e=>{e.preventDefault();if(!PRODUCTS.some(p=>cart[p.id])
 $("#orderCopy").onclick=()=>copy(orderText()+"\n\nأرسله إلى: "+CONTACT.email,"نُسخ نص الطلب، أرسله إلى "+CONTACT.email);
 $("#msgForm").onsubmit=e=>{e.preventDefault();const a=document.createElement("a");a.href=wa(msgText());a.target="_blank";a.rel="noopener";a.click()};
 $("#msgCopy").onclick=()=>copy(msgText(),"نُسخت الرسالة، أرسلها إلى "+CONTACT.email);
-$("#kindaNotify").href=wa("مرحبًا، أودّ أن أعرف عند نشر الحلقة الأولى المجانية «ليلة العتمة الأولى» من سلسلة «قضايا المحقق إياس والدكتورة كِندة».");
+
 $("#kindaReserve").href=$("#kindaReserve2").href=wa("مرحبًا، أودّ حجز نسختي من سلسلة «قضايا المحقق إياس والدكتورة كِندة».");
 $("#labSound").onclick=()=>{const v=$("#labVid");v.muted=!v.muted;if(!v.muted){v.currentTime=0;v.play()}$("#labSound").textContent=v.muted?"تشغيل الصوت":"كتم الصوت"};
 $("#labWa").href=wa("مرحبًا، أودّ أن تنبّهني عند نشر حلقات جديدة من سلسلة «مختبر كِندة».");
 $("#kindaSound").onclick=()=>{const v=$("#kindaVid");v.muted=!v.muted;if(!v.muted){v.currentTime=0;v.play()}$("#kindaSound").textContent=v.muted?"تشغيل الصوت":"كتم الصوت"};
-$("#kindaEp1Btn").onclick=e=>{e.preventDefault();$("#kindaEp1").scrollIntoView({behavior:"smooth",block:"center"})};
+$("#kindaEp1Btn").href="#a-kinda1";
 $("#kindaForm").onsubmit=e=>{e.preventDefault();const a=document.createElement("a");a.href=wa("اقتراح لسلسلة قضايا المحقق إياس والدكتورة كِندة: "+$("#kindaIdea").value);a.target="_blank";a.rel="noopener";a.click()};
 window.addEventListener("hashchange",route);
 let rzT;window.addEventListener("resize",()=>{clearTimeout(rzT);rzT=setTimeout(()=>paintAll(),200)});
@@ -2599,7 +2599,7 @@ function renderPath(h,v){const bar=$("#pathBar");if(!bar)return;const H=["الر
  const nm={articles:["المقالات","articles","📰"],stories:["القصص","stories","📖"],store:["المتجر","store","🛒"],library:["مكتبة أترجّة","library","📚"],quiz:["تحدّي الفضول","quiz","🧠"],games:["بستان أترجّة","games","🍋"],platform:["المنصّة","platform","🌐"],saved:["قائمتي","saved","🔖"],about:["عن أترجّة","about","ℹ️"],contact:["تواصل","contact","✉️"],rate:["قيّم أترجّة","rate","⭐"],lab:["مختبر كِندة","lab","🧪"]};
  const sub={"mag-humanbody":"الدليل الكامل لجسم الإنسان","mag-ngk":"ناشيونال جيوغرافيك كيدز: صراع السناجب","mag-ngk10":"ناشيونال جيوغرافيك كيدز: حيوانات عجيبة","book-crime":"معالجة مسرح الجريمة","facts-day":"معلومات اليوم"};
  if(h==="home"||!h){bar.hidden=true;return}
- if(h.startsWith("a-")){const a=ARTS.find(x=>x.id===h.slice(2));t=[nm.articles];if(a){if(isLab(a))t=[nm.lab];else if(typeof CATS!=="undefined"&&CATS[a.cat])t.push([CATS[a.cat],"articles"]);t.push([a.title])}}
+ if(h.startsWith("a-")){const a=ARTS.find(x=>x.id===h.slice(2));t=[nm.articles];if(a){if(a.series==="قضايا المحقق إياس والدكتورة كِندة")t=[["المحقق إياس والدكتورة كِندة","kinda","🔎"]];else if(isLab(a))t=[nm.lab];else if(typeof CATS!=="undefined"&&CATS[a.cat])t.push([CATS[a.cat],"articles"]);t.push([a.title])}}
  else if(h.startsWith("s-")){const s=STORIES.find(x=>x.id===h.slice(2));t=[nm.stories,[s?s.name:""]]}
  else if(h.startsWith("e-")){const m=h.match(/^e-(\w+)-(\d+)$/),s=m&&STORIES.find(x=>x.id===m[1]),e=s&&s.eps.find(x=>x.n===+m[2]);t=[nm.stories];if(s){t.push([s.name,"s-"+s.id]);t.push([e&&/^الحلقة/.test(e.title)?e.title:"الحلقة "+m[2]+(e?": "+e.title:"")])}}
  else if(h==="kinda")t=[nm.stories,["قضايا المحقق إياس والدكتورة كِندة"]];
