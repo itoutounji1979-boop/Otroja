@@ -1144,7 +1144,7 @@ em.tt{font-style:normal;color:var(--leaf)}
   <section class="view" id="v-stories" data-view="stories" hidden>
     <div class="wrap" style="padding-top:22px;padding-bottom:6px"><a class="k-promo" href="#kinda">
       <div class="k-promo-imgs"><img src="img/k_kinda.jpg" alt="الدكتورة كِندة" loading="lazy"><img src="img/k_iyas.jpg" alt="المحقق إياس" loading="lazy"><img src="img/k_basbous.jpg" alt="بسبس المصوّر" loading="lazy"></div>
-      <div class="k-promo-t"><div class="eyebrow" style="color:var(--citron)">جديد · سلسلة تحقيق علمي</div><h2>قضايا المحقق إياس والدكتورة كِندة</h2><p class="q">«ما لا تقوله الأدلة»</p><p>ميتٌ بعينين مفتوحتين ولا أثر لسمّ. مخطوطة تتبخّر من خزنة مغلقة. ثلاثة محققين، وعلم لا يكذب، و11 قضية في لبنان.</p><span class="btn citron">شاهد الإعلان · الحلقة الأولى مجانًا</span></div>
+      <div class="k-promo-t"><div class="eyebrow" style="color:var(--citron)">جديد · سلسلة تحقيق علمي</div><h2>قضايا المحقق إياس والدكتورة كِندة</h2><p class="q">«ما لا تقوله الأدلة»</p><p>ميتٌ بعينين مفتوحتين ولا أثر لسمّ. مخطوطة تتبخّر من خزنة مغلقة. ثلاثة محققين، وعلم لا يكذب، و10 قضايا في لبنان.</p><span class="btn citron">شاهد الإعلان · الحلقة الأولى مجانًا</span></div>
     </a></div>
     <div class="wrap">
       <div class="sec-head"><div><div class="eyebrow">أدب الخيال العلمي للأطفال والقصة الطبية</div><h2>القصص والسلاسل</h2></div></div>
@@ -1820,7 +1820,7 @@ function renderHome(){
 function seriesCanvas(s){return `<canvas class="draft" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%" data-cat="story" data-mo="${({planets:"planet",time:"leaf",medical:"heart",terms:"brain"})[s.id]||"leaf"}" data-seed="${s.id}" data-fig="" data-label="${esc(s.name)}" data-issue=""></canvas>`}
 const AGE={fursan:"⚔️ 12–17 سنة",fruit:"👧 10–15 سنة",planets:"🔭 8–14 سنة",time:"🧭 12+ سنة",medical:"🩺 للكبار",birds:"🐦 للأطفال"};
 function seriesCards(){
-  const k=`<a class="scard" href="#kinda"><div class="thumb"><img loading="lazy" src="img/k_iyas.jpg" alt=""><span class="age">🕵️ 15+ · بوليسي</span></div><div><div class="eyebrow">سلسلة تحقيق علمي جديدة</div><h3>قضايا المحقق إياس والدكتورة كِندة</h3><p>ميتٌ بعينين مفتوحتين ولا أثر لسمّ. مخطوطة تتبخّر من خزنة مغلقة. ثلاثة محققين، وعلم لا يكذب، و11 قضية في لبنان تنتهي دائمًا بما لا تتوقعه.</p><span class="status">الحلقة الأولى مجانًا · قريبًا</span></div></a>`;
+  const k=`<a class="scard" href="#kinda"><div class="thumb"><img loading="lazy" src="img/k_iyas.jpg" alt=""><span class="age">🕵️ 15+ · بوليسي</span></div><div><div class="eyebrow">سلسلة تحقيق علمي جديدة</div><h3>قضايا المحقق إياس والدكتورة كِندة</h3><p>ميتٌ بعينين مفتوحتين ولا أثر لسمّ. مخطوطة تتبخّر من خزنة مغلقة. ثلاثة محققين، وعلم لا يكذب، و10 قضايا في لبنان تنتهي دائمًا بما لا تتوقعه.</p><span class="status">الحلقة الأولى مجانًا · قريبًا</span></div></a>`;
   return k+STORIES.map(s=>`<a class="scard" href="#s-${s.id}"><div class="thumb">${s.cover?`<img loading="lazy" src="${s.cover}" alt="">`:seriesCanvas(s)}${AGE[s.id]?`<span class="age">${AGE[s.id]}</span>`:""}</div><div><div class="eyebrow">${esc(s.tag)}</div><h3>${esc(s.name)} ${vbadge("s-"+s.id)}</h3><p>${esc(s.blurb)}</p><span class="status">${esc(s.status)}${s.eps.length?" · "+s.eps.length+" حلقة":""}</span></div></a>`).join("");
 }
 
