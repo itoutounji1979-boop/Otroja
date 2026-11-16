@@ -1640,8 +1640,8 @@ const ORD_AR=["الأولى","الثانية","الثالثة","الرابعة",
 const NUM_SERIES=["مصطلحات تُفسّر العالم","رُفيدة | علمٌ يُداوي"];
 function termNo(a){if(!a||!NUM_SERIES.includes(a.series))return "";const L=ARTS.filter(x=>x.series===a.series).sort((x,y)=>(x.d||"").localeCompare(y.d||""));const i=L.findIndex(x=>x.id===a.id);return i<0?"":`›<span>الحلقة ${ORD_AR[i]||(i+1)}</span>`}
 const isLab=a=>!!a&&(a.series==="مختبر كِندة"||a.series==="قضايا المحقق إياس والدكتورة كِندة"||/^lab\d/.test(a.id));
-const HOT_SEED=Math.random().toString(36);
-function hotScore(a){const t=a.title+" "+a.deck;let s=(likeCounts[a.id]||0)*3;if(/[؟?]/.test(a.title))s+=3;if(/\d/.test(a.title))s+=1.5;if(/(سرّ|سر |أسرار|لماذا|كيف|هل|حقيقة|خرافة|مذهل|عجيب|غريب|يكشف|اكتشف|خطير|الحقيقة)/.test(t))s+=3;if(a.series)s+=.5;if(a.w&&a.w<700)s+=1;return s+rng(HOT_SEED+a.id)()*6}
+const HOT_SEED="d"+Math.floor((Date.now()+3*36e5)/864e5);
+function hotScore(a){const t=a.title+" "+a.deck;let s=Math.min(likeCounts[a.id]||0,3);if(a.d&&(Date.now()-new Date(a.d))/864e5<=7)s+=4;if(/[؟?]/.test(a.title))s+=3;if(/\d/.test(a.title))s+=1.5;if(/(سرّ|سر |أسرار|لماذا|كيف|هل|حقيقة|خرافة|مذهل|عجيب|غريب|يكشف|اكتشف|خطير|الحقيقة)/.test(t))s+=3;if(a.series)s+=.5;if(a.w&&a.w<700)s+=1;const cx=CTX||nowCtx();if(!(cx.occ&&cx.occ.cat==="ramadan")&&(a.cat==="ramadan"||/رمضان|الصيام|الصائم/.test(a.title)))s-=12;if(cx.season==="winter"&&/الصيف|صيفي|الشمس الحارقة/.test(a.title))s-=8;if(cx.season==="summer"&&/الشتاء|شتوي/.test(a.title))s-=8;return s+rng(HOT_SEED+a.id)()*12}
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
@@ -1859,11 +1859,11 @@ const OCCASIONS=[
  {range:["2027-02-07","2027-03-09"],n:"شهر رمضان المبارك",e:"🌙",k:"رمضان|الصيام|الصائم|السحور|الإفطار",cat:"ramadan"},
  {range:["2028-01-27","2028-02-25"],n:"شهر رمضان المبارك",e:"🌙",k:"رمضان|الصيام|الصائم|السحور|الإفطار",cat:"ramadan"}];
 const SEASONS={
- winter:{n:"مختارات الشتاء",e:"❄️",k:"الشتاء|شتاء|البرد|نزلات البرد|الإنفلونزا|الانفلونزا|الزكام|الرشح|المناعة|مناعة|فيتامين د|التدفئة|المطر|السعال|الكحة|الحمّى|الحرارة|يغلي|الفيروس|فيروس"},
+ winter:{n:"مختارات الشتاء",e:"❄️",k:"الشتاء|شتاء|البرد|نزلات البرد|الإنفلونزا|الانفلونزا|الزكام|الرشح|المناعة|مناعة|فيتامين د|التدفئة|المطر|السعال|الكحة|الحمّى|الحرارة|يغلي|الفيروس|فيروس|التهاب الحلق|الحلق|الربو|الجيوب|الحساء|الشوربة|الجلد الجاف|الشاي|الزنجبيل|العسل"},
  spring:{n:"مختارات الربيع",e:"🌸",k:"الربيع|الحساسية|حبوب اللقاح|الأزهار|النحل|الطبيعة|المشي|الرياضة"},
  summer:{n:"مختارات الصيف",e:"☀️",k:"الصيف|الحرّ|الحر |الشمس|الجفاف|العطش|الماء|البحر|السباحة|ضربة|العطلة|السفر|المثلجات"},
  autumn:{n:"مختارات الخريف والعودة إلى المدرسة",e:"🍂",k:"الخريف|المدرسة|المدرسي|الدراسة|الدراسي|الواجبات|التركيز|الحقيبة"}};
-const DAYPARTS={night:{n:"لقراءة المساء",e:"🌙",k:"النوم|الأرق|السهر|الأحلام|الليل|النجوم|القمر|الاسترخاء"},morning:{n:"لبداية يومك",e:"🌅",k:"الفطور|الإفطار الصباحي|الصباح|النشاط|القهوة|الطاقة"}};
+const DAYPARTS={night:{n:"لقراءة المساء",e:"🌙",k:"النوم|الأرق(?!ام)|السهر|الأحلام|الليل|النجوم|القمر|الاسترخاء"},morning:{n:"لبداية يومك",e:"🌅",k:"الفطور|الإفطار الصباحي|الصباح|النشاط|القهوة|الطاقة"}};
 function nowCtx(d=new Date()){const md=(d.getMonth()+1+"").padStart(2,"0")+"-"+(d.getDate()+"").padStart(2,"0"),iso=d.toISOString().slice(0,10),day=864e5;
  const occ=OCCASIONS.find(o=>{if(o.range)return iso>=o.range[0]&&iso<=o.range[1];if(o.from)return md>=o.from&&md<=o.to;
    const t=new Date(d.getFullYear()+"-"+o.d+"T12:00:00");const diff=(t-d)/day;return diff<=4&&diff>=-1});
@@ -1871,9 +1871,9 @@ function nowCtx(d=new Date()){const md=(d.getMonth()+1+"").padStart(2,"0")+"-"+(
  const hr=d.getHours();const part=hr>=20||hr<5?"night":hr<11?"morning":null;
  return {occ,season,part}}
 function ctxMatch(a,c){const re=new RegExp("("+c.k+")");return (c.cat&&a.cat===c.cat)||re.test(a.title+" "+(a.deck||""))}
-let CTX=null;
-function contextPool(){CTX=nowCtx();const base=ARTS.filter(x=>!isLab(x));const tagd=[];
- const add=(c,label)=>{if(!c)return;const L=shuffleArr(base.filter(a=>ctxMatch(a,c)&&!tagd.some(t=>t.a===a))).slice(0,8);L.forEach(a=>tagd.push({a,label}))};
+let CTX=null;const GRIM=/(إيبولا|الرعب|الوباء|الموت|وفاة|جثة|قاتل)/;
+function contextPool(){CTX=nowCtx();const isRam=CTX.occ&&CTX.occ.cat==="ramadan";const base=ARTS.filter(x=>!isLab(x)&&(isRam||!(x.cat==="ramadan"||/رمضان|الصيام|الصائم/.test(x.title))));const tagd=[];
+ const add=(c,label)=>{if(!c)return;const L=dailyShuffle(base.filter(a=>ctxMatch(a,c)&&!GRIM.test(a.title+" "+(a.deck||""))&&!tagd.some(t=>t.a===a)),"ctx"+label).slice(0,4);L.forEach(a=>tagd.push({a,label}))};
  if(CTX.occ)add(CTX.occ,CTX.occ.e+" "+CTX.occ.n);
  add(SEASONS[CTX.season],SEASONS[CTX.season].e+" "+SEASONS[CTX.season].n);
  if(CTX.part)add(DAYPARTS[CTX.part],DAYPARTS[CTX.part].e+" "+DAYPARTS[CTX.part].n);
@@ -1893,7 +1893,7 @@ function paintHero(a){const t=$("#today");if(!t||!a)return;t.classList.add("hero
 function renderDaily(){
   if(!ARTS.length)return;
   const ctxL=contextPool();HERO_LABEL=new Map(ctxL.map(t=>[t.a.id,t.label]));
-  const offRamadan=!(CTX&&CTX.occ&&CTX.occ.cat==="ramadan");const hot=shuffleArr(ARTS.filter(x=>!isLab(x)&&!HERO_LABEL.has(x.id)&&!(offRamadan&&(x.cat==="ramadan"||/رمضان|الصيام/.test(x.title)))).sort((x,y)=>hotScore(y)-hotScore(x)).slice(0,30));
+  const offRamadan=!(CTX&&CTX.occ&&CTX.occ.cat==="ramadan");const hot=dailyShuffle(ARTS.filter(x=>!isLab(x)&&!HERO_LABEL.has(x.id)&&!(offRamadan&&(x.cat==="ramadan"||/رمضان|الصيام/.test(x.title)))).sort((x,y)=>hotScore(y)-hotScore(x)).slice(0,30),"hot");
   /* weave: two seasonal/occasion picks, then one popular pick */
   HERO_POOL=[];{const c=ctxL.map(t=>t.a);let i=0,j=0;while(i<c.length||j<hot.length){if(i<c.length)HERO_POOL.push(c[i++]);if(i<c.length)HERO_POOL.push(c[i++]);if(j<hot.length)HERO_POOL.push(hot[j++])}}heroI=0;
   paintOccasion();
@@ -2410,7 +2410,7 @@ function renderQuizHomePage(){
 function renderQuizBrowse(){
   const f=$("#qzBrowseCats").dataset.f;
   $("#qzBrowseCats").innerHTML=[["all","✨ الكل"],...Object.entries(QZC).filter(([k])=>qzPool().some(q=>q.c===k)).map(([k,c])=>[k,c.e+" "+c.n])].map(([k,n])=>`<button class="qz-cat" data-qzf="${k}" aria-pressed="${k===f}">${n}</button>`).join("");
-  $("#qzBrowse").innerHTML=qzPool().filter(q=>f==="all"||q.c===f).map(q=>`<details class="qz-item"><summary><span class="e" style="--qc:${QZC[q.c].c}">${q.e}</span><b>${esc(q.q)} <span class="qz-lvtag">${QZ_LTAG[q.l||2]}</span></b></summary><div class="body"><div class="a">✔ ${esc(q.o[0])}</div>${esc(q.x)}${q.n?`<div class="muted" style="font-size:13.5px;margin-top:6px">🆕 ${esc(q.n)}</div>`:""}${q.s?`<div style="font-size:13px;margin-top:4px">المصدر: <a href="${esc(q.s[1])}" target="_blank" rel="noopener">${esc(q.s[0])}</a></div>`:""}${QZ_MAG(q)}</div></details>`).join("");
+  $("#qzBrowse").innerHTML=dailyShuffle(qzPool(),"browse").filter(q=>f==="all"||q.c===f).map(q=>`<details class="qz-item"><summary><span class="e" style="--qc:${QZC[q.c].c}">${q.e}</span><b>${esc(q.q)} <span class="qz-lvtag">${QZ_LTAG[q.l||2]}</span></b></summary><div class="body"><div class="a">✔ ${esc(q.o[0])}</div>${esc(q.x)}${q.n?`<div class="muted" style="font-size:13.5px;margin-top:6px">🆕 ${esc(q.n)}</div>`:""}${q.s?`<div style="font-size:13px;margin-top:4px">المصدر: <a href="${esc(q.s[1])}" target="_blank" rel="noopener">${esc(q.s[0])}</a></div>`:""}${QZ_MAG(q)}</div></details>`).join("");
 }
 function qzStart(kind){
   let list,label;
@@ -2459,7 +2459,7 @@ function qzEnd(){
 }
 function renderQuizHome(){
   const el=$("#qzHome");if(!el||!QZ.length)return;
-  const it=dailyShuffle(QZ.filter(q=>(q.l||2)<3),"qzday")[0];const o=dailyShuffle(it.o.map((t,k)=>({t,k})),"qzo");
+  const QB=QZ.filter(q=>(q.l||2)<3);const cx=CTX||nowCtx();const cc2=cx.occ||SEASONS[cx.season];const re2=new RegExp("("+cc2.k+")");const QM=QB.filter(q=>re2.test(q.q+" "+(q.x||"")));const it=QM.length&&DAY%2===0?dailyShuffle(QM,"qzm").sort((a,b)=>a.q<b.q?-1:1)[Math.floor(DAY/2)%QM.length]:dailyShuffle(QB,"qzday")[0];const o=dailyShuffle(it.o.map((t,k)=>({t,k})),"qzo");
   el.innerHTML=`${qzArt(it)}<div><div class="eyebrow">🧠 سؤال اليوم من «تحدّي الفضول»</div><h2>${esc(it.q)}</h2><div class="qz-opts">${o.map((x,j)=>`<button class="qz-opt" data-qzh="${x.k}"><span class="k">${AR_K[j]}</span><span>${esc(x.t)}</span></button>`).join("")}</div><div id="qzHomeAns"></div></div>`;
   el._it=it;
 }
