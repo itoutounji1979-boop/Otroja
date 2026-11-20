@@ -856,7 +856,7 @@ em.tt{font-style:normal;color:var(--leaf)}
 .home-tiles{gap:8px!important;padding-top:14px!important}.home-tiles a{padding:8px 4px!important;border-radius:13px!important}
 .home-tiles i{width:36px!important;height:36px!important;font-size:19px!important;border-radius:11px!important}
 .home-tiles b{font-size:13.5px!important}.home-tiles small{font-size:10.5px!important}
-.eplist li.locked a{opacity:.78}.eplist li.locked .n{background:#8a8a8a!important}
+.eplist li.locked a{opacity:.78}.eplist li.locked .n:not(.th){background:#8a8a8a!important}.eplist li.locked .n.th{filter:grayscale(.7)}.eplist .n.th{width:44px;height:44px;border-radius:7px;background-size:cover;background-position:center;color:#fff;text-shadow:0 1px 4px #000;display:grid;place-items:center;font-size:17px}
 .eplist li.free .rd em{font-style:normal;font:700 11.5px var(--f-ui);background:#2F8F3A;color:#fff;border-radius:99px;padding:2px 8px;margin-inline-end:4px}
 .free-note{margin:10px 0;padding:10px 14px;border-radius:12px;background:color-mix(in srgb,#C8DA4B 18%,var(--sheet));border:1px solid color-mix(in srgb,#9FB02C 50%,transparent);font-size:14.5px}.free-note a{font-weight:700;color:var(--red)}
 .prose-locked{position:relative;max-height:340px;overflow:hidden}.prose-locked::after{content:"";position:absolute;inset:auto 0 0 0;height:180px;background:linear-gradient(transparent,var(--paper))}
@@ -1967,7 +1967,7 @@ function showSeries(id){
   ${s.id==="fruit"?fruitExtras():""}
   ${s.gallery&&s.gallery.length?(()=>{const G=shuffleArr(s.gallery);return `<h2 style="font-size:20px;margin-top:30px">صفحات من داخل الكتاب</h2><p class="muted" style="margin:-6px 0 10px;font-size:14px">🔍 اضغط أي صفحة لتكبيرها، وتنقّل بين الصفحات بالأسهم أو بالسحب</p><div class="gallery">${G.map(g=>`<img loading="lazy" src="${g}" alt="صفحة من الكتاب" data-zoom data-gallery="${G.join("|")}">`).join("")}</div>`})():""}
   ${SERIES_PROMO[s.id]?`<figure class="sr-promo"><video controls playsinline preload="none" poster="${SERIES_PROMO[s.id].poster}"><source src="${SERIES_PROMO[s.id].src}" type="video/mp4"></video><figcaption>🎬 ${SERIES_PROMO[s.id].cap}</figcaption></figure>`:""}
-  ${s.eps.length?`<h2 style="font-size:20px;margin-top:30px">الحلقات</h2>${s.soon?`<div class="free-note">🔒 الحلقات مقفلة حتى موعد الإطلاق، وتُفتح تباعًا على أترجّة. اقرأ العناوين… وخمّن ما يخبّئه كلٌّ منها!</div>`:""}${s.free?`<div class="free-note">🎁 اقرأ مجانًا الحلقات <b>${s.free.join(" · ")}</b> من هذه السلسلة، وبقية الحلقات في النسخة الكاملة. <a href="#" data-lockwa="${esc(s.name)}">احجز نسختك ←</a></div>`:""}<ol class="eplist">${s.eps.map(e=>`<li class="${read.has(s.id+"-"+e.n)?"done":""}${e.lock?" locked":s.free?" free":""}"><a href="#e-${s.id}-${e.n}"><span class="n">${e.n}</span><span class="t">${esc(e.title.replace(/^الحلقة\s+[^:]+:\s*/,"")||e.title)} ${vbadge("e-"+s.id+"-"+e.n)}<small>${esc(e.deck)}</small></span><span class="rd">${s.soon?"🔒 قريبًا":`${e.lock?"🔒":s.free?"<em>مجانية</em>":""} ${mins(e.w)} د`}</span></a></li>`).join("")}</ol>`:""}`;
+  ${s.eps.length?`<h2 style="font-size:20px;margin-top:30px">الحلقات</h2>${s.soon?`<div class="free-note">🔒 الحلقات مقفلة حتى موعد الإطلاق، وتُفتح تباعًا على أترجّة. اقرأ العناوين… وخمّن ما يخبّئه كلٌّ منها!</div>`:""}${s.free?`<div class="free-note">🎁 اقرأ مجانًا الحلقات <b>${s.free.join(" · ")}</b> من هذه السلسلة، وبقية الحلقات في النسخة الكاملة. <a href="#" data-lockwa="${esc(s.name)}">احجز نسختك ←</a></div>`:""}<ol class="eplist">${s.eps.map(e=>`<li class="${read.has(s.id+"-"+e.n)?"done":""}${e.lock?" locked":s.free?" free":""}"><a href="#e-${s.id}-${e.n}"><span class="n${e.img?" th":""}"${e.img?` style="background-image:url(${e.img})"`:""}>${e.n}</span><span class="t">${esc(e.title.replace(/^الحلقة\s+[^:]+:\s*/,"")||e.title)} ${vbadge("e-"+s.id+"-"+e.n)}<small>${esc(e.deck)}</small></span><span class="rd">${s.soon?"🔒 قريبًا":`${e.lock?"🔒":s.free?"<em>مجانية</em>":""} ${mins(e.w)} د`}</span></a></li>`).join("")}</ol>`:""}`;
   bindQuiz();
   if(id==="fruit")startChars("charsSeries");
 }
@@ -2511,11 +2511,25 @@ try{document.fonts&&document.fonts.ready.then(()=>{document.querySelectorAll("ca
 
 $("#qzDaily").onclick=()=>qzStart("daily");
 /* ---------- boot ---------- */
+let VIP=false;
+async function vipLoad(){let k=null;const m=location.hash.match(/vip=([\w-]{16,})/);
+  if(m){k=m[1];try{localStorage.setItem("otroja.vip",k)}catch(e){}history.replaceState(null,"",location.pathname+location.search+"#stories")}
+  else{try{k=localStorage.getItem("otroja.vip")}catch(e){}}
+  if(!k||!window.crypto||!crypto.subtle||!window.DecompressionStream)return;
+  try{const raw=Uint8Array.from(atob(k.replace(/-/g,"+").replace(/_/g,"/")+"==".slice(0,(4-k.length%4)%4)),c=>c.charCodeAt(0));
+    const key=await crypto.subtle.importKey("raw",raw,"AES-GCM",false,["decrypt"]);
+    const buf=new Uint8Array(await (await fetch("files/vault.bin?v=1")).arrayBuffer());
+    const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv:buf.slice(0,12)},key,buf.slice(12));
+    const js=await new Response(new Blob([pt]).stream().pipeThrough(new DecompressionStream("gzip"))).json();
+    STORIES.forEach(st=>{const d=js[st.id];if(!d)return;st.eps.forEach(e=>{const f=d[e.n];if(f){e.body=f.body;if(f.w)e.w=f.w;if(f.info&&!e.info)e.info=f.info;e.lock=false}})});
+    VIP=true;document.documentElement.classList.add("vip");
+  }catch(e){try{localStorage.removeItem("otroja.vip")}catch(_){}}
+}
 (async function(){
   renderContact();renderPlatform();
   try{
     const [a,s]=await Promise.all([fetch("articles.json").then(r=>r.json()),fetch("stories.json").then(r=>r.json())]);
-    ARTS=a;STORIES=s;ARTS.forEach(x=>x._txt=x.body.map(b=>b.x).join(" "));
+    ARTS=a;STORIES=s;ARTS.forEach(x=>x._txt=x.body.map(b=>b.x).join(" "));await vipLoad();
     fetch("quiz.json").then(r=>r.json()).then(q=>{QZ=q;renderQuizHome();if(!$("#v-quiz").hidden)renderQuizHomePage()}).catch(()=>{});
   }catch(e){$("#homeArts").innerHTML='<div class="empty">تعذّر تحميل المقالات. أعد تحميل الصفحة.</div>'}
   const yrs=[...new Set(ARTS.map(a=>a.d?+a.d.slice(0,4):a.y).filter(Boolean))].sort();
