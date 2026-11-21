@@ -1884,7 +1884,7 @@ let HERO_LABEL=new Map();
 function paintOccasion(){const el=$("#occBar");if(!el)return;const o=CTX&&CTX.occ;if(!o){el.hidden=true;return}
  const first=HERO_POOL.find(a=>HERO_LABEL.get(a.id)===o.e+" "+o.n);
  el.innerHTML=`<span class="occ-e">${o.e}</span><b>${esc(o.n)}</b>${o.go?`<a href="#${o.go}">${esc(o.goT)} ←</a>`:first?`<a href="#a-${first.id}">اقرأ: ${esc(first.title)} ←</a>`:""}`;el.hidden=false}
-let HERO_POOL=[],heroI=0,heroTimer=null;
+let HERO_POOL=[],heroI=0,heroTimer=null;const PIN_HERO=[{id:"acedar",until:"2026-11-26"}];
 function paintHero(a){const t=$("#today");if(!t||!a)return;t.classList.add("hero-swap");
   setTimeout(()=>{t.href="#a-"+a.id;
   const cov=t.querySelector(".today-cov");cov.querySelectorAll("canvas").forEach(c=>c.remove());cov.insertAdjacentHTML("afterbegin",draftCanvas(a,1));
@@ -1897,7 +1897,7 @@ function renderDaily(){
   const ctxL=contextPool();HERO_LABEL=new Map(ctxL.map(t=>[t.a.id,t.label]));
   const offRamadan=!(CTX&&CTX.occ&&CTX.occ.cat==="ramadan");const hot=dailyShuffle(ARTS.filter(x=>!isLab(x)&&!HERO_LABEL.has(x.id)&&!(offRamadan&&(x.cat==="ramadan"||/رمضان|الصيام/.test(x.title)))).sort((x,y)=>hotScore(y)-hotScore(x)).slice(0,30),"hot");
   /* weave: two seasonal/occasion picks, then one popular pick */
-  HERO_POOL=[];{const c=ctxL.map(t=>t.a);let i=0,j=0;while(i<c.length||j<hot.length){if(i<c.length)HERO_POOL.push(c[i++]);if(i<c.length)HERO_POOL.push(c[i++]);if(j<hot.length)HERO_POOL.push(hot[j++])}}heroI=0;
+  HERO_POOL=[];{const c=ctxL.map(t=>t.a);let i=0,j=0;while(i<c.length||j<hot.length){if(i<c.length)HERO_POOL.push(c[i++]);if(i<c.length)HERO_POOL.push(c[i++]);if(j<hot.length)HERO_POOL.push(hot[j++])}}{const pins=PIN_HERO.filter(p=>Date.now()<new Date(p.until)).map(p=>ARTS.find(a=>a.id===p.id)).filter(Boolean);HERO_POOL=pins.concat(HERO_POOL.filter(a=>!pins.includes(a)))}heroI=0;
   paintOccasion();
   paintHero(HERO_POOL[0]);
   clearInterval(heroTimer);heroTimer=setInterval(()=>{const v=$("#v-home");if(!v||v.hidden||document.hidden)return;if($("#today").matches(":hover")||Date.now()<(window.heroPauseUntil||0))return;heroI=(heroI+1)%HERO_POOL.length;paintHero(HERO_POOL[heroI])},25000);
@@ -2202,7 +2202,7 @@ function renderRfDay(){const el=$("#rfDay");const L=ARTS.filter(a=>a.series==="�
 }
 function renderTermDay(){
   const el=$("#termDay");const L=ARTS.filter(a=>a.series==="مصطلحات تُفسّر العالم").sort((a,b)=>(a.d||"").localeCompare(b.d||""));if(!el||!L.length)return;
-  const e=dailyShuffle(L,"term")[0];
+  const nw=L[L.length-1];const e=(nw&&nw.d&&(Date.now()-new Date(nw.d))/864e5<=7)?nw:dailyShuffle(L,"term")[0];
   const m=e.title.match(/^(.+?)\s*\(([^)]+)\)\s*$/)||[0,e.title,""];
   const first=(e.body.find(b=>b.t==="p")||{x:""}).x;const tz=first.length>230?first.slice(0,first.lastIndexOf(" ",225))+"…":first;
   const sh="https://wa.me/?text="+encodeURIComponent("🔍 مصطلح اليوم: "+e.title+"\n"+e.deck+"\n"+pageUrl("a-"+e.id));
