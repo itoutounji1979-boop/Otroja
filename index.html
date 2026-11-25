@@ -420,6 +420,18 @@ select.sel{background:var(--sheet);border:1px solid var(--line);border-radius:99
 .upd-h{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}.upd-h b{color:var(--peel)}.upd-h span{font-size:12.5px;color:var(--muted)}
 .upd ul{margin:0;padding-inline-start:18px;font-family:var(--f-read);font-size:16px;line-height:1.9}
 .upd-src{margin-top:10px;font-size:13px;color:var(--muted)}.upd-src a{color:var(--leaf)}
+.ghirsa{display:grid;grid-template-columns:minmax(0,320px) 1fr;gap:22px;align-items:start;margin:18px 0 26px;padding:20px;border-radius:22px;background:linear-gradient(135deg,#e3f3ff 0%,#f4fbe6 55%,#fff6d8 100%);border:2px solid #b9de7a;box-shadow:0 10px 30px rgba(90,140,40,.15);color:#24321b}
+.ghirsa .gh-cov{position:relative;border-radius:16px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.18);cursor:zoom-in}.ghirsa .gh-cov img{display:block;width:100%;height:auto}
+.ghirsa .gh-badge{display:inline-block;background:#ffd84a;color:#5a3d00;font-weight:800;font-size:13px;padding:4px 12px;border-radius:999px}
+.ghirsa h2{margin:.35em 0 .1em;font-size:2.2em;color:#4c9a2a;line-height:1.2}.ghirsa h2 small{display:block;font-size:.45em;color:#e07a1f;font-weight:800;margin-top:4px}
+.ghirsa .gh-slogan{margin:.2em 0 .7em;color:#2f6fae;font-weight:700}
+.ghirsa p{line-height:1.9;margin:.5em 0}
+.ghirsa .gh-chips{list-style:none;padding:0;margin:.8em 0;display:flex;flex-wrap:wrap;gap:8px}.ghirsa .gh-chips li{background:#fff;border:1.5px solid #9fd36a;border-radius:999px;padding:4px 12px;font-size:13.5px;font-weight:700;color:#3c6e1c}
+.ghirsa .gh-for{font-size:14px;background:rgba(255,255,255,.7);border-radius:12px;padding:8px 12px}.ghirsa .gh-for b{color:#e07a1f}
+.ghirsa .gh-btns{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.ghirsa .btn.primary{background:#4c9a2a;border-color:#4c9a2a;color:#fff}
+.ghirsa .gh-vids{margin:12px 0;padding:12px;border-radius:14px;background:#fff;border:1.5px dashed #8ec5ef}.ghirsa .gh-vids h3{margin:0 0 8px;color:#2f6fae;font-size:1.05em}.ghirsa .gh-vids video{width:100%;border-radius:10px;margin-top:8px;background:#000}.ghirsa .gh-vids figure{margin:0 0 10px}.ghirsa .gh-vids figcaption{font-size:13px;color:#555;margin-top:4px}
+.ghirsa .gh-contact{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:12px;padding-top:12px;border-top:2px dotted #b9de7a;font-size:14px}.ghirsa .gh-contact a{color:#2f6fae;font-weight:700;text-decoration:none;unicode-bidi:plaintext}
+@media (max-width:760px){.ghirsa{grid-template-columns:1fr;padding:14px}.ghirsa .gh-cov{max-width:360px;margin:auto}}
 .prose b.lbl{color:var(--peel);font-weight:800}
 .revd{color:var(--peel);font-weight:600}
 .today{display:flex;flex-direction:column;background:var(--sheet);border:1px solid var(--line);border-radius:16px;overflow:hidden;text-decoration:none;box-shadow:var(--shadow);max-width:470px;width:100%;justify-self:center}
@@ -1212,7 +1224,24 @@ em.tt{font-style:normal;color:var(--leaf)}
   <section class="view" id="v-store" data-view="store" hidden>
     <div class="wrap">
       <div class="sec-head"><div><div class="eyebrow">اطلب نسختك مباشرة من الكاتب</div><h2>متجر <em class="tt">أترجّة</em></h2></div></div>
-      <nav class="store-jump" aria-label="أقسام المتجر"><a href="#shop">📦 إصدارات أترجّة</a><a href="#courses">🎓 دورات Ego plan</a><a href="#games">🍋 بستان أترجّة للألعاب</a><a href="#library">📚 مكتبة أترجّة العلمية</a><a href="#facts-day">💡 حقائق اليوم</a></nav>
+      <nav class="store-jump" aria-label="أقسام المتجر"><a href="#ghirsa">🌱 منهاج غرسة</a><a href="#shop">📦 إصدارات أترجّة</a><a href="#courses">🎓 دورات Ego plan</a><a href="#games">🍋 بستان أترجّة للألعاب</a><a href="#library">📚 مكتبة أترجّة العلمية</a><a href="#facts-day">💡 حقائق اليوم</a></nav>
+      <section class="ghirsa" id="ghirsa" aria-labelledby="ghH">
+        <div class="gh-cov"><img src="img/ghirsa_1.jpg" alt="بروشور منهاج غرسة" loading="lazy" data-zoom data-gallery="img/ghirsa_1.jpg|img/ghirsa_2.jpg|img/ghirsa_3.jpg|img/ghirsa_4.jpg|img/ghirsa_5.jpg|img/ghirsa_6.jpg|img/ghirsa_7.jpg|img/ghirsa_8.jpg"><span class="zoom-tag">🔍 تصفّح البروشور (8 صفحات)</span></div>
+        <div class="gh-body">
+          <span class="gh-badge">🌱 للروضة والحلقة الأولى</span>
+          <h2 id="ghH">غرسة <small>منهاج جذور القرآن للأطفال</small></h2>
+          <p class="gh-slogan">ازرع الجذر… تُثمر الكلمة</p>
+          <p>منهاج لغوي تفاعلي يغرس في الطفل علاقة حيّة بلغة القرآن: جذر من غريب القرآن كل أسبوعين، مثل «الأبّ» و«نضيد» و«عسعس»، يتعلّمه في ستّ محطات ممتعة من الحكاية والرسم واللعب والتجربة، ثم يحمل «ثمرة اليوم» كلمةً إلى البيت.</p>
+          <ul class="gh-chips"><li>🌰 جذر كل أسبوعين</li><li>⏱️ 6 محطات · 15–20 دقيقة</li><li>📚 30 جذرًا جاهزًا وأكثر</li><li>🎬 فيديو لكل جذر</li></ul>
+          <p class="gh-for"><b>للمدارس:</b> طبّقوها في صفوفكم · <b>للجهات التربوية:</b> اعتمدوها في برامجكم · <b>للجمعيات:</b> تبنّوها لمدرسة تحتاجها</p>
+          <div class="gh-btns"><button type="button" class="btn primary" onclick="document.querySelector('#ghirsa .gh-cov img').click()">📖 تصفّح البروشور</button><a class="btn" href="files/ghirsa-brochure.pdf" target="_blank" rel="noopener" download>⬇️ حمّل البروشور PDF</a></div>
+          <div class="gh-vids" id="ghVids"></div>
+          <div class="gh-contact"><b>لتبنّي «غرسة» والتواصل:</b>
+            <a href="mailto:itoutounji.1979@gmail.com">✉️ itoutounji.1979@gmail.com</a>
+            <a href="https://wa.me/9613985202" target="_blank" rel="noopener" dir="ltr">💬 +961 3 985 202</a>
+            <a href="https://otroja.itoutounji-1979.workers.dev/">🌐 otroja.itoutounji-1979.workers.dev</a></div>
+        </div>
+      </section>
       <div class="store-grid" id="shop">
         <div class="products" id="products"></div>
         <aside class="panel cart" style="margin-top:0" aria-labelledby="cartH">
@@ -2159,7 +2188,9 @@ function openZoom(list,idx){
 function priceTag(n,was,note){return `<span class="ptag-wrap"><span class="ptag">${was?`<s>${was}$</s>`:""}<b>${n}</b><i>$</i></span>${note?`<small class="ptag-note">${note}</small>`:""}</span>`}
 function productGallery(){const f=STORIES.find(s=>s.id==="fruit");return f?[f.cover,f.cover2].filter(Boolean).join("|"):""}
 function productImg(p){if(p.src)return p.src;const f=STORIES.find(s=>s.id==="fruit");if(!f)return"";return p.img==="cover"?f.cover:p.img==="cover2"?f.cover2:p.img==="g3"?f.cover:f.cover2}
-function renderStore(){
+const GHIRSA_VIDEOS=[];
+function renderGhirsaVids(){const el=$("#ghVids");if(!el)return;el.innerHTML=`<h3>🎬 الفيديوهات النموذجية</h3>`+(GHIRSA_VIDEOS.length?GHIRSA_VIDEOS.map(v=>`<figure><video src="${v.src}" ${v.poster?`poster="${v.poster}"`:""} controls playsinline preload="metadata"></video><figcaption>${esc(v.cap||"")}</figcaption></figure>`).join(""):`<p class="muted" style="margin:0">تُضاف هنا قريبًا فيديوهات الدروس النموذجية، ومنها درس «الودق» في 18 دقيقة.</p>`)}
+function renderStore(){renderGhirsaVids();
   $("#products").innerHTML=PRODUCTS.map(p=>`<div class="product" id="p-${p.id}"><div class="pimg"><img loading="lazy" src="${productImg(p)}" alt="${esc(p.name)}" data-zoom${SAMPLES[p.id]?` data-gallery="${prodGallery(p.id).join("|")}"`:p.gal?` data-gallery="${p.gal.join("|")}"`:""}><span class="zoom-tag">🔍 اضغط للتكبير</span></div>${SAMPLES[p.id]?`<div class="samples"><div class="samples-h">${SAMPLES[p.id].h}${SAMPLES[p.id].list.length>3?` <small>تتجدّد تلقائيًّا</small>`:""}</div><div class="samples-row" id="smp-${p.id}"></div></div>`:""}<div class="pb">${p.badge?`<span class="status" style="margin:0;align-self:flex-start">${p.badge}</span>`:""}<h3>${p.name} ${vbadge("p-"+p.id)}</h3><div class="muted" style="font-size:13.5px">${p.sub}</div><ul>${p.items.map(i=>`<li>${i}</li>`).join("")}</ul><div class="row">${p.price?priceTag(p.price,p.was,p.was?"عند الطلب من الموقع":""):`<span class="ptag ptag-ask"><b>السعر</b><i>عند التأكيد</i></span>`}<span class="qty"><button type="button" data-p="${p.id}" data-d="-1" aria-label="إنقاص">−</button><span>${cart[p.id]||0}</span><button type="button" data-p="${p.id}" data-d="1" aria-label="زيادة">+</button></span></div>${p.price?whishHTML(p.name,p.price):""}<button type="button" class="btn ms item-share" data-share-page data-share-key="p-${p.id}" data-share-title="${esc(p.name+(p.sub&&!/[A-Za-z]/.test(p.sub)?" · "+p.sub:""))}" style="margin-top:8px">📣 شارك هذا المنتج</button></div></div>`).join("");
   fillSamples();fillWhish();
   const lines=PRODUCTS.filter(p=>cart[p.id]);{const tot=PRODUCTS.reduce((s,p)=>s+(cart[p.id]&&p.price?p.price*cart[p.id]:0),0);const cw=$("#cartWhish");if(cw)cw.innerHTML=tot?whishHTML("طلبي من متجر أترجّة ("+PRODUCTS.filter(p=>cart[p.id]).map(p=>p.name+" × "+cart[p.id]).join("، ")+")",tot,"المجموع قبل الشحن"):""}
@@ -2348,7 +2379,7 @@ function route(){
   else if(h.startsWith("s-")){v="series";navKey="stories";showSeries(h.slice(2))}
   else if(h.startsWith("e-")){v="episode";navKey="stories";const m=h.match(/^e-(\w+)-(\d+)$/);if(m)showEpisode(m[1],m[2])}
   if(v==="kinda")navKey="stories";
-  const ANCH={library:"#library",shop:"#shop","facts-day":"#facts-day","mag-humanbody":"#mag-humanbody","mag-ngk":"#mag-ngk","mag-ngk10":"#mag-ngk10","book-crime":"#book-crime",faq:"#faq",courses:"#courses",support:"#support","p-mag_ngk10":"#p-mag_ngk10","p-mag_ngk":"#p-mag_ngk","p-mag_hb":"#p-mag_hb","p-book_crc":"#p-book_crc","p-kit":"#p-kit","p-school":"#p-school"};const anch=ANCH[h];const toLab=!!anch;if(anch){v="store";navKey=(h==="lab"||h==="library")?h:(h==="mag-humanbody"||h==="book-crime")?"library":"store"}
+  const ANCH={library:"#library",shop:"#shop","facts-day":"#facts-day","mag-humanbody":"#mag-humanbody","mag-ngk":"#mag-ngk","mag-ngk10":"#mag-ngk10","book-crime":"#book-crime",faq:"#faq",courses:"#courses",support:"#support","p-mag_ngk10":"#p-mag_ngk10","p-mag_ngk":"#p-mag_ngk","p-mag_hb":"#p-mag_hb","p-book_crc":"#p-book_crc","p-kit":"#p-kit","p-school":"#p-school",ghirsa:"#ghirsa"};const anch=ANCH[h];const toLab=!!anch;if(anch){v="store";navKey=(h==="lab"||h==="library")?h:(h==="mag-humanbody"||h==="book-crime")?"library":"store"}
   let qzAnch=null;if(h==="quiz-all"){v="quiz";navKey="quiz";qzAnch="#quizAll"}
   if(h==="food-game"){v="games";navKey="games";qzAnch="#food-game"}
   if(h==="kids-memory"){v="games";navKey="games";qzAnch="#kids-memory"}
