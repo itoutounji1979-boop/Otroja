@@ -46,7 +46,7 @@
   --c-mind:#8FA8E8; --c-home:#B6C27A; --c-ramadan:#DDB55C; --c-science:#6CC6B9;
   --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth}html,body{overflow-x:clip;max-width:100%}body{margin:0}@media (max-width:400px){.mast .wrap{gap:8px}.brand{flex:0 1 auto;min-width:0;gap:6px}.brand img{height:36px!important}.brand-ar .slogan{max-width:72px;font-size:10.5px}.menu-btn{padding:6px 9px}.theme-btn{width:34px;height:34px;flex:none}}@media (max-width:350px){.brand-ar{display:none}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 body{background:var(--paper);color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.7;direction:rtl}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--sheet)}
@@ -2151,7 +2151,7 @@ function startChars(id){const el=document.getElementById(id);if(!el)return;const
   show(i);tick()}
 function openZoom(list,idx){
   idx=idx||0;const v=document.createElement("div");v.className="zv";v.setAttribute("role","dialog");v.setAttribute("aria-label","عرض الصورة مكبّرة");
-  v.innerHTML=`<img alt=""><span class="zv-hint">قرّب بإصبعين أو بعجلة الفأرة · انقر مرتين للتكبير</span><button class="zv-x" aria-label="إغلاق">✕</button>${list.length>1?`<button class="zv-nav zv-prev" aria-label="السابقة">›</button><button class="zv-nav zv-next" aria-label="التالية">‹</button>`:""}<div class="zv-bar">${list.length>1?`<span class="zv-count"></span>`:""}<button data-z="-1" aria-label="تصغير">−</button><span>100%</span><button data-z="1" aria-label="تكبير">+</button><button data-z="0" aria-label="إعادة الضبط">⟲</button></div>`;
+  v.innerHTML=`<img alt=""><span class="zv-hint">قرّب بإصبعين أو بعجلة الفأرة · انقر مرتين للتكبير</span><button class="zv-x" aria-label="إغلاق">✕</button>${list.length>1?`<button class="zv-nav zv-prev" aria-label="السابقة">›</button><button class="zv-nav zv-next" aria-label="التالية">‹</button>`:""}<div class="zv-bar">${list.length>1?`<span class="zv-count" dir="ltr"></span>`:""}<button data-z="-1" aria-label="تصغير">−</button><span>100%</span><button data-z="1" aria-label="تكبير">+</button><button data-z="0" aria-label="إعادة الضبط">⟲</button></div>`;
   document.body.appendChild(v);const im=v.querySelector("img"),pct=v.querySelector(".zv-bar span:not(.zv-count)");let s=1,x=0,y=0,bw=0,bh=0,bx=0,by=0;
   const prevOv=document.body.style.overflow;document.body.style.overflow="hidden";
   function base(){const r=im.getBoundingClientRect();bw=r.width/s;bh=r.height/s;bx=r.left-x;by=r.top-y}
